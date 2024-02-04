@@ -1,19 +1,17 @@
-// Mongoose schemas import
-const User = require("./models/userSchema");
-const Food = require("./models/foodSchema");
-const Restaurant = require("./models/restaurantSchema");
-const Category = require("./models/categorySchema");
-const Order = require("./models/orderSchema");
-const Review = require("./models/reviewSchema");
-const Delivery = require("./models/deliverySchema");
-
 // Module imports
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const cors = require("cors");
 require("dotenv").config();
 
 // Middleware config
+corsOptions = {
+  origin: "http://localhost:5173",
+};
+
+app.use(cors(corsOptions));
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
