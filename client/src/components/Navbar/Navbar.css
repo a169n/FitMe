@@ -1,0 +1,86 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.global-padding {
+  padding: 30px 100px;
+}
+
+.nav2 {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.main-logo {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-header {
+  color: #202020;
+  font-family: Poppins;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.nav-input {
+  display: flex;
+  width: 450px;
+  padding: 15px 25px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid #808080;
+  opacity: 0.75;
+  background: #fff;
+}
+
+.nav-input::placeholder {
+  color: #808080;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  align-items: center;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-button {
+  position: absolute;
+  top: 50%;
+  right: 3rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.card-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.sign-in-button {
+  display: flex;
+  padding: 16px 25px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: none;
+  background: #202020;
+  color: #fdfbfa;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -4,16 +4,26 @@ const orderSchema = mongoose.Schema(
   {
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: "User",
     },
     restaurant_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Restaurant"
+      ref: "Restaurant",
     },
-    foods_id: [{
+    foods_id: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Food",
+      },
+    ],
+    review_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Food"
-    }]
+      ref: "Order",
+    },
+    delivery_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Delivery",
+    },
   },
   {
     timestamps: true,

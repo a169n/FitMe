@@ -1,8 +1,18 @@
 const Restaurant = require("../models/restaurantSchema");
 
 const getAllRestaurants = async (req, res) => {
-  const restaurants = await Restaurant.find({});
-  res.status(200).json(restaurants);
+  try {
+    const restaurants = await Restaurant.find({}).populate({
+      path: "foods_id",
+      populate: {
+        path: "category_id",
+        model: "Category",
+      },
+    });
+    res.status(200).json(restaurants);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const createNewRestaurant = async (req, res) => {

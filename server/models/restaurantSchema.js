@@ -5,11 +5,10 @@ const restaurantSchema = mongoose.Schema(
     name: String,
     address: String,
     description: String,
-    categories: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category"
-    }],
-    foods: [{
+    region: String,
+    rating: Number,
+    keywords: [String],
+    foods_id: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Food"
     }]

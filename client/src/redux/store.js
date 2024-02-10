@@ -1,12 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userApi } from "./services/userApi";
+import { restaurantsApi } from "./services/restaurantsApi";
+import { foodsApi } from "./services/foodsApi";
 
 const store = configureStore({
   reducer: {
-    [userApi.reducerPath]: userApi.reducer,
+    [restaurantsApi.reducerPath]: restaurantsApi.reducer,
+    [foodsApi.reducerPath]: foodsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat([userApi.middleware]);
+    return getDefaultMiddleware().concat([
+      restaurantsApi.middleware,
+      foodsApi.middleware,
+    ]);
   },
 });
 

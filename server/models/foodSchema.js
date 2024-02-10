@@ -5,11 +5,11 @@ const foodSchema = mongoose.Schema(
     name: String,
     price: Number,
     description: String,
-    category: {
+    category_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
-    restaurant: {
+    restaurant_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
     },

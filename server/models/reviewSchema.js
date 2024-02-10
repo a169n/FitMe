@@ -6,13 +6,9 @@ const reviewSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    restaurant_id: {
+    order_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Restaurant",
-    },
-    food_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Food",
+      ref: "Order",
     },
     rating: Number,
     review_text: String,
