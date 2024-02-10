@@ -6,8 +6,8 @@ const getAllUsers = async (req, res) => {
 };
 
 const createNewUser = async (req, res) => {
-  const newUser = await User.create(req.body);
-  res.status(201).json(newUser);
+  const newUser = await User.create(req.body)
+  res.json(newUser);
 };
 
 const getUserById = async (req, res) => {

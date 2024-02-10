@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/restaurants", getAllRestaurants);
 router.get("/restaurant/:id", getRestaurantById);
-router.post("/restaurant", createNewRestaurant);
+router.post("/restaurants", createNewRestaurant);
 router.put("/restaurant/:id", updateRestaurantById);
 router.delete("/restaurant/:id", deleteRestaurantById);
 

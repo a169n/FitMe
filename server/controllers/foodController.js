@@ -1,7 +1,7 @@
 const Food = require("../models/foodSchema");
 
 const getAllFood = async (req, res) => {
-  const foods = await Food.find({});
+  const foods = await Food.find({}).populate("category_id").populate("restaurant_id")
   res.status(200).json(foods);
 };
 

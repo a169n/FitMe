@@ -1,7 +1,7 @@
 const Category = require("../models/categorySchema");
 
 const getAllCategories = async (req, res) => {
-  const categories = await Category.find({});
+  const categories = await Category.find({}).populate("restaurant_id");
   res.status(200).json(categories);
 };
 

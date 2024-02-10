@@ -6,7 +6,7 @@ const categorySchema = mongoose.Schema(
     restaurant_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant"
-    }
+    },
   },
   {
     timestamps: true,

@@ -11,22 +11,19 @@ corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
 
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
-app.use(express.static("public"));
 
 const { connectDB } = require("./config/db");
 
 // Connect to MongoDB
 connectDB();
 
-app.get("/", (req, res) => {
-  res.status(200).sendFile(__dirname + "/public/views/index.html");
-});
 
 app.use("/", require("./routes/testRouter"));
 app.use("/", require("./routes/userRouter"));
@@ -38,7 +35,7 @@ app.use("/", require("./routes/reviewRouter"));
 app.use("/", require("./routes/deliveryRouter"));
 
 // Localhost start
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () =>
   console.log(`The server is up and running on http://localhost:${port}/`)
