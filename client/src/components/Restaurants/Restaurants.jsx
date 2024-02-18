@@ -1,5 +1,7 @@
 import { useGetFoodsQuery } from "../../redux/services/foodsApi";
-import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
+import {
+  useGetRestaurantsQuery,
+} from "../../redux/services/restaurantsApi";
 import restaurant_image from "../../assets/restaurant-icon.png";
 import greenStar from "../../assets/greenStar.svg";
 import yellowStar from "../../assets/yellowStar.svg";
@@ -22,6 +24,7 @@ export default function Restaurants() {
     isFetching: foodsIsFetching,
     isError: foodsIsError,
   } = useGetFoodsQuery();
+
 
   if (
     restaurantsIsLoading ||

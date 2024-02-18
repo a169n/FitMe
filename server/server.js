@@ -20,11 +20,12 @@ app.use(
 );
 
 const { connectDB } = require("./config/db");
+const { protect } = require("./middleware/authMiddleware");
 
 // Connect to MongoDB
 connectDB();
 
-
+app.use("/auth", require("./routes/authRoutes"));
 app.use("/", require("./routes/testRouter"));
 app.use("/", require("./routes/userRouter"));
 app.use("/", require("./routes/restaurantRouter"));

@@ -28,6 +28,19 @@ const getRestaurantById = async (req, res) => {
   res.status(200).json(restaurant);
 };
 
+const searchRestaurant = async (req, res) => {
+  const { searchString } = req.query;
+
+  const users = await Restaurant.find({
+    $or: [
+      { name: new RegExp(searchString, "i") },
+      { keyWords: new RegExp(searchString, "i") },
+    ],
+  });
+
+  res.status(200).json(users);
+}
+
 const updateRestaurantById = async (req, res) => {
   const updatedRestaurant = await Restaurant.findByIdAndUpdate(
     req.params.id,
@@ -51,6 +64,7 @@ const deleteRestaurantById = async (req, res) => {
 module.exports = {
   getAllRestaurants,
   createNewRestaurant,
+  searchRestaurant,
   getRestaurantById,
   updateRestaurantById,
   deleteRestaurantById,

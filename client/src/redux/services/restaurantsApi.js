@@ -16,6 +16,13 @@ export const restaurantsApi = createApi({
       }),
       providesTags: (result, error, id) => [{ type: "Restaurants", id }],
     }),
+    searchRestaurants: builder.query({
+      query: (searchString) => ({
+        url: "/restaurants/search",
+        params: { searchString },
+      }),
+      providesTags: ["Restaurants"],
+    }),
     createNewRestaurant: builder.mutation({
       query: (newRestaurant) => ({
         url: "/restaurant",
@@ -48,6 +55,8 @@ export const {
   useLazyGetRestaurantsQuery,
   // GET /restaurants/:id
   useGetRestaurantByIdQuery,
+  // GET /restaurants/search
+  useLazySearchRestaurantsQuery,
   // POST /restaurant
   useCreateNewRestaurantMutation,
   // PUT /restaurant/:id
