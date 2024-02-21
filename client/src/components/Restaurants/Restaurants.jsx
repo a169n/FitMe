@@ -10,10 +10,6 @@ import priceIcon from "../../assets/price.svg";
 import "./Restaurants.css";
 
 export default function Restaurants() {
-  const navigate = useNavigate();
-
-  // navigate(`/restaurant/${restaurant._id}`);
-  
 
   const {
     data: restaurantsData,
