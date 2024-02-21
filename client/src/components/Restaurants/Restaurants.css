@@ -1,4 +1,4 @@
-.foods-section {
+.hero-section {
   display: flex;
   justify-content: space-between;
 }
@@ -15,13 +15,22 @@
   line-height: normal;
 }
 
-.foods-section-container {
+.hero-section-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-.food-section-header {
+.hero-section-link {
+  text-decoration: none;
+}
+
+.hero-section-card:hover {
+  background-color: #c6c6c6;
+  transition: .5s;
+}
+
+.hero-section-header {
   color: #202020;
   font-family: Poppins;
   font-size: 24px;
@@ -31,12 +40,14 @@
   margin-bottom: 30px;
 }
 
-.food-section-card {
+.hero-section-card {
   max-width: 306px;
   height: auto;
   border-radius: 10px;
   background-color: #f8f8f8;
   padding: 25px;
+  transition: .5s;
+
 }
 
 .restaurant-image {
