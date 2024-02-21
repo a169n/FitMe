@@ -1,0 +1,132 @@
+.restaurant-page {
+  position: relative;
+}
+
+.restaurant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #202020;
+  position: relative;
+}
+
+.restaurant-image img {
+  width: 350px;
+  height: 250px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.restaurant-name {
+  color: #fff;
+  font-family: Poppins;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.restaurant-keywords {
+  color: #fff;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: lowercase;
+}
+
+.offers {
+  display: flex;
+  padding: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 20px;
+  border: 2px dashed #fc8019;
+}
+
+.offers p {
+  color: #fc8019;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.dish-search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -2rem;
+}
+
+.dish-search {
+  display: flex;
+}
+
+.dish-input {
+  display: flex;
+  width: 400px;
+  padding: 15px 25px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+.dish-input::placeholder {
+  color: #808080;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.search-container {
+  position: relative;
+}
+
+.dish-search-button {
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.favourite {
+  display: flex;
+  width: 150px;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+}
+
+.favourite p {
+  color: #404040;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
