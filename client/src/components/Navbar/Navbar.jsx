@@ -4,6 +4,7 @@ import logo from "../../assets/logo.svg";
 import bag from "../../assets/bag.svg";
 import search from "../../assets/search.svg";
 import { useLazySearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [searchString, setSearchString] = useState("");
@@ -22,10 +23,12 @@ export default function Navbar() {
 
   return (
     <nav className="nav global-padding">
-      <div className="main-logo">
-        <img src={logo} alt="logo" />
-        <h4 className="nav-header">FitMe</h4>
-      </div>
+      <Link  className="link" to={'/'}>
+        <div className="main-logo">
+          <img src={logo} alt="logo" />
+          <h4 className="nav-header">FitMe</h4>
+        </div>
+      </Link>
       <div className="nav2">
         <div>
           <input

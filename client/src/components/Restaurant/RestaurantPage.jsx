@@ -47,7 +47,6 @@ export default function RestaurantPage() {
   }
 
   return (
-    <Layout>
       <section className="restaurant-page">
         <div className="restaurant global-padding">
           <div className="restaurant-image">
@@ -91,6 +90,5 @@ export default function RestaurantPage() {
         </div>
         
       </section>
-    </Layout>
   );
 }
