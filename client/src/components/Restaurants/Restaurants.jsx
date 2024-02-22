@@ -45,7 +45,7 @@ export default function Restaurants() {
           {firstEightRestaurants.map((restaurant) => (
             <div className="hero-section-card" key={restaurant._id}>
               <Link
-                className="hero-section-link"
+                className="link"
                 to={`/restaurant/${restaurant._id}`}
               >
                 <img
@@ -86,7 +86,7 @@ export default function Restaurants() {
         <div className="hero-section-container">
           {firstEightFoods.map((food) => (
             <Link
-              className="hero-section-link"
+              className="link"
               to={`/food/${food._id}`}
               key={food._id}
             >

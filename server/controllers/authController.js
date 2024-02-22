@@ -28,9 +28,7 @@ const login = async (req, res) => {
   const user = await User.findOne({ username });
 
   if (user) {
-    // User found, now check password
     if (await bcrypt.compare(password, user.password)) {
-      // Passwords match, generate token and send response
       res.status(200).json({
         _id: user.id,
         username: user.username,
@@ -39,11 +37,9 @@ const login = async (req, res) => {
         token: generateToken(user._id),
       });
     } else {
-      // Passwords don't match
       res.status(401).json({ error: "Incorrect password!" });
     }
   } else {
-    // User not found
     res.status(401).json({ error: `User with name ${username} not found` });
   }
 };
