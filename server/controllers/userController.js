@@ -18,6 +18,20 @@ const getUserById = async (req, res) => {
   res.status(200).json(user);
 };
 
+
+const searchUsers = async (req, res) => {
+  const { searchString } = req.query;
+
+  const users = await User.find({
+    $or: [
+      { name: new RegExp(searchString, "i") },
+      { jobTitle: new RegExp(searchString, "i") },
+    ],
+  });
+
+  res.status(200).json(users);
+};
+
 const updateUserById = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -38,6 +52,7 @@ const deleteUserById = async (req, res) => {
 
 module.exports = {
   getAllUsers,
+  searchUsers,
   createNewUser,
   getUserById,
   updateUserById,

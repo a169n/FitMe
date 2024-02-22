@@ -5,7 +5,6 @@ import {
 } from "../../redux/services/restaurantsApi";
 import restaurant_image from "../../assets/restaurant-icon.png";
 import "./RestaurantPage.css";
-import Layout from "../Layout";
 import search from "../../assets/search.svg";
 import offer from "../../assets/offer.svg";
 import favourite from "../../assets/favourite.svg";
