@@ -17,7 +17,9 @@ const register = async (req, res) => {
   res.status(200).json({
     _id: user.id,
     username: user.username,
+    age: user.age,
     email: user.email,
+    isMale: user.isMale,
     token: generateToken(user._id),
   });
 };
@@ -34,13 +36,14 @@ const login = async (req, res) => {
         username: user.username,
         email: user.email,
         age: user.age,
+        isMale: user.isMale,
         token: generateToken(user._id),
       });
     } else {
       res.status(401).json({ error: "Incorrect password!" });
     }
   } else {
-    res.status(401).json({ error: `User with name ${username} not found` });
+    res.status(401).json({ error: `User with name ${username} not found.` });
   }
 };
 

@@ -2,7 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import RestaurantPage from "./components/Restaurant/RestaurantPage";
+import RestaurantPage from "./components/RestaurantPage/RestaurantPage";
+import LoginPage from "./components/LoginPage/LoginPage";
+import RegisterPage from "./components/RegisterPage/RegisterPage";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
             path="/restaurant/:restaurantId"
             element={<RestaurantPage />}
           />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />          
         </Routes>
         <Footer />
       </Router>

@@ -49,9 +49,11 @@ export default function Navbar() {
             <img src={bag} alt="card" />
           </button>
         </div>
-        <div className="login-container">
-          <button className="sign-in-button">Sign in</button>
-        </div>
+        <Link className="link" to={'/login'}>
+          <div className="login-container">
+            <button className="sign-in-button">Sign in</button>
+          </div>
+        </Link>
       </div>
     </nav>
   );
