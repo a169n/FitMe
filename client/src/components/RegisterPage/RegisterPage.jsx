@@ -15,15 +15,11 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     try {
-      // Call the register mutation with the credentials
       const response = await register(credentials);
 
-      // Handle success or error response
       console.log("Registration successful:", response);
-      // Redirect to login page or display success message
     } catch (error) {
       console.error("Registration failed:", error);
-      // Display error message to the user
     }
   };
 
