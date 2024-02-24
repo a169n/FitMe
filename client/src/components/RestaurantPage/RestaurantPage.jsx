@@ -13,8 +13,6 @@ import { useAccess } from "../../hooks/useAccess";
 
 export default function RestaurantPage() {
 
-  useAccess()
-
   const { restaurantId } = useParams();
 
   const {

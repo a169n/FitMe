@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "./useUser"; // Import useUser hook
+import { useUser } from "./useUser";
 
 export const useAccess = () => {
   const navigate = useNavigate();
@@ -11,6 +11,8 @@ export const useAccess = () => {
       navigate("/login");
     } else if (user && user.isAdmin) {
       navigate("/admin");
+    } else if (user) {
+      navigate("/");
     }
   }, [navigate, user]);
 };
