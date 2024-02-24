@@ -5,9 +5,14 @@ import bag from "../../assets/bag.svg";
 import search from "../../assets/search.svg";
 import { useLazySearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import { Link } from "react-router-dom";
+import { useUser } from "../../hooks/useUser";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/slices/authSlice";
 
 export default function Navbar() {
   const [searchString, setSearchString] = useState("");
+  const dispatch = useDispatch();
+  const user = useUser();
 
   const [searchRestaurants] = useLazySearchRestaurantsQuery();
 
@@ -21,9 +26,14 @@ export default function Navbar() {
     }
   };
 
+  const handleSignOut = () => {
+    dispatch(logoutUser());
+    window.location.reload();
+  };
+
   return (
     <nav className="nav global-padding">
-      <Link  className="link" to={'/'}>
+      <Link className="link" to={"/"}>
         <div className="main-logo">
           <img src={logo} alt="logo" />
           <h4 className="nav-header">FitMe</h4>
@@ -49,11 +59,17 @@ export default function Navbar() {
             <img src={bag} alt="card" />
           </button>
         </div>
-        <Link className="link" to={'/login'}>
-          <div className="login-container">
-            <button className="sign-in-button">Sign in</button>
-          </div>
-        </Link>
+        <div>
+          {user ? (
+            <button className="sign-in-button" onClick={handleSignOut}>
+              Log out ({user.username})
+            </button>
+          ) : (
+            <Link className="link" to={"/login"}>
+              <button className="sign-in-button">Sign in</button>
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -10,11 +10,15 @@ import Footer from "./components/Footer/Footer";
 import RestaurantPage from "./components/RestaurantPage/RestaurantPage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
+import { useAccess } from "./hooks/useAccess";
+import { useUser } from "./hooks/useUser";
+import AdminPage from "./components/AdminPage/AdminPage";
 
 const RouteWrapper = ({ children }) => {
+  
   const navigate = useNavigate();
 
-  const hideNavbarFooterRoutes = ["/login", "/register"];
+  const hideNavbarFooterRoutes = ["/login", "/register", "/admin"];
 
   const shouldHideNavbarFooter = () => {
     return hideNavbarFooterRoutes.includes(window.location.pathname);
@@ -41,6 +45,7 @@ function App() {
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/admin" element={<AdminPage />}></Route>
         </Routes>
       </RouteWrapper>
     </Router>

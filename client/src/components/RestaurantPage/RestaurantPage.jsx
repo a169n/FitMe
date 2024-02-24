@@ -9,8 +9,12 @@ import search from "../../assets/search.svg";
 import offer from "../../assets/offer.svg";
 import favourite from "../../assets/favourite.svg";
 import { useState } from "react";
+import { useAccess } from "../../hooks/useAccess";
 
 export default function RestaurantPage() {
+
+  useAccess()
+
   const { restaurantId } = useParams();
 
   const {

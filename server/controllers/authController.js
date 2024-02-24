@@ -37,6 +37,7 @@ const login = async (req, res) => {
         email: user.email,
         age: user.age,
         isMale: user.isMale,
+        isAdmin: user.isAdmin,
         token: generateToken(user._id),
       });
     } else {

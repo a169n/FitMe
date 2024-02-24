@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useRegisterMutation } from "../../redux/services/authApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "./RegisterPage.css";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const [credentials, setCredentials] = useState({
-    username: null,
-    password: null,
-    email: null,
+    username: "",
+    password: "",
+    email: "",
     age: 0,
     isMale: false,
   });
@@ -14,61 +19,92 @@ const RegisterPage = () => {
   const [register] = useRegisterMutation();
 
   const handleRegister = async () => {
-    try {
-      const response = await register(credentials);
+    if (
+      !credentials.username ||
+      !credentials.password ||
+      !credentials.email ||
+      credentials.age === 0
+    ) {
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
 
-      console.log("Registration successful:", response);
+    try {
+      await register(credentials);
+      setSuccessMessage("Registration successful. Redirecting...");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
+      setErrorMessage("Registration failed. Please try again.");
       console.error("Registration failed:", error);
     }
   };
 
   return (
-    <div>
-      <h1>Enter your credentials</h1>
-      <div className="input-box">
-        <input
-          type="text"
-          placeholder="Username"
-          onChange={(e) =>
-            setCredentials((prev) => ({ ...prev, username: e.target.value }))
-          }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) =>
-            setCredentials((prev) => ({ ...prev, password: e.target.value }))
-          }
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) =>
-            setCredentials((prev) => ({ ...prev, email: e.target.value }))
-          }
-        />
-        <input
-          type="number"
-          placeholder="Age"
-          onChange={(e) =>
-            setCredentials((prev) => ({ ...prev, age: +e.target.value }))
-          }
-        />
-        <label>
+    <div className="register-container">
+      <div className="register-form">
+        <h1 className="register-title">Register</h1>
+        <div className="input-box">
           <input
-            type="checkbox"
+            type="text"
+            placeholder="Username"
             onChange={(e) =>
-              setCredentials((prev) => ({ ...prev, isMale: e.target.checked }))
+              setCredentials((prev) => ({ ...prev, username: e.target.value }))
             }
+            required
           />
-          Male
-        </label>
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) =>
+              setCredentials((prev) => ({ ...prev, password: e.target.value }))
+            }
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) =>
+              setCredentials((prev) => ({ ...prev, email: e.target.value }))
+            }
+            required
+          />
+          <input
+            type="number"
+            placeholder="Age"
+            onChange={(e) =>
+              setCredentials((prev) => ({ ...prev, age: +e.target.value }))
+            }
+            required
+          />
+          <select
+            value={credentials.isMale ? "male" : "female"}
+            onChange={(e) =>
+              setCredentials((prev) => ({
+                ...prev,
+                isMale: e.target.value === "male" ? true : false,
+              }))
+            }
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <button className="register-button" onClick={handleRegister}>
+          Register
+        </button>
+        <Link className="link" to={"/login"}>
+          <button className="register-button">Already have an account?</button>
+        </Link>
+        {errorMessage && (
+          <p className="message error-message">{errorMessage}</p>
+        )}
+        {successMessage && (
+          <p className="message success-message">{successMessage}</p>
+        )}
       </div>
-      <button onClick={handleRegister}>Register</button>
-      <Link className="link" to={"/login"}>
-        <button>Already have an account?</button>
-      </Link>
     </div>
   );
 };

@@ -7,6 +7,10 @@ const userSchema = mongoose.Schema(
     email: String,
     age: Number,
     isMale: Boolean,
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
