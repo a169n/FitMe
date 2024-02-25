@@ -1,4 +1,7 @@
 const Food = require("../models/foodSchema");
+const Category = require("../models/categorySchema");
+
+const fs = require("fs");
 
 const getAllFood = async (req, res) => {
   const foods = await Food.find({})
@@ -16,9 +19,30 @@ const getFoodById = async (req, res) => {
 };
 
 const createNewFood = async (req, res) => {
-  const newFood = await Food.create(req.body);
-  res.status(201).json(newFood);
+  try {
+    const { category, restaurant } = req.body;
+    const imagePath = req.file.path;
+
+    const food = await Food.create({
+      image: imagePath,
+      category: category,
+      restaurant: restaurant,
+    });
+
+    await Category.findByIdAndUpdate(
+      category,
+      { $push: { foods: food._id } },
+      { new: true }
+    );
+
+    res.status(201).json(food);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to create food" });
+  }
 };
+
+
 
 const searchFood = async (req, res) => {
   const { searchString } = req.query;

@@ -4,7 +4,6 @@ const Restaurant = require("../models/restaurantSchema");
 const Category = require("../models/categorySchema");
 const Order = require("../models/orderSchema");
 const Review = require("../models/reviewSchema");
-const Delivery = require("../models/deliverySchema");
 
 const populate = async (req, res) => {
   try {
@@ -139,22 +138,7 @@ const populate = async (req, res) => {
     });
 
     // Create deliveries
-    const delivery1 = await Delivery.create({
-      order_id: order1._id,
-      restaurant_id: restaurant1._id,
-      foods_id: [food1._id],
-      address: "789 Nursultan Nazarbayev Avenue, Astana, Kazakhstan",
-      status: "Delivered",
-    });
-
-    const delivery2 = await Delivery.create({
-      order_id: order2._id,
-      restaurant_id: restaurant2._id,
-      foods_id: [food2._id],
-      address: "101 Mangilik El Avenue, Astana, Kazakhstan",
-      status: "In transit",
-    });
-
+    
     res.status(201).json({ message: "Sample data populated successfully" });
   } catch (error) {
     console.error(error);

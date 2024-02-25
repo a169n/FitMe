@@ -3,10 +3,16 @@ const mongoose = require("mongoose");
 const categorySchema = mongoose.Schema(
   {
     name: String,
-    restaurant_id: {
+    restaurant: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Restaurant"
+      ref: "Restaurant",
     },
+    foods: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Restaurant",
+      },
+    ],
   },
   {
     timestamps: true,

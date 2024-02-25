@@ -5,7 +5,6 @@ const Restaurant = require("../models/restaurantSchema");
 const Category = require("../models/categorySchema");
 const Order = require("../models/orderSchema");
 const Review = require("../models/reviewSchema");
-const Delivery = require("../models/deliverySchema");
 
 const deleteAll = async (req, res) => {
   await User.deleteMany({});
@@ -14,7 +13,6 @@ const deleteAll = async (req, res) => {
   await Category.deleteMany({});
   await Order.deleteMany({});
   await Review.deleteMany({});
-  await Delivery.deleteMany({});
 
   res.status(200).json({ message: "All data cleared successfully" });
 };

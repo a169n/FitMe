@@ -2,28 +2,26 @@ const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema(
   {
-    user_id: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    restaurant_id: {
+    restaurant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
     },
-    foods_id: [
+    foods: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Food",
       },
     ],
-    review_id: {
+    review: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
     },
-    delivery_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Delivery",
-    },
+    deliveryAddress: String,
+    deliveryStatus: String,
   },
   {
     timestamps: true,
