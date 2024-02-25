@@ -1,4 +1,5 @@
 const Restaurant = require("../models/restaurantSchema");
+const fs = require("fs");
 
 const getAllRestaurants = async (req, res) => {
   try {
@@ -16,7 +17,6 @@ const getAllRestaurants = async (req, res) => {
 };
 
 const createNewRestaurant = async (req, res) => {
-  console.log(req.file);
   const imagePath = req.file.path;
   const restaurant = await Restaurant.create({
     ...req.body,
@@ -38,7 +38,7 @@ const searchRestaurant = async (req, res) => {
 
   const restaurants = await Restaurant.find({
     name: new RegExp(searchString, "i"),
-  });
+  }).sort({ _id: -1 });
 
   res.status(200).json(restaurants);
 };
@@ -63,6 +63,15 @@ const deleteRestaurantById = async (req, res) => {
   res.status(200).json({ message: "Restaurant deleted successfully" });
 };
 
+const deleteAllRestaurants = async (req, res) => {
+  try {
+    await Restaurant.deleteMany({});
+    res.status(200).json({ message: "All restaurants deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllRestaurants,
   createNewRestaurant,
@@ -70,4 +79,5 @@ module.exports = {
   getRestaurantById,
   updateRestaurantById,
   deleteRestaurantById,
+  deleteAllRestaurants,
 };
