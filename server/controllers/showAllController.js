@@ -5,7 +5,6 @@ const Restaurant = require("../models/restaurantSchema");
 const Category = require("../models/categorySchema");
 const Order = require("../models/orderSchema");
 const Review = require("../models/reviewSchema");
-const Delivery = require("../models/deliverySchema");
 
 const showAll = async (req, res) => {
   const users = await User.find({});
@@ -14,7 +13,6 @@ const showAll = async (req, res) => {
   const categories = await Category.find({});
   const orders = await Order.find({});
   const reviews = await Review.find({});
-  const deliveries = await Delivery.find({});
 
   const allData = {
     users,
@@ -23,7 +21,6 @@ const showAll = async (req, res) => {
     categories,
     orders,
     reviews,
-    deliveries,
   };
 
   res.status(200).json(allData);

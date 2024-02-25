@@ -21,7 +21,6 @@ app.use(
 );
 
 const { connectDB } = require("./config/db");
-const { protect } = require("./middleware/authMiddleware");
 
 // Connect to MongoDB
 connectDB();
@@ -32,9 +31,9 @@ app.use("/", require("./routes/userRouter"));
 app.use("/", require("./routes/restaurantRouter"));
 app.use("/", require("./routes/foodRouter"));
 app.use("/", require("./routes/categoryRouter"));
+app.use("/", require("./routes/globalCategoryRoutes"));
 app.use("/", require("./routes/orderRouter"));
 app.use("/", require("./routes/reviewRouter"));
-app.use("/", require("./routes/deliveryRouter"));
 
 // Localhost start
 const port = process.env.PORT || 3000;

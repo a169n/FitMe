@@ -1,7 +1,9 @@
 const Category = require("../models/categorySchema");
+const Restaurant = require("../models/restaurantSchema");
+
 
 const getAllCategories = async (req, res) => {
-  const categories = await Category.find({}).populate("restaurant_id");
+  const categories = await Category.find({}).populate("foods");
   res.status(200).json(categories);
 };
 
@@ -22,8 +24,21 @@ const deleteCategoryById = async (req, res) => {
 };
 
 const createNewCategory = async (req, res) => {
-  const newCategory = await Category.create(req.body);
-  res.status(201).json(newCategory);
+  try {
+    const { restaurant } = req.body;
+
+    const newCategory = await Category.create(req.body);
+
+    await Restaurant.findByIdAndUpdate(
+      restaurant,
+      { $push: { categories: newCategory._id } },
+      { new: true }
+    );
+
+    res.status(201).json(newCategory);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const updateCategoryById = async (req, res) => {
