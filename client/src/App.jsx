@@ -4,13 +4,14 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import HomePage from "./components/HomePage";
+import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import RestaurantPage from "./components/RestaurantPage/RestaurantPage";
-import LoginPage from "./components/LoginPage/LoginPage";
-import RegisterPage from "./components/RegisterPage/RegisterPage";
-import AdminPage from "./components/AdminPage/AdminPage";
+import RestaurantPage from "./pages/RestaurantPage/RestaurantPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
+import SearchPage from "./pages/SearchPage/SearchPage"
 
 const RouteWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -31,7 +32,6 @@ const RouteWrapper = ({ children }) => {
 };
 
 function App() {
-  
   return (
     <Router>
       <RouteWrapper>
@@ -43,7 +43,9 @@ function App() {
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/admin" element={<AdminPage />}></Route>
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/search" element={<SearchPage />} />
+
         </Routes>
       </RouteWrapper>
     </Router>

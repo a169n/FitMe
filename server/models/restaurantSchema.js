@@ -8,10 +8,13 @@ const restaurantSchema = mongoose.Schema(
     region: String,
     rating: Number,
     keywords: [String],
-    foods_id: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Food"
-    }]
+    image: String,
+    foods_id: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Food",
+      },
+    ],
   },
   {
     collection: "restaurant",

@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useGetFoodsQuery } from "../../redux/services/foodsApi";
-import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
+import { Link } from "react-router-dom";
+import { useGetFoodsQuery, useSearchFoodsQuery } from "../../redux/services/foodsApi";
+import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import restaurant_image from "../../assets/restaurant-icon.png";
 import greenStar from "../../assets/greenStar.svg";
 import yellowStar from "../../assets/yellowStar.svg";
@@ -10,20 +10,19 @@ import priceIcon from "../../assets/price.svg";
 import "./Restaurants.css";
 
 export default function Restaurants() {
-
   const {
     data: restaurantsData,
     isLoading: restaurantsIsLoading,
     isFetching: restaurantsIsFetching,
     isError: restaurantsIsError,
-  } = useGetRestaurantsQuery();
+  } = useSearchRestaurantsQuery("");
 
   const {
     data: foodsData,
     isLoading: foodsIsLoading,
     isFetching: foodsIsFetching,
     isError: foodsIsError,
-  } = useGetFoodsQuery();
+  } = useSearchFoodsQuery("")
 
   if (
     restaurantsIsLoading ||
@@ -34,20 +33,15 @@ export default function Restaurants() {
     return <h1 className="loading">Loading...</h1>;
   }
 
-  const firstEightRestaurants = restaurantsData.slice(0, 4);
-  const firstEightFoods = foodsData.slice(0, 4);
 
   return (
     <div className="hero-section global-padding">
       <div className="restaurants">
         <p className="hero-section-header">Nearby Restaurants</p>
         <div className="hero-section-container">
-          {firstEightRestaurants.map((restaurant) => (
+          {restaurantsData.map((restaurant) => (
             <div className="hero-section-card" key={restaurant._id}>
-              <Link
-                className="link"
-                to={`/restaurant/${restaurant._id}`}
-              >
+              <Link className="link" to={`/restaurant/${restaurant._id}`}>
                 <img
                   className="restaurant-image"
                   src={restaurant_image}
@@ -84,12 +78,8 @@ export default function Restaurants() {
       <div className="foods">
         <p className="hero-section-header">Recommended Food Items</p>
         <div className="hero-section-container">
-          {firstEightFoods.map((food) => (
-            <Link
-              className="link"
-              to={`/food/${food._id}`}
-              key={food._id}
-            >
+          {foodsData.map((food) => (
+            <Link className="link" to={`/food/${food._id}`} key={food._id}>
               <div className="hero-section-card" key={food._id}>
                 <img
                   className="restaurant-image"

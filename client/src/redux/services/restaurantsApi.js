@@ -27,6 +27,9 @@ export const restaurantsApi = createApi({
       query: (newRestaurant) => ({
         url: "/restaurant",
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${body.get("token")}`,
+        },
         body: newRestaurant,
       }),
       invalidatesTags: ["Restaurants"],
@@ -56,6 +59,7 @@ export const {
   // GET /restaurants/:id
   useGetRestaurantByIdQuery,
   // GET /restaurants/search
+  useSearchRestaurantsQuery,
   useLazySearchRestaurantsQuery,
   // POST /restaurant
   useCreateNewRestaurantMutation,

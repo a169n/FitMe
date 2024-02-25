@@ -4,12 +4,13 @@ import logo from "../../assets/logo.svg";
 import bag from "../../assets/bag.svg";
 import search from "../../assets/search.svg";
 import { useLazySearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slices/authSlice";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [searchString, setSearchString] = useState("");
   const dispatch = useDispatch();
   const user = useUser();
@@ -19,7 +20,7 @@ export default function Navbar() {
   const handleSearch = async () => {
     try {
       const response = await searchRestaurants(searchString);
-      console.log("Search response:", response);
+      navigate(`/search?searchString=${searchString}`);
     } catch (error) {
       console.error("Error searching restaurants:", error);
       alert("Failed to search restaurants. Please try again later.");

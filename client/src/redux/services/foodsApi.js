@@ -16,10 +16,20 @@ export const foodsApi = createApi({
       }),
       providesTags: (result, error, id) => [{ type: "Foods", id }],
     }),
+    searchFoods: builder.query({
+      query: (searchString) => ({
+        url: "/foods/search",
+        params: { searchString },
+      }),
+      providesTags: ["Foods"],
+    }),
     createNewFood: builder.mutation({
       query: (newRestaurant) => ({
         url: "/food",
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${body.get("token")}`,
+        },
         body: newRestaurant,
       }),
       invalidatesTags: ["Foods"],
@@ -48,6 +58,9 @@ export const {
   useLazyGetFoodsQuery,
   // GET /restaurants/:id
   useGetFoodByIdQuery,
+  // GET /foods/search
+  useSearchFoodsQuery,
+  useLazySearchFoodsQuery,
   // POST /restaurant
   useCreateNewFoodMutation,
   // PUT /restaurant/:id
