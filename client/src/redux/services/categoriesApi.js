@@ -20,6 +20,9 @@ export const categoriesApi = createApi({
       query: (newCategory) => ({
         url: "/category",
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${body.get("token")}`,
+        },
         body: newCategory,
       }),
       invalidatesTags: ["Category"],

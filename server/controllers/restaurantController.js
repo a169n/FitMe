@@ -16,8 +16,13 @@ const getAllRestaurants = async (req, res) => {
 };
 
 const createNewRestaurant = async (req, res) => {
-  const newRestaurant = await Restaurant.create(req.body);
-  res.status(201).json(newRestaurant);
+  console.log(req.file);
+  const imagePath = req.file.path;
+  const restaurant = await Restaurant.create({
+    ...req.body,
+    image: imagePath,
+  });
+  res.status(201).json(restaurant);
 };
 
 const getRestaurantById = async (req, res) => {
@@ -31,15 +36,12 @@ const getRestaurantById = async (req, res) => {
 const searchRestaurant = async (req, res) => {
   const { searchString } = req.query;
 
-  const users = await Restaurant.find({
-    $or: [
-      { name: new RegExp(searchString, "i") },
-      { keyWords: new RegExp(searchString, "i") },
-    ],
+  const restaurants = await Restaurant.find({
+    name: new RegExp(searchString, "i"),
   });
 
-  res.status(200).json(users);
-}
+  res.status(200).json(restaurants);
+};
 
 const updateRestaurantById = async (req, res) => {
   const updatedRestaurant = await Restaurant.findByIdAndUpdate(

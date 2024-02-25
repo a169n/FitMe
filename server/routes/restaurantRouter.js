@@ -8,6 +8,8 @@ const {
   updateRestaurantById,
   searchRestaurant,
 } = require("../controllers/restaurantController");
+const { protect } = require("../middleware/authMiddleware");
+
 
 const router = express.Router();
 

@@ -1,7 +1,9 @@
 const Food = require("../models/foodSchema");
 
 const getAllFood = async (req, res) => {
-  const foods = await Food.find({}).populate("category_id").populate("restaurant_id")
+  const foods = await Food.find({})
+    .populate("category_id")
+    .populate("restaurant_id");
   res.status(200).json(foods);
 };
 
@@ -16,6 +18,16 @@ const getFoodById = async (req, res) => {
 const createNewFood = async (req, res) => {
   const newFood = await Food.create(req.body);
   res.status(201).json(newFood);
+};
+
+const searchFood = async (req, res) => {
+  const { searchString } = req.query;
+
+  const foods = await Food.find({
+    name: new RegExp(searchString, "i"),
+  });
+
+  res.status(200).json(foods);
 };
 
 const updateFoodById = async (req, res) => {
@@ -39,6 +51,7 @@ const deleteFoodById = async (req, res) => {
 module.exports = {
   getAllFood,
   getFoodById,
+  searchFood,
   createNewFood,
   updateFoodById,
   deleteFoodById,
