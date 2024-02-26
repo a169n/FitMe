@@ -52,6 +52,7 @@ const RestaurantForm = () => {
 
   return (
     <div className="restaurant-form">
+    <h1>Create New Restaurant</h1>
       <input
         type="text"
         placeholder="Name"

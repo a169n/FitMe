@@ -5,13 +5,13 @@ const fs = require("fs");
 
 const getAllFood = async (req, res) => {
   const foods = await Food.find({})
-    .populate("category_id")
-    .populate("restaurant_id");
+    .populate("globalCategory")
   res.status(200).json(foods);
 };
 
 const getFoodById = async (req, res) => {
-  const food = await Food.findById(req.params.id);
+  const food = await Food.findById(req.params.id)
+    .populate("globalCategory")
   if (!food) {
     return res.status(404).json({ message: "Food not found" });
   }
@@ -24,6 +24,9 @@ const createNewFood = async (req, res) => {
     const imagePath = req.file.path;
 
     const food = await Food.create({
+      name: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
       image: imagePath,
       category: category,
       restaurant: restaurant,
@@ -41,8 +44,6 @@ const createNewFood = async (req, res) => {
     res.status(500).json({ message: "Failed to create food" });
   }
 };
-
-
 
 const searchFood = async (req, res) => {
   const { searchString } = req.query;

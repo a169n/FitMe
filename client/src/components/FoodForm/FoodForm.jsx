@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import { useCreateNewFoodMutation } from "../../redux/services/foodsApi";
+import "./FoodForm.css"; // Import CSS file for styling
 
 const FoodForm = () => {
   const [name, setName] = useState("");
@@ -14,7 +15,7 @@ const FoodForm = () => {
   const [restaurantCategories, setRestaurantCategories] = useState([]);
 
   const { data: restaurants, isLoading, isError } = useGetRestaurantsQuery("");
-  const [createFood] = useCreateNewFoodMutation(); // Destructure createFood from the mutation hook
+  const [createFood] = useCreateNewFoodMutation();
 
   useEffect(() => {
     if (restaurant) {
@@ -49,9 +50,18 @@ const FoodForm = () => {
       setRestaurant("");
       setCategory("");
       setImage(null);
+
+      setTimeout(() => {
+        setSuccessMessage("");
+        window.location.reload();
+      }, 3000);
     } catch (error) {
       setErrorMessage("Failed to create food. Please try again.");
       console.error(error);
+
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
     }
   };
 
@@ -59,31 +69,39 @@ const FoodForm = () => {
   if (isError) return <p>Error fetching restaurants</p>;
 
   return (
-    <div>
+    <div className="food-form-container">
+      {" "}
+      {/* Added container className */}
       <h2>Create New Food</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Name:</label>
+      <form onSubmit={handleSubmit} className="restaurant-form">
+        {" "}
+        {/* Added restaurant-form className */}
+        <label htmlFor="name">Name:</label>
         <input
           type="text"
+          id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <label>Price:</label>
+        <label htmlFor="price">Price:</label>
         <input
           type="number"
+          id="price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
         />
-        <label>Description:</label>
+        <label htmlFor="description">Description:</label>
         <textarea
+          id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
         />
-        <label>Restaurant:</label>
+        <label htmlFor="restaurant">Restaurant:</label>
         <select
+          id="restaurant"
           value={restaurant}
           onChange={(e) => setRestaurant(e.target.value)}
           required
@@ -95,8 +113,9 @@ const FoodForm = () => {
             </option>
           ))}
         </select>
-        <label>Category:</label>
+        <label htmlFor="category">Category:</label>
         <select
+          id="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           required
@@ -108,8 +127,13 @@ const FoodForm = () => {
             </option>
           ))}
         </select>
-        <label>Image:</label>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <label htmlFor="image">Image:</label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
         <button type="submit">Submit</button>
       </form>
       {successMessage && <p className="success-message">{successMessage}</p>}

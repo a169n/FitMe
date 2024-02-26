@@ -1,10 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
-import "./AdminPage.css";
-import RestaurantForm from "../../components/RestaurantForm/RestaurantForm";
-import FoodForm from "../../components/FoodForm/FoodForm";
-import CategoryForm from "../../components/CategoryForm/CategoryForm";
+import "./AdminPage.css"; // Import the CSS file
 
 export default function AdminPage() {
   const dispatch = useDispatch();
@@ -17,14 +14,22 @@ export default function AdminPage() {
 
   return (
     <div className="adminPage global-padding">
-      <h1>Admin Page</h1>
-      <div className="users"></div>
-      <div className="restaurants"></div>
-      <button onClick={handleReturnToHomePage}>Return to HomePage</button>
+      <h1 className="admin-page-heading">Admin Page</h1>
+      <button className="return-button" onClick={handleReturnToHomePage}>
+        Return to HomePage
+      </button>
 
-      <RestaurantForm />
-      <CategoryForm />
-      <FoodForm />
+      <div>
+        <Link className="link" to={"/admin/create"}>
+          <button className="admin-button">Create</button>
+        </Link>
+        <Link className="link" to={"/admin/update"}>
+          <button className="admin-button">Update</button>
+        </Link>
+        <Link className="link" to={"/admin/delete"}>
+          <button className="admin-button">Delete</button>
+        </Link>
+      </div>
     </div>
   );
 }
