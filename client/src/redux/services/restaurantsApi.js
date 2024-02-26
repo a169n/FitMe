@@ -25,15 +25,16 @@ export const restaurantsApi = createApi({
     }),
     createNewRestaurant: builder.mutation({
       query: (newRestaurant) => ({
-        url: "/restaurant",
+        url: "/restaurants",
         method: "POST",
         headers: {
-          Authorization: `Bearer ${body.get("token")}`,
+          Authorization: `Bearer ${newRestaurant.token}`,
         },
         body: newRestaurant,
       }),
       invalidatesTags: ["Restaurants"],
     }),
+
     updateRestaurantById: builder.mutation({
       query: ({ id, ...updates }) => ({
         url: `/restaurant/${id}`,

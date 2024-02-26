@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useGetFoodsQuery, useSearchFoodsQuery } from "../../redux/services/foodsApi";
+import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import restaurant_image from "../../assets/restaurant-icon.png";
 import greenStar from "../../assets/greenStar.svg";
@@ -22,7 +22,7 @@ export default function Restaurants() {
     isLoading: foodsIsLoading,
     isFetching: foodsIsFetching,
     isError: foodsIsError,
-  } = useSearchFoodsQuery("")
+  } = useSearchFoodsQuery("");
 
   if (
     restaurantsIsLoading ||
@@ -33,18 +33,21 @@ export default function Restaurants() {
     return <h1 className="loading">Loading...</h1>;
   }
 
-
   return (
     <div className="hero-section global-padding">
       <div className="restaurants">
         <p className="hero-section-header">Nearby Restaurants</p>
         <div className="hero-section-container">
-          {restaurantsData.map((restaurant) => (
+          {restaurantsData.slice(0, 4).map((restaurant) => (
             <div className="hero-section-card" key={restaurant._id}>
               <Link className="link" to={`/restaurant/${restaurant._id}`}>
                 <img
                   className="restaurant-image"
-                  src={restaurant_image}
+                  src={
+                    restaurant.image
+                      ? `http://localhost:3000/${restaurant.image}`
+                      : restaurant_image
+                  }
                   alt="restaurant-image"
                 />
                 <h3 className="card-header">{restaurant.name}</h3>
@@ -87,7 +90,7 @@ export default function Restaurants() {
                   alt="food-image"
                 />
                 <h3 className="card-header">{food.name}</h3>
-                <p className="card-keyword">{food.category_id.name}</p>
+                <p className="card-keyword">{food.category.name}</p>
                 <div className="card-region-container">
                   <img src={priceIcon} alt="price" />
                   <p className="card-region">${food.price}</p>
