@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import CategoryUpdateForm from "../../components/CategoryUpdateForm/CategoryUpdateForm";
 import RestaurantUpdateForm from "../../components/RestaurantUpdateForm/RestaurantUpdateForm";
+import FoodUpdateForm from "../../components/FoodUpdateForm/FoodUpdateForm";
 import "./UpdatePage.css";
 
 function UpdatePage() {
@@ -12,9 +13,10 @@ function UpdatePage() {
           <button>AdminPage</button>
         </Link>
       </div>
-      <div>
+      <div className="update-page-components">
         <CategoryUpdateForm />
         <RestaurantUpdateForm />
+        <FoodUpdateForm />
       </div>
     </div>
   );
