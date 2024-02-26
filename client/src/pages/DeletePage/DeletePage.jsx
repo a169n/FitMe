@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./DeletePage.css";
 import CategoryDeleteForm from "../../components/CategoryDeleteForm/CategoryDeleteForm";
 import RestaurantDeleteForm from "../../components/RestaurantDeleteForm/RestaurantDeleteForm";
+import FoodDeleteForm from "../../components/FoodDeleteForm/FoodDeleteForm";
 
 function DeletePage() {
   return (
@@ -15,6 +16,7 @@ function DeletePage() {
       <div className="delete-page-components">
         <CategoryDeleteForm />
         <RestaurantDeleteForm />
+        <FoodDeleteForm />
       </div>
     </div>
   );
