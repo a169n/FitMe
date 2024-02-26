@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
-import { useCreateNewCategoryMutation } from "../../redux/services/categoryApi";
+import { useCreateNewCategoryMutation } from "../../redux/services/categoriesApi";
 import "./CategoryForm.css"; // Import CSS file for styling
 
 const CategoryForm = () => {
