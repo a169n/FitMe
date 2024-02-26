@@ -11,6 +11,7 @@ const store = configureStore({
     [foodsApi.reducerPath]: foodsApi.reducer,
     [categoriesApi.reducerPath]: categoriesApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) => {
@@ -19,6 +20,7 @@ const store = configureStore({
       foodsApi.middleware,
       categoriesApi.middleware,
       authApi.middleware,
+      categoriesApi.middleware,
     ]);
   },
 });

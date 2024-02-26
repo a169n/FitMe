@@ -51,7 +51,11 @@ export default function RestaurantPage() {
       <section className="restaurant-page">
         <div className="restaurant global-padding">
           <div className="restaurant-image">
-            <img src={restaurant_image} alt="restaurant image" />
+            <img  src={
+                    restaurant.image
+                      ? `http://localhost:3000/${restaurant.image}`
+                      : restaurant_image
+                  } alt="restaurant image" />
           </div>
           <div className="restaurant-info">
             <div className="restaurant-name">{restaurant.name}</div>

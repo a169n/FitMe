@@ -24,14 +24,13 @@ export const foodsApi = createApi({
       providesTags: ["Foods"],
     }),
     createNewFood: builder.mutation({
-      query: (newRestaurant) => ({
-        url: "/food",
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${body.get("token")}`,
-        },
-        body: newRestaurant,
-      }),
+      query: (newFood) => {
+        return {
+          url: "/food",
+          method: "POST",
+          body: newFood,
+        };
+      },
       invalidatesTags: ["Foods"],
     }),
     updateFoodById: builder.mutation({
