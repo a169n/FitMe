@@ -11,12 +11,22 @@ import RestaurantPage from "./pages/RestaurantPage/RestaurantPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
-import SearchPage from "./pages/SearchPage/SearchPage"
+import SearchPage from "./pages/SearchPage/SearchPage";
+import CreatePage from "./pages/CreatePage/CreatePage";
+import UpdatePage from "./pages/UpdatePage/UpdatePage";
+import DeletePage from "./pages/DeletePage/DeletePage";
 
 const RouteWrapper = ({ children }) => {
   const navigate = useNavigate();
 
-  const hideNavbarFooterRoutes = ["/login", "/register", "/admin"];
+  const hideNavbarFooterRoutes = [
+    "/login",
+    "/register",
+    "/admin",
+    "/admin/create",
+    "/admin/update",
+    "/admin/delete",
+  ];
 
   const shouldHideNavbarFooter = () => {
     return hideNavbarFooterRoutes.includes(window.location.pathname);
@@ -43,9 +53,11 @@ function App() {
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/admin" element={<AdminPage />} />
           <Route path="/search" element={<SearchPage />} />
-
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/create" element={<CreatePage />} />
+          <Route path="/admin/update" element={<UpdatePage />} />
+          <Route path="/admin/delete" element={<DeletePage />} />
         </Routes>
       </RouteWrapper>
     </Router>

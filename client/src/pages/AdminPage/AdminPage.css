@@ -1,0 +1,36 @@
+.adminPage {
+  text-align: center;
+}
+
+.admin-page-heading {
+  margin-bottom: 20px;
+}
+
+.return-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.return-button:hover {
+  background-color: #c82333;
+}
+
+.admin-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.admin-button:hover {
+  background-color: #0056b3;
+}
+

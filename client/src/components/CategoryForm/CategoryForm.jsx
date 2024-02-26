@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import { useCreateNewCategoryMutation } from "../../redux/services/categoryApi";
+import "./CategoryForm.css"; // Import CSS file for styling
 
 const CategoryForm = () => {
   const [name, setName] = useState("");
@@ -30,19 +31,25 @@ const CategoryForm = () => {
   if (isError) return <p>Error fetching restaurants</p>;
 
   return (
-    <div>
+    <div className="category-form-container">
+      {" "}
+      {/* Added container className */}
       <h2>Create New Category</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Name:</label>
+      <form onSubmit={handleSubmit} className="restaurant-form">
+        {" "}
+        {/* Added restaurant-form className */}
+        <label htmlFor="name">Name:</label>
         <input
           type="text"
+          id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <label>Restaurant:</label>
+        <label htmlFor="restaurant">Restaurant:</label>
         <select
-          value={restaurant._id}
+          id="restaurant"
+          value={restaurant}
           onChange={(e) => setRestaurant(e.target.value)}
           required
         >
@@ -55,7 +62,9 @@ const CategoryForm = () => {
         </select>
         <button type="submit">Submit</button>
       </form>
+      {/* Success message with conditional rendering */}
       {successMessage && <p className="success-message">{successMessage}</p>}
+      {/* Error message with conditional rendering */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );

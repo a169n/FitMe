@@ -3,10 +3,7 @@ const fs = require("fs");
 
 const getAllRestaurants = async (req, res) => {
   try {
-    const restaurants = await Restaurant.find({}).populate({
-      path: "categories",
-      populate: { path: "foods" },
-    });
+    const restaurants = await Restaurant.find({}).populate("categories");
     res.status(200).json(restaurants);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -23,13 +20,17 @@ const createNewRestaurant = async (req, res) => {
 };
 
 const getRestaurantById = async (req, res) => {
-  const restaurant = await Restaurant.findById(req.params.id).populate(
-    "categories"
-  );
-  if (!restaurant) {
-    return res.status(404).json({ message: "Restaurant not found" });
+  try {
+    const restaurant = await Restaurant.findById(req.params.id).populate(
+      "categories"
+    );
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+    res.status(200).json(restaurant);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  res.status(200).json(restaurant);
 };
 
 const searchRestaurant = async (req, res) => {
