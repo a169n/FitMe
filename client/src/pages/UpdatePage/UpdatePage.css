@@ -20,3 +20,9 @@
 .update-page-section button:hover {
   background-color: #0056b3;
 }
+
+.update-page-components {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
