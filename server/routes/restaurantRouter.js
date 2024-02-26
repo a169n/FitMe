@@ -19,7 +19,7 @@ router.get("/restaurants", getAllRestaurants);
 router.get("/restaurant/:id", getRestaurantById);
 router.get("/restaurants/search", searchRestaurant);
 router.post("/restaurants", upload.single("image"), createNewRestaurant);
-router.put("/restaurant/:id", updateRestaurantById);
+router.put("/restaurant/:id", upload.single("image"), updateRestaurantById);
 router.delete("/restaurant/:id", deleteRestaurantById);
 router.delete("/restaurants/clear", protect, deleteAllRestaurants);
 

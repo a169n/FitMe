@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import CategoryUpdateForm from "../../components/CategoryUpdateForm/CategoryUpdateForm";
-import "./UpdatePage.css"
+import RestaurantUpdateForm from "../../components/RestaurantUpdateForm/RestaurantUpdateForm";
+import "./UpdatePage.css";
 
 function UpdatePage() {
   return (
@@ -13,6 +14,7 @@ function UpdatePage() {
       </div>
       <div>
         <CategoryUpdateForm />
+        <RestaurantUpdateForm />
       </div>
     </div>
   );

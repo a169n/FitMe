@@ -44,15 +44,39 @@ const searchRestaurant = async (req, res) => {
 };
 
 const updateRestaurantById = async (req, res) => {
-  const updatedRestaurant = await Restaurant.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
-  if (!updatedRestaurant) {
-    return res.status(404).json({ message: "Restaurant not found" });
+  const { id } = req.params;
+  try {
+    let updates = req.body;
+
+    if (req.file) {
+      const imagePath = req.file.path;
+      const restaurant = await Restaurant.findById(id);
+      if (restaurant && restaurant.image) {
+        const oldImagePath = `./${restaurant.image.split("\\").join("/")}`;
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        } else {
+          console.error(`File does not exist: ${oldImagePath}`);
+        }
+      }
+      updates.image = imagePath;
+    }
+
+    const updatedRestaurant = await Restaurant.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+
+    if (!updatedRestaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    res.status(200).json(updatedRestaurant);
+  } catch (error) {
+    res.status(500).json({
+      message: `Error updating restaurant with id ${id}`,
+      error: error,
+    });
   }
-  res.status(200).json(updatedRestaurant);
 };
 
 const deleteRestaurantById = async (req, res) => {
