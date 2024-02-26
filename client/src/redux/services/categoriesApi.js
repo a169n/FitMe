@@ -27,7 +27,7 @@ export const categoriesApi = createApi({
       }),
       invalidatesTags: ["Category"],
     }),
-    updateFoodById: builder.mutation({
+    updateCategoryById: builder.mutation({
       query: ({ id, ...updates }) => ({
         url: `/category/${id}`,
         method: "PUT",
