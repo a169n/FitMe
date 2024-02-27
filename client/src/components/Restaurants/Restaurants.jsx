@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import restaurant_image from "../../assets/restaurant-icon.png";
@@ -10,6 +11,8 @@ import priceIcon from "../../assets/price.svg";
 import "./Restaurants.css";
 
 export default function Restaurants() {
+  const { t } = useTranslation();
+
   const {
     data: restaurantsData,
     isLoading: restaurantsIsLoading,
@@ -30,13 +33,13 @@ export default function Restaurants() {
     foodsIsLoading ||
     foodsIsFetching
   ) {
-    return <h1 className="loading">Loading...</h1>;
+    return <h1 className="loading">{t("loading")}</h1>;
   }
 
   return (
     <div className="hero-section global-padding">
       <div className="restaurants">
-        <p className="hero-section-header">Nearby Restaurants</p>
+        <p className="hero-section-header">{t("nearbyRestaurants")}</p>
         <div className="hero-section-container">
           {restaurantsData.slice(0, 4).map((restaurant) => (
             <div className="hero-section-card" key={restaurant._id}>
@@ -79,7 +82,7 @@ export default function Restaurants() {
         </div>
       </div>
       <div className="foods">
-        <p className="hero-section-header">Recommended Food Items</p>
+        <p className="hero-section-header">{t("recommendedFoodItems")}</p>
         <div className="hero-section-container">
           {foodsData.map((food) => (
             <Link className="link" to={`/food/${food._id}`} key={food._id}>

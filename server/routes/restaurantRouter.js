@@ -8,6 +8,7 @@ const {
   updateRestaurantById,
   searchRestaurant,
   deleteAllRestaurants,
+  addImageToRestaurant,
 } = require("../controllers/restaurantController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -20,6 +21,11 @@ router.get("/restaurant/:id", getRestaurantById);
 router.get("/restaurants/search", searchRestaurant);
 router.post("/restaurants", upload.single("image"), createNewRestaurant);
 router.put("/restaurant/:id", upload.single("image"), updateRestaurantById);
+router.put(
+  "/restaurant/:id/add-image",
+  upload.single("image"),
+  addImageToRestaurant
+);
 router.delete("/restaurant/:id", deleteRestaurantById);
 router.delete("/restaurants/clear", protect, deleteAllRestaurants);
 
