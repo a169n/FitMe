@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
+import { useTranslation } from "react-i18next";
 
 export default function SearchPage() {
+  const { t } = useTranslation();
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchString = queryParams.get("searchString");
@@ -21,25 +24,29 @@ export default function SearchPage() {
   } = useSearchFoodsQuery(searchString);
 
   if (restaurantLoading || foodLoading) {
-    return <p>Loading...</p>;
+    return <p>{t("loading")}</p>;
   }
 
   if (restaurantError || foodError) {
-    return <p>Error: {restaurantError || foodError}</p>;
+    return (
+      <p>
+        {t("error")}: {restaurantError || foodError}
+      </p>
+    );
   }
 
   if (
     (!restaurantResults || restaurantResults.length === 0) &&
     (!foodResults || foodResults.length === 0)
   ) {
-    return <p>No results found</p>;
+    return <p>{t("noResultsFound")}</p>;
   }
 
   return (
     <div className="search-page-container">
       {restaurantResults && restaurantResults.length > 0 && (
         <div>
-          <h1>Search Results for Restaurants: {searchString}</h1>
+          <h1>{t("restaurantSearchResults", { searchString })}</h1>
           <ul>
             {restaurantResults.map((restaurant, index) => (
               <li key={index}>{restaurant.name}</li>
@@ -50,7 +57,7 @@ export default function SearchPage() {
 
       {foodResults && foodResults.length > 0 && (
         <div>
-          <h1>Search Results for Foods: {searchString}</h1>
+          <h1>{t("foodSearchResults", { searchString })}</h1>
           <ul>
             {foodResults.map((food, index) => (
               <li key={index}>{food.name}</li>

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../../hooks/useUser";
 import "./RestaurantCreateForm.css";
-import { useCreateNewRestaurantMutation } from "../../redux/services/restaurantsApi";
+import {
+  useCreateNewRestaurantMutation,
+  useAddImageToRestaurantMutation,
+  useGetRestaurantsQuery,
+} from "../../redux/services/restaurantsApi";
 
 const RestaurantForm = () => {
   const user = useUser();
+  const { data: restaurants } = useGetRestaurantsQuery();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -12,6 +17,8 @@ const RestaurantForm = () => {
   const [address, setAddress] = useState("");
   const [image, setImage] = useState(null);
   const [keywords, setKeywords] = useState("");
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState("");
+  const [additionalImage, setAdditionalImage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -19,7 +26,12 @@ const RestaurantForm = () => {
     setImage(e.target.files[0]);
   };
 
+  const handleAdditionalImageChange = (e) => {
+    setAdditionalImage(e.target.files[0]);
+  };
+
   const [createRestaurant] = useCreateNewRestaurantMutation();
+  const [addImageToRestaurant] = useAddImageToRestaurantMutation();
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -60,6 +72,32 @@ const RestaurantForm = () => {
     }
   };
 
+  const handleAdditionalImageSubmit = async () => {
+  if (!selectedRestaurantId || !additionalImage) {
+    setErrorMessage("Please select a restaurant and choose an image.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("id", selectedRestaurantId);
+  formData.append("image", additionalImage);
+
+  try {
+    setErrorMessage("");
+    await addImageToRestaurant({
+      id: selectedRestaurantId,
+      image: formData,
+    }).unwrap();
+    setSuccessMessage("Image added to restaurant successfully!");
+    setAdditionalImage(null);
+    setSelectedRestaurantId("");
+  } catch (err) {
+    setErrorMessage("Failed to add image to restaurant. Please try again.");
+    console.error(err);
+  }
+};
+
+
   return (
     <div className="restaurant-form">
       <h1>Create New Restaurant</h1>
@@ -95,6 +133,27 @@ const RestaurantForm = () => {
       />
       <input type="file" accept="image/*" onChange={handleFileChange} />
       <button onClick={handleSubmit}>Submit</button>
+
+      <h2>Add Additional Image</h2>
+      <select
+        value={selectedRestaurantId}
+        onChange={(e) => setSelectedRestaurantId(e.target.value)}
+      >
+        <option value="">Select Restaurant</option>
+        {restaurants &&
+          restaurants.map((restaurant) => (
+            <option key={restaurant._id} value={restaurant._id}>
+              {restaurant.name}
+            </option>
+          ))}
+      </select>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleAdditionalImageChange}
+      />
+      <button onClick={handleAdditionalImageSubmit}>Add Image</button>
+
       {successMessage && (
         <div className="success-message">{successMessage}</div>
       )}

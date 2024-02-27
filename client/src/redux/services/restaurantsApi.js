@@ -34,7 +34,6 @@ export const restaurantsApi = createApi({
       }),
       invalidatesTags: ["Restaurants"],
     }),
-
     updateRestaurantById: builder.mutation({
       query: ({ id, ...updates }) => ({
         url: `/restaurant/${id}`,
@@ -50,22 +49,28 @@ export const restaurantsApi = createApi({
       }),
       invalidatesTags: ["Restaurants"],
     }),
+    addImageToRestaurant: builder.mutation({
+      query: ({ id, image }) => ({
+        url: `/restaurant/${id}/add-image`,
+        method: "PUT",
+        body: image,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Restaurants", id }],
+    }),
   }),
 });
 
 export const {
-  // GET /restaurants
   useGetRestaurantsQuery,
   useLazyGetRestaurantsQuery,
-  // GET /restaurants/:id
   useGetRestaurantByIdQuery,
-  // GET /restaurants/search
   useSearchRestaurantsQuery,
   useLazySearchRestaurantsQuery,
-  // POST /restaurant
   useCreateNewRestaurantMutation,
-  // PUT /restaurant/:id
   useUpdateRestaurantByIdMutation,
-  // DELETE /restaurant/:id
   useDeleteRestaurantByIdMutation,
+  useAddImageToRestaurantMutation,
 } = restaurantsApi;

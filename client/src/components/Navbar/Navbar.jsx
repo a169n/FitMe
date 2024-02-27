@@ -3,13 +3,16 @@ import "./Navbar.css";
 import logo from "../../assets/logo.svg";
 import bag from "../../assets/bag.svg";
 import search from "../../assets/search.svg";
+import { useTranslation } from "react-i18next";
 import { useLazySearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slices/authSlice";
+import i18n from "../../../i18n"
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchString, setSearchString] = useState("");
   const dispatch = useDispatch();
@@ -23,13 +26,19 @@ export default function Navbar() {
       navigate(`/search?searchString=${searchString}`);
     } catch (error) {
       console.error("Error searching restaurants:", error);
-      alert("Failed to search restaurants. Please try again later.");
+      alert(t("failedToSearchRestaurants"));
     }
   };
 
   const handleSignOut = () => {
     dispatch(logoutUser());
     window.location.reload();
+  };
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng).then(() => {
+      document.documentElement.lang = lng;
+    });
   };
 
   return (
@@ -45,7 +54,7 @@ export default function Navbar() {
           <input
             className="nav-input"
             type="text"
-            placeholder="Enter item or restaurant you are looking for"
+            placeholder={t("searchPlaceholder")}
             value={searchString}
             onChange={(event) => setSearchString(event.target.value)}
           />
@@ -61,13 +70,24 @@ export default function Navbar() {
           </button>
         </div>
         <div>
+          <select
+            className="language-select"
+            onChange={(e) => changeLanguage(e.target.value)}
+            value={i18n.language}
+          >
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+            <option value="kz">KZ</option>
+          </select>
+        </div>
+        <div>
           {user ? (
             <button className="sign-in-button" onClick={handleSignOut}>
-              Log out ({user.username})
+              {t("logOut", { username: user.username })}{" "}
             </button>
           ) : (
             <Link className="link" to={"/login"}>
-              <button className="sign-in-button">Sign in</button>
+              <button className="sign-in-button">{t("signIn")}</button>{" "}
             </Link>
           )}
         </div>

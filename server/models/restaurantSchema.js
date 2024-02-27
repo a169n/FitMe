@@ -8,7 +8,7 @@ const restaurantSchema = mongoose.Schema(
     region: String,
     rating: Number,
     keywords: [String],
-    image: String,
+    image: [String],
     categories: [
       {
         type: mongoose.Schema.Types.ObjectId,

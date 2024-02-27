@@ -43,6 +43,29 @@ const searchRestaurant = async (req, res) => {
   res.status(200).json(restaurants);
 };
 
+const addImageToRestaurant = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const imagePath = req.file.path;
+
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    restaurant.image.push(imagePath);
+
+    const updatedRestaurant = await restaurant.save();
+
+    res.status(200).json(updatedRestaurant);
+  } catch (error) {
+    res.status(500).json({
+      message: `Error adding image to restaurant with id ${id}`,
+      error: error,
+    });
+  }
+};
+
 const updateRestaurantById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -101,6 +124,7 @@ module.exports = {
   createNewRestaurant,
   searchRestaurant,
   getRestaurantById,
+  addImageToRestaurant,
   updateRestaurantById,
   deleteRestaurantById,
   deleteAllRestaurants,

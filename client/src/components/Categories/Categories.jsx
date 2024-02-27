@@ -1,13 +1,15 @@
+import React from "react";
 import "./Categories.css";
+import { useTranslation } from "react-i18next";
 import { useGetCategoriesQuery } from "../../redux/services/categoriesApi";
 import categoryImg from "../../assets/category-img.jpeg";
 
 export default function Categories() {
+  const { t } = useTranslation();
   const {
     data: categoriesData,
     isLoading: categoriesIsLoading,
     isFetching: categoriesIsFetching,
-    isError: categoriesIsError,
   } = useGetCategoriesQuery();
 
   if (categoriesIsFetching || categoriesIsLoading) {
@@ -18,11 +20,11 @@ export default function Categories() {
 
   return (
     <div className="categories-container global-padding">
-      <h2 className="categories-header">What’s on your mind?</h2>
+      <h2 className="categories-header">{t("whatsOnYourMind")}</h2>
       <div className="categories">
         {firstSixCategories.map((category) => (
           <div className="category-card" key={category._id}>
-            <img className="category-img" src={categoryImg} />
+            <img className="category-img" src={categoryImg} alt="category" />
             <p key={category._id}>{category.name}</p>
           </div>
         ))}
@@ -30,17 +32,3 @@ export default function Categories() {
     </div>
   );
 }
-
-
-// — add restaurantCategories and globalCategories
-// — make restaurant Page
-// — implement Nearby restaurants
-// — implement random Foods
-// — implement Search input
-// — make page as Admin page
-// — save images in DB
-// — make adaptive
-// — implement slider in Main
-// — small corrections in css
-// — add input fields
-// — add 'X' to delete

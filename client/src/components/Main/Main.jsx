@@ -1,3 +1,4 @@
+import React from "react";
 import "./Main.css";
 import banana from "../../assets/banana.svg";
 import apple from "../../assets/apple.svg";
@@ -6,48 +7,46 @@ import main_pic2 from "../../assets/main-pic2.jpeg";
 import main_pic3 from "../../assets/main-pic3.jpeg";
 import main_pictures from "../../assets/main-images.png";
 import union from "../../assets/union.svg";
+import { useTranslation } from "react-i18next";
 
 export default function Main() {
+  const { t } = useTranslation();
+
   return (
     <main className="main global-padding">
-      <img id="union" src={union} />
+      <img id="union" src={union} alt="union-icon" />
       <div className="main-container">
         <div className="main-header">
           <div>
             <h2>
-              Premium <span>quality</span> <br />
-              Food for your
+              {t("mainHeader1")} <span>{t("quality")}</span> <br />
+              {t("mainHeader2")}
               <div className="banana-layer">
                 <img src={banana} alt="banana-icon" />
               </div>
-              <span>healthy</span>
+              <span>{t("healthy")}</span>
               <br />
               <div className="apple-layer">
-                <img src={apple} alt="" />
+                <img src={apple} alt="apple-icon" />
               </div>
-              <span>& Daily life</span>
+              <span>& {t("dailyLife")}</span>
             </h2>
           </div>
           <div>
-            <p className="main-p">
-              Our mission is to provide you with access to the freshest,
-              highest-quality foods to support your health and vitality. Whether
-              you're looking for nutrient-rich ingredients or delicious meals to
-              fuel your daily life, we've got you covered!
-            </p>
+            <p className="main-p">{t("mainParagraph")}</p>
           </div>
           <div className="main-input-container">
             <input
               className="main-input"
               type="text"
-              placeholder="Enter item or restaurant you are looking for"
+              placeholder={t("mainPlaceholder")}
             />
-            <button className="get-started-button">Get Started</button>
+            <button className="get-started-button">{t("getStarted")}</button>
           </div>
         </div>
 
         <div className="main-slider">
-          <img id="main_pic1" src={main_pic1} />
+          <img id="main_pic1" src={main_pic1} alt="main-pic" />
         </div>
       </div>
     </main>
