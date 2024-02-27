@@ -86,7 +86,11 @@ export default function Restaurants() {
               <div className="hero-section-card" key={food._id}>
                 <img
                   className="restaurant-image"
-                  src={restaurant_image}
+                  src={
+                    food.image
+                      ? `http://localhost:3000/${food.image}`
+                      : restaurant_image
+                  }
                   alt="food-image"
                 />
                 <h3 className="card-header">{food.name}</h3>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import { useCreateNewCategoryMutation } from "../../redux/services/categoriesApi";
-import "./CategoryForm.css"; // Import CSS file for styling
+import "./CategoryCreateForm.css";
 
 const CategoryForm = () => {
   const [name, setName] = useState("");
@@ -21,9 +21,18 @@ const CategoryForm = () => {
       setSuccessMessage("Category created successfully!");
       setName("");
       setRestaurant("");
+
+      setTimeout(() => {
+        setSuccessMessage("");
+        window.location.reload();
+      }, 3000);
     } catch (error) {
       setErrorMessage("Failed to create category. Please try again.");
       console.error(error);
+
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
     }
   };
 
@@ -32,12 +41,8 @@ const CategoryForm = () => {
 
   return (
     <div className="category-form-container">
-      {" "}
-      {/* Added container className */}
       <h2>Create New Category</h2>
       <form onSubmit={handleSubmit} className="restaurant-form">
-        {" "}
-        {/* Added restaurant-form className */}
         <label htmlFor="name">Name:</label>
         <input
           type="text"
@@ -62,9 +67,7 @@ const CategoryForm = () => {
         </select>
         <button type="submit">Submit</button>
       </form>
-      {/* Success message with conditional rendering */}
       {successMessage && <p className="success-message">{successMessage}</p>}
-      {/* Error message with conditional rendering */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );

@@ -73,14 +73,6 @@ function FoodUpdateForm() {
     }
   };
 
-  const handleInputChange = (e, field) => {
-    const value = e.target.value;
-    setFoodData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -128,11 +120,15 @@ function FoodUpdateForm() {
             className="form-select"
           >
             <option value="">Select Category</option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
+            {categories
+              .filter(
+                (category) => category.restaurant === selectedRestaurant
+              )
+              .map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
           </select>
         </div>
       )}
@@ -148,11 +144,15 @@ function FoodUpdateForm() {
             className="form-select"
           >
             <option value="">Select Food</option>
-            {foods.map((food) => (
-              <option key={food._id} value={food._id}>
-                {food.name}
-              </option>
-            ))}
+            {foods
+              .filter(
+                (food) => food.category === selectedCategory
+              )
+              .map((food) => (
+                <option key={food._id} value={food._id}>
+                  {food.name}
+                </option>
+              ))}
           </select>
         </div>
       )}
