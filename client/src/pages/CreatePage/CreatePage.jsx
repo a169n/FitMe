@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import CategoryForm from "../../components/CategoryForm/CategoryForm";
-import FoodForm from "../../components/FoodForm/FoodForm";
-import RestaurantForm from "../../components/RestaurantForm/RestaurantForm";
+import CategoryCreateForm from "../../components/CategoryCreateForm/CategoryCreateForm";
+import FoodCreateForm from "../../components/FoodCreateForm/FoodCreateForm";
+import RestaurantCreateForm from "../../components/RestaurantCreateForm/RestaurantCreateForm";
 import "./CreatePage.css";
 
 function CreatePage() {
@@ -15,11 +15,11 @@ function CreatePage() {
       </div>
       <div className="form-section">
         <div>
-          <RestaurantForm />
-          <CategoryForm />
+          <RestaurantCreateForm />
+          <CategoryCreateForm />
         </div>
         <div>
-          <FoodForm />
+          <FoodCreateForm />
         </div>
       </div>
     </div>

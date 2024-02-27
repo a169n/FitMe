@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import { useCreateNewFoodMutation } from "../../redux/services/foodsApi";
-import "./FoodForm.css"; // Import CSS file for styling
+import "./FoodCreateForm.css";
 
 const FoodForm = () => {
   const [name, setName] = useState("");
@@ -70,12 +70,8 @@ const FoodForm = () => {
 
   return (
     <div className="food-form-container">
-      {" "}
-      {/* Added container className */}
       <h2>Create New Food</h2>
       <form onSubmit={handleSubmit} className="restaurant-form">
-        {" "}
-        {/* Added restaurant-form className */}
         <label htmlFor="name">Name:</label>
         <input
           type="text"

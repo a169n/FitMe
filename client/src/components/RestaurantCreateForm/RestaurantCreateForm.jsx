@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useUser";
-import "./RestaurantForm.css";
+import "./RestaurantCreateForm.css";
 import { useCreateNewRestaurantMutation } from "../../redux/services/restaurantsApi";
 
 const RestaurantForm = () => {
@@ -9,6 +9,7 @@ const RestaurantForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [region, setRegion] = useState("");
+  const [address, setAddress] = useState("");
   const [image, setImage] = useState(null);
   const [keywords, setKeywords] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -25,6 +26,7 @@ const RestaurantForm = () => {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("region", region);
+    formData.append("address", address);
     formData.append("image", image);
 
     const keywordsArray = keywords.split(",").map((keyword) => keyword.trim());
@@ -32,7 +34,6 @@ const RestaurantForm = () => {
     for (let i = 0; i < keywordsArray.length; i++) {
       formData.append("keywords[]", keywordsArray[i]);
     }
-
 
     try {
       setSuccessMessage("");
@@ -42,8 +43,17 @@ const RestaurantForm = () => {
       setName("");
       setDescription("");
       setRegion("");
+      setAddress("");
       setKeywords("");
       setImage(null);
+
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     } catch (err) {
       setErrorMessage("Failed to create restaurant. Please try again.");
       console.error(err);
@@ -52,7 +62,7 @@ const RestaurantForm = () => {
 
   return (
     <div className="restaurant-form">
-    <h1>Create New Restaurant</h1>
+      <h1>Create New Restaurant</h1>
       <input
         type="text"
         placeholder="Name"
@@ -70,6 +80,12 @@ const RestaurantForm = () => {
         placeholder="Region"
         value={region}
         onChange={(e) => setRegion(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
       />
       <input
         type="text"
