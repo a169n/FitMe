@@ -1,0 +1,39 @@
+.recipes-api {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.recipes-api h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.recipes-api form {
+  margin-bottom: 20px;
+}
+
+.recipes-api label {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.recipes-api input[type="text"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.recipes-api input[type="text"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.recipes-api p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}

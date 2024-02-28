@@ -15,6 +15,7 @@ import SearchPage from "./pages/SearchPage/SearchPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
 import UpdatePage from "./pages/UpdatePage/UpdatePage";
 import DeletePage from "./pages/DeletePage/DeletePage";
+import ApiPage from "./pages/ApiPage/ApiPage";
 
 const RouteWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ function App() {
             path="/restaurant/:restaurantId"
             element={<RestaurantPage />}
           />
+          <Route path="/api" element={<ApiPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/search" element={<SearchPage />} />
