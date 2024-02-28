@@ -67,22 +67,32 @@ const addImageToRestaurant = async (req, res) => {
 };
 
 const updateRestaurantById = async (req, res) => {
+  // console.log("req file => ", req.files);
+
   const { id } = req.params;
+
   try {
     let updates = req.body;
 
-    if (req.file) {
-      const imagePath = req.file.path;
+    if (req.files) {
+      const imagePaths = req.files.map((file) => file.path);
       const restaurant = await Restaurant.findById(id);
       if (restaurant && restaurant.image) {
-        const oldImagePath = `./${restaurant.image.split("\\").join("/")}`;
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        } else {
-          console.error(`File does not exist: ${oldImagePath}`);
-        }
+        const oldImagePaths = restaurant.image.map(
+          (oldPath) => `./${oldPath.split("\\").join("/")}`
+        );
+
+        console.log("oldImagePaths => ", oldImagePaths);
+
+        oldImagePaths.forEach((path) => {
+          if (fs.existsSync(path)) {
+            fs.unlinkSync(path);
+          } else {
+            console.error(`File does not exist: ${path}`);
+          }
+        });
       }
-      updates.image = imagePath;
+      updates.image = imagePaths;
     }
 
     const updatedRestaurant = await Restaurant.findByIdAndUpdate(id, updates, {

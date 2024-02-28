@@ -15,23 +15,24 @@ const RestaurantForm = () => {
   const [description, setDescription] = useState("");
   const [region, setRegion] = useState("");
   const [address, setAddress] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
   const [keywords, setKeywords] = useState("");
   const [selectedRestaurantId, setSelectedRestaurantId] = useState("");
-  const [additionalImage, setAdditionalImage] = useState(null);
+  // const [additionalImage, setAdditionalImage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleFileChange = (e) => {
-    setImage(e.target.files[0]);
+    setImage(e.target.files);
+    console.log("files input", e.target.files);
   };
 
-  const handleAdditionalImageChange = (e) => {
-    setAdditionalImage(e.target.files[0]);
-  };
+  // const handleAdditionalImageChange = (e) => {
+  //   setAdditionalImage(e.target.files[0]);
+  // };
 
   const [createRestaurant] = useCreateNewRestaurantMutation();
-  const [addImageToRestaurant] = useAddImageToRestaurantMutation();
+  // const [addImageToRestaurant] = useAddImageToRestaurantMutation();
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -72,31 +73,30 @@ const RestaurantForm = () => {
     }
   };
 
-  const handleAdditionalImageSubmit = async () => {
-  if (!selectedRestaurantId || !additionalImage) {
-    setErrorMessage("Please select a restaurant and choose an image.");
-    return;
-  }
+  // const handleAdditionalImageSubmit = async () => {
+  //   if (!selectedRestaurantId || !additionalImage) {
+  //     setErrorMessage("Please select a restaurant and choose an image.");
+  //     return;
+  //   }
 
-  const formData = new FormData();
-  formData.append("id", selectedRestaurantId);
-  formData.append("image", additionalImage);
+  //   const formData = new FormData();
+  //   formData.append("id", selectedRestaurantId);
+  //   formData.append("image", additionalImage);
 
-  try {
-    setErrorMessage("");
-    await addImageToRestaurant({
-      id: selectedRestaurantId,
-      image: formData,
-    }).unwrap();
-    setSuccessMessage("Image added to restaurant successfully!");
-    setAdditionalImage(null);
-    setSelectedRestaurantId("");
-  } catch (err) {
-    setErrorMessage("Failed to add image to restaurant. Please try again.");
-    console.error(err);
-  }
-};
-
+  //   try {
+  //     setErrorMessage("");
+  //     await addImageToRestaurant({
+  //       id: selectedRestaurantId,
+  //       image: formData,
+  //     }).unwrap();
+  //     setSuccessMessage("Image added to restaurant successfully!");
+  //     setAdditionalImage(null);
+  //     setSelectedRestaurantId("");
+  //   } catch (err) {
+  //     setErrorMessage("Failed to add image to restaurant. Please try again.");
+  //     console.error(err);
+  //   }
+  // };
 
   return (
     <div className="restaurant-form">
@@ -131,7 +131,12 @@ const RestaurantForm = () => {
         value={keywords}
         onChange={(e) => setKeywords(e.target.value)}
       />
-      <input type="file" accept="image/*" onChange={handleFileChange} />
+      {/* <input
+        multiple="true"
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+      /> */}
       <button onClick={handleSubmit}>Submit</button>
 
       <h2>Add Additional Image</h2>
@@ -148,11 +153,12 @@ const RestaurantForm = () => {
           ))}
       </select>
       <input
+        multiple={true}
         type="file"
         accept="image/*"
-        onChange={handleAdditionalImageChange}
+        onChange={handleFileChange}
       />
-      <button onClick={handleAdditionalImageSubmit}>Add Image</button>
+      <button onClick={handleSubmit}>Add Images</button>
 
       {successMessage && (
         <div className="success-message">{successMessage}</div>
