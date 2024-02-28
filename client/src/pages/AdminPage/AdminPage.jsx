@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import "./AdminPage.css"; // Import the CSS file
+import Users from "../../components/Users/Users";
 
 export default function AdminPage() {
   const dispatch = useDispatch();
@@ -29,6 +30,9 @@ export default function AdminPage() {
         <Link className="link" to={"/admin/delete"}>
           <button className="admin-button">Delete</button>
         </Link>
+      </div>
+      <div>
+        <Users />
       </div>
     </div>
   );

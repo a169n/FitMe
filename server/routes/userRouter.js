@@ -7,7 +7,8 @@ const {
   createNewUser,
   updateUserById,
   searchUsers,
-  makeUserAdminById
+  makeUserAdminById,
+  removeUserAdminById,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -19,6 +20,7 @@ router.get("/user/:id", getUserById);
 router.post("/user", createNewUser);
 router.put("/user/:id", updateUserById);
 router.put("/user/:id/make-admin", makeUserAdminById);
-router.delete("/user/:id", protect, deleteUserById);
+router.put("/user/:id/remove-admin", removeUserAdminById);
+router.delete("/user/:id", deleteUserById);
 
 module.exports = router;

@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slices/authSlice";
-import i18n from "../../../i18n"
+import i18n from "../../../i18n";
 
 export default function Navbar() {
   const { t } = useTranslation();
@@ -49,6 +49,7 @@ export default function Navbar() {
           <h4 className="nav-header">FitMe</h4>
         </div>
       </Link>
+      <Link className="link" to={"/api"}><button className="api-button">APIs</button></Link>
       <div className="nav2">
         <div>
           <input
@@ -75,9 +76,9 @@ export default function Navbar() {
             onChange={(e) => changeLanguage(e.target.value)}
             value={i18n.language}
           >
-            <option value="en">EN</option>
-            <option value="ru">RU</option>
-            <option value="kz">KZ</option>
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+            <option value="kz">Қазақша</option>
           </select>
         </div>
         <div>
