@@ -19,7 +19,7 @@ const router = express.Router();
 router.get("/restaurants", getAllRestaurants);
 router.get("/restaurant/:id", getRestaurantById);
 router.get("/restaurants/search", searchRestaurant);
-router.post("/restaurants", upload.single("image"), createNewRestaurant);
+router.post("/restaurants", upload.array("image", 5), createNewRestaurant);
 router.put("/restaurant/:id", upload.array("image", 5), updateRestaurantById);
 router.put(
   "/restaurant/:id/add-image",

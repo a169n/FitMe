@@ -11,12 +11,16 @@ const getAllRestaurants = async (req, res) => {
 };
 
 const createNewRestaurant = async (req, res) => {
-  const imagePath = req.file.path;
-  const restaurant = await Restaurant.create({
-    ...req.body,
-    image: imagePath,
-  });
-  res.status(201).json(restaurant);
+  const imagePaths = req.files.map((file) => file.path);
+  try {
+    const restaurant = await Restaurant.create({
+      ...req.body,
+      images: imagePaths,
+    });
+    res.status(201).json(restaurant);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const getRestaurantById = async (req, res) => {
@@ -67,8 +71,6 @@ const addImageToRestaurant = async (req, res) => {
 };
 
 const updateRestaurantById = async (req, res) => {
-  // console.log("req file => ", req.files);
-
   const { id } = req.params;
 
   try {
