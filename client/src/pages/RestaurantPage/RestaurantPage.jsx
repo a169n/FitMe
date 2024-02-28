@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   useGetRestaurantByIdQuery,
@@ -8,8 +9,8 @@ import "./RestaurantPage.css";
 import search from "../../assets/search.svg";
 import offer from "../../assets/offer.svg";
 import favourite from "../../assets/favourite.svg";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import Slider from "react-slick";
 
 export default function RestaurantPage() {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ export default function RestaurantPage() {
   } = useGetRestaurantByIdQuery(restaurantId);
 
   const [searchString, setSearchString] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const [searchRestaurants] = useLazySearchRestaurantsQuery();
 
@@ -32,9 +34,30 @@ export default function RestaurantPage() {
       console.log("Search response:", response);
     } catch (error) {
       console.error("Error searching restaurants:", error);
-      alert(t("failedToSearchRestaurants")); // Access translated string
+      alert(t("failedToSearchRestaurants"));
     }
   };
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    beforeChange: (current, next) => setCurrentIndex(next),
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === (restaurant?.images?.length || 0) - 1 ? 0 : prevIndex + 1
+      );
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [restaurant?.images?.length]);
 
   if (isLoading) {
     return <div className="loading">{t("loading")}</div>;
@@ -52,14 +75,16 @@ export default function RestaurantPage() {
     <section className="restaurant-page">
       <div className="restaurant global-padding">
         <div className="restaurant-image">
-          <img
-            src={
-              restaurant.image
-                ? `http://localhost:3000/${restaurant.image}`
-                : restaurant_image
-            }
-            alt="restaurant image"
-          />
+          <Slider {...sliderSettings} initialSlide={currentIndex}>
+            {(restaurant?.images || []).map((image, index) => (
+              <img
+                key={index}
+                className="restaurant-image"
+                src={`http://localhost:3000/${image}`}
+                alt={`restaurant-image-${index}`}
+              />
+            ))}
+          </Slider>
         </div>
         <div className="restaurant-info">
           <div className="restaurant-name">{restaurant.name}</div>

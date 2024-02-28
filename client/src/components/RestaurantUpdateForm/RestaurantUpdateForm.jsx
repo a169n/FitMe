@@ -8,7 +8,10 @@ function RestaurantUpdateForm() {
   const [selectedOption, setSelectedOption] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [restaurantData, setRestaurantData] = useState({});
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState([]);
+
+  // console.log("FILES", imageFile);
+
   const [isLoading, setIsLoading] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [updateError, setUpdateError] = useState("");
@@ -32,6 +35,16 @@ function RestaurantUpdateForm() {
   const handleUpdate = async () => {
     try {
       setIsLoading(true);
+
+      const formData = new FormData();
+
+      console.log("FILES", imageFile);
+
+      formData.append("image", imageFile);
+      formData.append("id", selectedRestaurant);
+
+      // console.log(formData);
+
       let updates = { [selectedOption]: inputValue };
 
       if (imageFile) {
@@ -45,10 +58,10 @@ function RestaurantUpdateForm() {
         updates.keywords = keywordsArray;
       }
 
-      await updateRestaurant({ id: selectedRestaurant, ...updates }).unwrap();
+      await updateRestaurant(formData).unwrap();
       setUpdateSuccess(true);
       setInputValue("");
-      setImageFile(null);
+      setImageFile([]);
       setIsLoading(false);
       setTimeout(() => setUpdateSuccess(false), 3000);
     } catch (error) {
@@ -67,8 +80,9 @@ function RestaurantUpdateForm() {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
+    const files = e.target.files;
+
+    setImageFile(files);
   };
 
   if (restaurantsLoading) return <p>Loading...</p>;
@@ -139,6 +153,7 @@ function RestaurantUpdateForm() {
                 Upload New Image:
               </label>
               <input
+                multiple={true}
                 type="file"
                 id="image"
                 accept="image/*"

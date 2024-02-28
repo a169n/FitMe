@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import "./RestaurantCreateForm.css";
 import {
   useCreateNewRestaurantMutation,
-  useAddImageToRestaurantMutation,
   useGetRestaurantsQuery,
 } from "../../redux/services/restaurantsApi";
 
@@ -15,23 +14,16 @@ const RestaurantForm = () => {
   const [description, setDescription] = useState("");
   const [region, setRegion] = useState("");
   const [address, setAddress] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
   const [keywords, setKeywords] = useState("");
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState("");
-  const [additionalImage, setAdditionalImage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleFileChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
-  const handleAdditionalImageChange = (e) => {
-    setAdditionalImage(e.target.files[0]);
+    setImage(e.target.files);
   };
 
   const [createRestaurant] = useCreateNewRestaurantMutation();
-  const [addImageToRestaurant] = useAddImageToRestaurantMutation();
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -39,14 +31,13 @@ const RestaurantForm = () => {
     formData.append("description", description);
     formData.append("region", region);
     formData.append("address", address);
-    formData.append("image", image);
-
+    for (let i = 0; i < image.length; i++) {
+      formData.append("image", image[i]);
+    }
     const keywordsArray = keywords.split(",").map((keyword) => keyword.trim());
-
     for (let i = 0; i < keywordsArray.length; i++) {
       formData.append("keywords[]", keywordsArray[i]);
     }
-
     try {
       setSuccessMessage("");
       setErrorMessage("");
@@ -57,12 +48,10 @@ const RestaurantForm = () => {
       setRegion("");
       setAddress("");
       setKeywords("");
-      setImage(null);
-
+      setImage([]);
       setTimeout(() => {
         setSuccessMessage("");
       }, 3000);
-
       setTimeout(() => {
         window.location.reload();
       }, 3000);
@@ -71,32 +60,6 @@ const RestaurantForm = () => {
       console.error(err);
     }
   };
-
-  const handleAdditionalImageSubmit = async () => {
-  if (!selectedRestaurantId || !additionalImage) {
-    setErrorMessage("Please select a restaurant and choose an image.");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("id", selectedRestaurantId);
-  formData.append("image", additionalImage);
-
-  try {
-    setErrorMessage("");
-    await addImageToRestaurant({
-      id: selectedRestaurantId,
-      image: formData,
-    }).unwrap();
-    setSuccessMessage("Image added to restaurant successfully!");
-    setAdditionalImage(null);
-    setSelectedRestaurantId("");
-  } catch (err) {
-    setErrorMessage("Failed to add image to restaurant. Please try again.");
-    console.error(err);
-  }
-};
-
 
   return (
     <div className="restaurant-form">
@@ -131,28 +94,13 @@ const RestaurantForm = () => {
         value={keywords}
         onChange={(e) => setKeywords(e.target.value)}
       />
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button onClick={handleSubmit}>Submit</button>
-
-      <h2>Add Additional Image</h2>
-      <select
-        value={selectedRestaurantId}
-        onChange={(e) => setSelectedRestaurantId(e.target.value)}
-      >
-        <option value="">Select Restaurant</option>
-        {restaurants &&
-          restaurants.map((restaurant) => (
-            <option key={restaurant._id} value={restaurant._id}>
-              {restaurant.name}
-            </option>
-          ))}
-      </select>
       <input
+        multiple={true}
         type="file"
         accept="image/*"
-        onChange={handleAdditionalImageChange}
+        onChange={handleFileChange}
       />
-      <button onClick={handleAdditionalImageSubmit}>Add Image</button>
+      <button onClick={handleSubmit}>Submit</button>
 
       {successMessage && (
         <div className="success-message">{successMessage}</div>

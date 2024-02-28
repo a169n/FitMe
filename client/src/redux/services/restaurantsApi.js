@@ -35,10 +35,10 @@ export const restaurantsApi = createApi({
       invalidatesTags: ["Restaurants"],
     }),
     updateRestaurantById: builder.mutation({
-      query: ({ id, ...updates }) => ({
-        url: `/restaurant/${id}`,
+      query: (formData) => ({
+        url: `/restaurant/${formData.get("id")}`,
         method: "PUT",
-        body: updates,
+        body: formData,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Restaurants", id }],
     }),

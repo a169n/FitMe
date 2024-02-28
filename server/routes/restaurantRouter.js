@@ -20,7 +20,7 @@ router.get("/restaurants", getAllRestaurants);
 router.get("/restaurant/:id", getRestaurantById);
 router.get("/restaurants/search", searchRestaurant);
 router.post("/restaurants", upload.single("image"), createNewRestaurant);
-router.put("/restaurant/:id", upload.single("image"), updateRestaurantById);
+router.put("/restaurant/:id", upload.array("image", 5), updateRestaurantById);
 router.put(
   "/restaurant/:id/add-image",
   upload.single("image"),
