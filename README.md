@@ -17,7 +17,8 @@ no deployed address :(
 1. Clone the repository: `git clone https://github.com/a169n/FitMe.git`
 2. Navigate to the project directory: `cd <project_directory>`
 3. Install dependencies:
-   `npm run build`
+   `npm install
+    npm run build`
       OR
    - Root: `npm install`
    - Server: `cd server && npm install`
