@@ -43,7 +43,7 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="search-page-container">
+    <div className="search-page-container global-padding">
       {restaurantResults && restaurantResults.length > 0 && (
         <div>
           <h1>{t("restaurantSearchResults", { searchString })}</h1>
