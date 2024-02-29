@@ -8,6 +8,23 @@ const getAllFood = async (req, res) => {
   res.status(200).json(foods);
 };
 
+const getAllFoodsByCategoryId = async (req, res) => {
+  const { categoryId } = req.params;
+
+  try {
+    const foods = await Food.find({ category: categoryId });
+
+    if (foods.length === 0) {
+      return res.status(404).json({ message: "No foods found for this category" });
+    }
+
+    res.status(200).json(foods);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch foods for this category" });
+  }
+};
+
 const getFoodById = async (req, res) => {
   const food = await Food.findById(req.params.id).populate("globalCategory");
   if (!food) {
@@ -99,6 +116,7 @@ const deleteFoodById = async (req, res) => {
 
 module.exports = {
   getAllFood,
+  getAllFoodsByCategoryId,
   getFoodById,
   searchFood,
   createNewFood,

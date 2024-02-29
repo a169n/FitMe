@@ -29,5 +29,7 @@
   "error": "Қате",
   "noResultsFound": "Нәтижелер табылмады",
   "restaurantSearchResults": "Ресторандарды іздеу нәтижелері: {{ searchString }}",
-  "foodSearchResults": "Тағамдарды іздеу нәтижелері: {{ searchString }}"
+  "foodSearchResults": "Тағамдарды іздеу нәтижелері: {{ searchString }}",
+  "popularFoods": "Танымал тағамдар"
+
 }
