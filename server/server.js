@@ -38,7 +38,8 @@ app.use("/", require("./routes/categoryRouter"));
 app.use("/", require("./routes/globalCategoryRoutes"));
 app.use("/", require("./routes/orderRouter"));
 app.use("/", require("./routes/reviewRouter"));
-app.use("/", require("./routes/apiRouter"))
+app.use("/", require("./routes/apiRouter"));
+app.use("/", require("./routes/mailRouter"));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

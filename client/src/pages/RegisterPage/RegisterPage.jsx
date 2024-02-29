@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRegisterMutation } from "../../redux/services/authApi";
 import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
+import { useSendRegisterEmailMutation } from "../../redux/services/mailApi";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const RegisterPage = () => {
   });
 
   const [register] = useRegisterMutation();
+  const [sendRegisterEmail] = useSendRegisterEmailMutation();
+
 
   const handleRegister = async () => {
     if (
@@ -32,6 +35,7 @@ const RegisterPage = () => {
     try {
       await register(credentials);
       setSuccessMessage("Registration successful. Redirecting...");
+      await sendRegisterEmail(credentials.email);
       setTimeout(() => {
         navigate("/");
       }, 1000);
