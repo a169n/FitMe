@@ -130,3 +130,28 @@
   font-weight: 500;
   line-height: normal;
 }
+
+.restaurant-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 2px solid transparent;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.category-button.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}

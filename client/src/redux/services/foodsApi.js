@@ -48,15 +48,25 @@ export const foodsApi = createApi({
       }),
       invalidatesTags: ["Foods"],
     }),
+
+    getFoodsByCategoryId: builder.query({
+      query: (categoryId) => ({
+        url: `/foods/category/${categoryId}`,
+      }),
+      providesTags: (result, error, categoryId) => [{ type: "FoodsByCategory", categoryId }],
+    }),
   }),
 });
+
 
 export const {
   // GET /foods
   useGetFoodsQuery,
   useLazyGetFoodsQuery,
-  // GET /restaurants/:id
+  // GET /food/:id
   useGetFoodByIdQuery,
+  // GET /foods/category/:categoryId
+  useGetFoodsByCategoryIdQuery,
   // GET /foods/search
   useSearchFoodsQuery,
   useLazySearchFoodsQuery,

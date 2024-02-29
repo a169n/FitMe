@@ -11,20 +11,30 @@ import offer from "../../assets/offer.svg";
 import favourite from "../../assets/favourite.svg";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slick";
+import { useGetCategoriesQuery } from "../../redux/services/categoriesApi";
+import {
+  useGetFoodsQuery,
+  useGetFoodsByCategoryIdQuery,
+} from "../../redux/services/foodsApi";
 
 export default function RestaurantPage() {
   const { t } = useTranslation();
-
   const { restaurantId } = useParams();
 
   const {
     data: restaurant,
-    error,
-    isLoading,
+    error: restaurantError,
+    isLoading: isRestaurantLoading,
   } = useGetRestaurantByIdQuery(restaurantId);
+
+  const { data: categories, isLoading: isCategoriesLoading } =
+    useGetCategoriesQuery();
+  const { data: foods, isLoading: isFoodsLoading } = useGetFoodsQuery();
 
   const [searchString, setSearchString] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategoryFoods, setSelectedCategoryFoods] = useState([]);
 
   const [searchRestaurants] = useLazySearchRestaurantsQuery();
 
@@ -59,17 +69,52 @@ export default function RestaurantPage() {
     return () => clearInterval(interval);
   }, [restaurant?.images?.length]);
 
-  if (isLoading) {
+  useEffect(() => {
+    const fetchFoodsByCategory = async () => {
+      if (selectedCategory) {
+        try {
+          const categoryFoods = await useGetFoodsByCategoryIdQuery(
+            selectedCategory
+          ).unwrap();
+          setSelectedCategoryFoods(categoryFoods);
+        } catch (error) {
+          console.error("Error fetching foods by category:", error);
+        }
+      } else {
+        setSelectedCategoryFoods([]);
+      }
+    };
+
+    fetchFoodsByCategory();
+  }, [selectedCategory]);
+
+  if (isRestaurantLoading || isCategoriesLoading || isFoodsLoading) {
     return <div className="loading">{t("loading")}</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (restaurantError) {
+    return <div>Error: {restaurantError.message}</div>;
   }
 
   if (!restaurant) {
     return <div>{t("restaurantNotFound")}</div>;
   }
+
+  const restaurantCategories = categories?.filter(
+    (category) => category.restaurant === restaurantId
+  );
+
+  const handleCategoryClick = async (categoryId) => {
+    setSelectedCategory(categoryId);
+    try {
+      const categoryFoods = await useGetFoodsByCategoryIdQuery(
+        categoryId
+      ).unwrap();
+      setSelectedCategoryFoods(categoryFoods);
+    } catch (error) {
+      console.error("Error fetching foods by category:", error);
+    }
+  };
 
   return (
     <section className="restaurant-page">
@@ -122,6 +167,33 @@ export default function RestaurantPage() {
             <p>{t("favourite")}</p>
           </button>
         </div>
+      </div>
+      <div className="restaurant-data global-padding">
+        <div className="categories">
+          {restaurantCategories &&
+            restaurantCategories.map((category) => (
+              <button
+                key={category.id}
+                className={`category-button ${
+                  selectedCategory === category.id ? "active" : ""
+                }`}
+                onClick={() => handleCategoryClick(category.id)}
+              >
+                {category.name}
+              </button>
+            ))}
+        </div>
+        <div className="foods">
+          {selectedCategoryFoods &&
+            selectedCategoryFoods.map((food) => (
+              <div key={food.id} className="food">
+                <p>{food.name}</p>
+                <p>{food.description}</p>
+                <p>{food.price}</p>
+              </div>
+            ))}
+        </div>
+        <div className="card"></div>
       </div>
     </section>
   );
