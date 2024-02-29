@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
-import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
-import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
+import {
+  useSearchFoodsQuery,
+} from "../../redux/services/foodsApi";
+
 import restaurant_image from "../../assets/restaurant-icon.png";
 import greenStar from "../../assets/greenStar.svg";
 import yellowStar from "../../assets/yellowStar.svg";
@@ -13,6 +15,7 @@ import priceIcon from "../../assets/price.svg";
 import "./Restaurants.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 
 export default function Restaurants() {
   const { t } = useTranslation();
@@ -88,6 +91,34 @@ export default function Restaurants() {
                 <div className="card-region-container">
                   <img src={peopleIcon} alt="people" />
                   <p className="card-region">{restaurant.description}</p>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="foods">
+        <p className="hero-section-header">{t("popularFoods")}</p>
+        <div className="hero-section-container">
+          {foodsData.slice(0, 4).map((food) => (
+            <div className="hero-section-card" key={food._id}>
+              <Link className="link" to={`/food/${food._id}`}>
+                <img
+                  className="restaurant-image"
+                  src={`http://localhost:3000/${food.image}`}
+                  alt={`food-image-${food._id}`}
+                />
+                <h3 className="card-header">{food.name}</h3>
+                <div className="card-info">
+                  <p className="card-keyword">{food.type}</p>
+                  <div className="card-rating">
+                    <img src={priceIcon} alt="price" />
+                    <div className="restaurant-rating">{food.price}</div>
+                  </div>
+                </div>
+                <div className="card-region-container">
+                  <img src={peopleIcon} alt="people" />
+                  <p className="card-region">{food.description}</p>
                 </div>
               </Link>
             </div>
