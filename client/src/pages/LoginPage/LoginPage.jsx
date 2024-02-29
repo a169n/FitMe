@@ -3,11 +3,8 @@ import { useLoginMutation } from "../../redux/services/authApi";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import "./LoginPage.css";
-import { useAccess } from "../../hooks/useAccess";
-import { useUserIsAdmin } from "../../hooks/useUserIsAdmin";
 
 const LoginPage = () => {
-
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     username: "",
@@ -18,7 +15,6 @@ const LoginPage = () => {
   const [login, { isSuccess: loginSuccess, isError: loginError }] =
     useLoginMutation();
 
-  const user = useUser()
 
   useEffect(() => {
     if (loginSuccess) {
