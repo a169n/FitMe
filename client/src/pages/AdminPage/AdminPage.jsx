@@ -3,12 +3,10 @@ import { logoutUser } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import "./AdminPage.css"; // Import the CSS file
 import Users from "../../components/Users/Users";
-import { useAdmin } from "../../hooks/useAdmin";
 import { useAccess } from "../../hooks/useAccess";
 
 export default function AdminPage() {
-  useAdmin()
-
+  useAccess()
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,7 +19,7 @@ export default function AdminPage() {
     <div className="adminPage global-padding">
       <h1 className="admin-page-heading">Admin Page</h1>
       <button className="return-button" onClick={handleReturnToHomePage}>
-        Return to HomePage
+        Log out and Return to HomePage
       </button>
 
       <div>

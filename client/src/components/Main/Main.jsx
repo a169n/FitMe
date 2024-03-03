@@ -3,14 +3,17 @@ import "./Main.css";
 import banana from "../../assets/banana.svg";
 import apple from "../../assets/apple.svg";
 import main_pic1 from "../../assets/main-pic.jpeg";
-import main_pic2 from "../../assets/main-pic2.jpeg";
-import main_pic3 from "../../assets/main-pic3.jpeg";
-import main_pictures from "../../assets/main-images.png";
 import union from "../../assets/union.svg";
 import { useTranslation } from "react-i18next";
+import { useGetHealthQuotesQuery } from "../../redux/services/healthQuotesApi";
 
 export default function Main() {
   const { t } = useTranslation();
+  const { data: healthQuotes, error, isLoading } = useGetHealthQuotesQuery();
+
+  // Check if data is an array and not empty
+  const healthQuote =
+    healthQuotes && healthQuotes.length > 0 ? healthQuotes[0] : null;
 
   return (
     <main className="main global-padding">
@@ -33,15 +36,14 @@ export default function Main() {
             </h2>
           </div>
           <div>
-            <p className="main-p">{t("mainParagraph")}</p>
-          </div>
-          <div className="main-input-container">
-            <input
-              className="main-input"
-              type="text"
-              placeholder={t("mainPlaceholder")}
-            />
-            <button className="get-started-button">{t("getStarted")}</button>
+            {isLoading && <p>Loading...</p>}
+            {error && <p>Error fetching quote: {error.message}</p>}
+            {healthQuote && (
+              <>
+                <p className="main-quote">{healthQuote.quote}</p>
+                <p className="quote-author">{healthQuote.author}</p>
+              </>
+            )}
           </div>
         </div>
 

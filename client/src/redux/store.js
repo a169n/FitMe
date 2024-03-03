@@ -8,6 +8,7 @@ import { usersApi } from "./services/usersApi";
 import { exercisesApi } from "./services/exercisesApi";
 import { recipesApi } from "./services/recipesApi";
 import { mailApi } from "./services/mailApi";
+import { healthQuotesApi } from "./services/healthQuotesApi";
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     [usersApi.reducerPath]: usersApi.reducer,
     [exercisesApi.reducerPath]: exercisesApi.reducer,
     [recipesApi.reducerPath]: recipesApi.reducer,
+    [healthQuotesApi.reducerPath]: healthQuotesApi.reducer,
     [mailApi.reducerPath]: mailApi.reducer,
     auth: authReducer,
   },
@@ -32,6 +34,7 @@ const store = configureStore({
       usersApi.middleware,
       exercisesApi.middleware,
       recipesApi.middleware,
+      healthQuotesApi.middleware,
       mailApi.middleware,
     ]);
   },
