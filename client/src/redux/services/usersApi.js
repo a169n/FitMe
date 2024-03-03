@@ -14,6 +14,13 @@ export const usersApi = createApi({
         url: `/user/${id}`,
       }),
     }),
+    getUserEmailByUsername: builder.query({
+      query: (username) => ({
+        url: "/user/email",
+        method: "POST",
+        body: { username },
+      }),
+    }),
     createUser: builder.mutation({
       query: (newUser) => ({
         url: "/user",
@@ -57,6 +64,7 @@ export const usersApi = createApi({
 
 export const {
   useGetUsersQuery,
+  useGetUserEmailByUsernameQuery,
   useLazyGetUsersQuery,
   useGetUserByIdQuery,
   useCreateUserMutation,

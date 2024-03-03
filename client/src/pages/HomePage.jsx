@@ -13,14 +13,7 @@ export default function HomePage() {
   const navigate = useNavigate();
   const user = useUser();
   useAdmin()
-  const [sendLoginEmail] = useSendLoginEmailMutation();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log("User email:", user.email)
-  //     sendLoginEmail(user.email);
-  //   }
-  // }, [user, sendLoginEmail]);
 
   
 

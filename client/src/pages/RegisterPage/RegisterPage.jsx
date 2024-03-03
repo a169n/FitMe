@@ -20,7 +20,6 @@ const RegisterPage = () => {
   const [register] = useRegisterMutation();
   const [sendRegisterEmail] = useSendRegisterEmailMutation();
 
-
   const handleRegister = async () => {
     if (
       !credentials.username ||
@@ -33,7 +32,11 @@ const RegisterPage = () => {
     }
 
     try {
-      await register(credentials);
+      const response = await register(credentials);
+      if (response.error) {
+        setErrorMessage(response.error.data.error);
+        return;
+      }
       setSuccessMessage("Registration successful. Redirecting...");
       await sendRegisterEmail(credentials.email);
       setTimeout(() => {

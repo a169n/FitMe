@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLoginMutation } from "../../redux/services/authApi";
 import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "../../hooks/useUser";
+import { useSendLoginEmailMutation } from "../../redux/services/mailApi";
 import "./LoginPage.css";
+import { useGetUserEmailByUsernameQuery } from "../../redux/services/usersApi";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,7 +15,11 @@ const LoginPage = () => {
 
   const [login, { isSuccess: loginSuccess, isError: loginError }] =
     useLoginMutation();
+  const [sendLoginEmail] = useSendLoginEmailMutation();
 
+  const { data: emailData, error: emailError } = useGetUserEmailByUsernameQuery(
+    credentials.username
+  );
 
   useEffect(() => {
     if (loginSuccess) {
@@ -34,6 +39,11 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       await login(credentials);
+      console.log(
+        `Email of the user ${credentials.username}:`,
+        emailData.email
+      );
+      await sendLoginEmail(emailData.email);
     } catch (error) {
       console.error("Login error:", error);
     }
