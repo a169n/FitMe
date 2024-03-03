@@ -3,8 +3,12 @@ import { logoutUser } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import "./AdminPage.css"; // Import the CSS file
 import Users from "../../components/Users/Users";
+import { useAdmin } from "../../hooks/useAdmin";
+import { useAccess } from "../../hooks/useAccess";
 
 export default function AdminPage() {
+  useAdmin()
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
