@@ -15,6 +15,22 @@ const getCategoryById = async (req, res) => {
   res.status(200).json(category);
 };
 
+const getCategoriesByRestaurantId = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const categories = await Category.find({ restaurant: restaurantId }).populate("foods");
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const deleteCategoryById = async (req, res) => {
   const deletedCategory = await Category.findByIdAndDelete(req.params.id);
   if (!deletedCategory) {
@@ -56,6 +72,7 @@ const updateCategoryById = async (req, res) => {
 module.exports = {
   getAllCategories,
   getCategoryById,
+  getCategoriesByRestaurantId,
   deleteCategoryById,
   createNewCategory,
   updateCategoryById,

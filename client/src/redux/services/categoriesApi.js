@@ -16,6 +16,14 @@ export const categoriesApi = createApi({
       }),
       providesTags: (result, error, id) => [{ type: "Category", id }],
     }),
+    getCategoriesByRestaurantId: builder.query({
+      query: (restaurantId) => ({
+        url: `/categories/${restaurantId}`,
+      }),
+      providesTags: (result, error, restaurantId) => [
+        { type: "Category", restaurantId },
+      ],
+    }),
     createNewCategory: builder.mutation({
       query: (newCategory) => ({
         url: "/category",
@@ -47,6 +55,9 @@ export const {
   // GET /categories
   useGetCategoriesQuery,
   useLazyGetCategoriesQuery,
+  // GET /categories/:restaurantId
+  useGetCategoriesByRestaurantIdQuery,
+  useLazyGetCategoriesByRestaurantIdQuery,
   // GET /category/:id
   useGetCategoryByIdQuery,
   // POST /category
