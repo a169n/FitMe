@@ -134,7 +134,7 @@
 .restaurant-data {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
 }
 
 .categories {
@@ -143,15 +143,128 @@
 }
 
 .category-button {
-  background-color: #f0f0f0;
-  color: #333;
-  border: 2px solid transparent;
-  margin-bottom: 10px;
+  margin: 15px 0;
   cursor: pointer;
+  color: #404040;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  background-color: transparent;
 }
 
 .category-button.active {
-  background-color: #333;
+  color: #fc8019;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  background-color: transparent;
+}
+
+.food {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+  margin-bottom: 60px;
+}
+
+.foodName {
+  color: #202020;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.foodPrice {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 20px 0;
+}
+
+.foodDescription {
+  color: #808080;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.food-image {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.cart {
+  color: #202020;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.checkout-button {
+  display: flex;
+  width: 365px;
+  padding: 15px 25px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: #fc8019;
   color: #fff;
-  border-color: #333;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  cursor: pointer;
+}
+
+.add-button {
+  position: relative;
+  display: inline-flex;
+  padding: 15px 25px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  color: #1ac84b;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+}
+
+.vertical-line {
+  width: 0px;
+  height: 500px;
+  flex-shrink: 0;
+  stroke-width: 1px;
+  stroke: #808080;
 }
