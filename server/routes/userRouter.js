@@ -10,6 +10,10 @@ const {
   makeUserAdminById,
   removeUserAdminById,
   getUserEmailByUsername,
+  addItemToCart,
+  getItemsNumberInCart,
+  postGetUserProfile,
+  getUserDetails,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -20,6 +24,10 @@ router.post("/user/email", getUserEmailByUsername);
 router.get("/users/search", searchUsers);
 router.get("/user/:id", getUserById);
 router.post("/user", createNewUser);
+router.get("/details", getUserDetails);
+router.get("/profile", postGetUserProfile);
+router.post("/cart", addItemToCart);
+router.get("/cart/amount", getItemsNumberInCart);
 router.put("/user/:id", updateUserById);
 router.put("/user/:id/make-admin", makeUserAdminById);
 router.put("/user/:id/remove-admin", removeUserAdminById);

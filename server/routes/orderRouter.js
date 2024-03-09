@@ -5,13 +5,14 @@ const {
   deleteOrderById,
   createNewOrder,
   updateOrderById,
+  createOrder,
 } = require("../controllers/orderController");
 
 const router = express.Router();
 
 router.get("/orders", getAllOrders);
 router.get("/order/:id", getOrderById);
-router.post("/order", createNewOrder);
+router.post("/order", createOrder);
 router.put("/order/:id", updateOrderById);
 router.delete("/order/:id", deleteOrderById);
 

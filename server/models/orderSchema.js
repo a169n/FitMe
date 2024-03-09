@@ -10,15 +10,19 @@ const orderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
     },
-    foods: [
+    orderFoods: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Food",
+        food: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Food",
+        },
+        amount: Number,
       },
     ],
+    totalSum: Number,
     review: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Order",
+      ref: "review",
     },
     deliveryAddress: String,
     deliveryStatus: String,

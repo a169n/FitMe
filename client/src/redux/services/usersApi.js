@@ -9,6 +9,13 @@ export const usersApi = createApi({
         url: "/users",
       }),
     }),
+    addItemToCart: builder.mutation({
+      query: ({ productId, amount }) => ({
+        url: "/cart",
+        method: "POST",
+        body: { productId, amount },
+      }),
+    }),
     getUserById: builder.query({
       query: (id) => ({
         url: `/user/${id}`,
@@ -64,6 +71,7 @@ export const usersApi = createApi({
 
 export const {
   useGetUsersQuery,
+  useAddItemToCartMutation,
   useGetUserEmailByUsernameQuery,
   useLazyGetUsersQuery,
   useGetUserByIdQuery,
