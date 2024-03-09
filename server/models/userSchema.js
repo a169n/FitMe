@@ -10,7 +10,22 @@ const userSchema = mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false,
-    }
+    },
+    cart: [
+      {
+        food: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Food",
+        },
+        amount: Number,
+      },
+    ],
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
   },
   {
     timestamps: true,
