@@ -16,6 +16,29 @@ export const usersApi = createApi({
         body: { productId, amount },
       }),
     }),
+    getItemsNumberInCart: builder.query({
+      query: (id) => ({
+        url: `/user/${id}/cart/amount`,
+      }),
+      providesTags: (result, error, id) => [{ type: "Cart", id }],
+    }),
+
+    getUserDetails: builder.query({
+      query: (id) => ({
+        url: `/user/details/${id}`,
+      }),
+      providesTags: (result, error, id) => [{ type: "User", id }],
+    }),
+    postGetUserProfile: builder.mutation({
+      query: ({ reqUserId }) => ({
+        url: "/user/profile",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: { reqUserId },
+      }),
+      invalidatesTags: ["User"],
+    }),
     getUserById: builder.query({
       query: (id) => ({
         url: `/user/${id}`,
@@ -70,15 +93,34 @@ export const usersApi = createApi({
 });
 
 export const {
+  // GET /users
   useGetUsersQuery,
-  useAddItemToCartMutation,
-  useGetUserEmailByUsernameQuery,
   useLazyGetUsersQuery,
+  // GET /user/cart/amount
+  useGetItemsNumberInCartQuery,
+  useLazyGetItemsNumberInCartQuery,
+  // GET /user/details
+  useGetUserDetailsQuery,
+  useLazyGetUserDetailsQuery,
+  // GET /user/:id
   useGetUserByIdQuery,
+  useLazyGetUserByIdQuery,
+  // POST /cart
+  useAddItemToCartMutation,
+  // GET /user/email
+  useGetUserEmailByUsernameQuery,
+  useLazyGetUserEmailByUsernameQuery,
+  // POST /user
   useCreateUserMutation,
+  // PUT /user/:id
   useUpdateUserByIdMutation,
+  // DELETE /user/:id
   useDeleteUserByIdMutation,
+  // GET /users/search
   useSearchUsersQuery,
+  useLazySearchUsersQuery,
+  // PUT /user/:id/make-admin
   useMakeUserAdminByIdMutation,
+  // PUT /user/:id/remove-admin
   useRemoveUserAdminByIdMutation,
 } = usersApi;

@@ -10,7 +10,7 @@ const orderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
     },
-    orderFoods: [
+    orderProducts: [
       {
         food: {
           type: mongoose.Schema.Types.ObjectId,
