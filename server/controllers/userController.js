@@ -1,7 +1,6 @@
 const User = require("../models/userSchema");
 const Order = require("../models/orderSchema");
 
-
 const getAllUsers = async (req, res) => {
   const users = await User.find({});
   res.status(200).json(users);
@@ -30,24 +29,36 @@ const addItemToCart = async (req, res) => {
   }
 };
 
-
 const getItemsNumberInCart = async (req, res) => {
-  const user = await User.findById(req.user._id);
-
-  if (!user)
-    res.status(500).json({ message: `User with id ${req.user._id} not found` });
-
-  res.status(200).json({ amount: user.cart.length });
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: `User with id ${id} not found` });
+    }
+    res.status(200).json({ amount: user.cart.length });
+  } catch (error) {
+    console.error("Error fetching cart items count:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const getUserDetails = async (req, res) => {
-  const user = await User.findById(req.user._id).populate("cart.food");
-  const orders =
-    (await Order.find({ user: req.user._id }).populate(
-      "orderFoods.food"
-    )) || [];
-  user.orders = orders;
-  res.status(200).json(user);
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id)
+      .select("-password")
+      .populate("cart.food");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const orders = await Order.find({ user: id }).populate("orderProducts.food");
+    user.orders = orders;
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const postGetUserProfile = async (req, res) => {
