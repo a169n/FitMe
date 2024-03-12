@@ -17,9 +17,8 @@ export default function RestaurantPage() {
   const user = useUser();
   const { data: userData } = useGetUserDetailsQuery(user?._id, {skip: user?._id ? false : true});
 
-  console.log("suer ==================>", user?._id)
-  const { data: itemsNumber, isFetching: cartIsFetching } =
-    useGetItemsNumberInCartQuery(user?._id);
+  // const { data: itemsNumber, isFetching: cartIsFetching } =
+  //   useGetItemsNumberInCartQuery(user?._id);
   const { restaurantId } = useParams();
 
   const {
@@ -42,9 +41,9 @@ export default function RestaurantPage() {
   );
 
   const [createOrder, { isSuccess: orderIsSuccess }] = useCreateOrderMutation();
-  const { refetch: refetchItemsNumber } = useGetItemsNumberInCartQuery(
-    user?._id
-  );
+  // const { refetch: refetchItemsNumber } = useGetItemsNumberInCartQuery(
+  //   user?._id
+  // );
 
   const sliderSettings = {
     dots: false,
@@ -61,10 +60,10 @@ export default function RestaurantPage() {
   useEffect(() => {
     if (userData) setCartProductsList(userData.cart);
 
-    if (orderIsSuccess && user?.token) {
-      refetchItemsNumber();
-      navigate("/profile");
-    }
+    // if (orderIsSuccess && user?.token) {
+    //   refetchItemsNumber();
+    //   navigate("/profile");
+    // }
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
@@ -78,7 +77,7 @@ export default function RestaurantPage() {
     orderIsSuccess,
     navigate,
     user,
-    refetchItemsNumber,
+    // refetchItemsNumber,
   ]);
 
   const handleCategoryClick = async (categoryId) => {

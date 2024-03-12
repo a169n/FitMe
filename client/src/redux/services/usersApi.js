@@ -22,7 +22,6 @@ export const usersApi = createApi({
       }),
       providesTags: (result, error, id) => [{ type: "Cart", id }],
     }),
-
     getUserDetails: builder.query({
       query: (id) => ({
         url: `/user/details/${id}`,
