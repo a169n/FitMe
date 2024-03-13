@@ -16,6 +16,7 @@ import CreatePage from "./pages/CreatePage/CreatePage";
 import UpdatePage from "./pages/UpdatePage/UpdatePage";
 import DeletePage from "./pages/DeletePage/DeletePage";
 import ApiPage from "./pages/ApiPage/ApiPage";
+import MessagePage from "./pages/MessagePage/MessagePage";
 
 const RouteWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -60,6 +61,7 @@ function App() {
           <Route path="/admin/create" element={<CreatePage />} />
           <Route path="/admin/update" element={<UpdatePage />} />
           <Route path="/admin/delete" element={<DeletePage />} />
+          <Route path="/socket" element={<MessagePage />} />
         </Routes>
       </RouteWrapper>
     </Router>
