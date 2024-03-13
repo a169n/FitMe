@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
-import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
+import {
+  useGetFoodsByCategoryIdQuery,
+  useSearchFoodsQuery,
+} from "../../redux/services/foodsApi";
 import { useTranslation } from "react-i18next";
 import "./SearchPage.css";
 import price from "../../assets/price.svg";
 import region from "../../assets/region.svg";
+import { useGetCategoryByIdQuery } from "../../redux/services/categoriesApi";
 
 export default function SearchPage() {
   const { t } = useTranslation();
@@ -25,6 +29,15 @@ export default function SearchPage() {
     isLoading: foodLoading,
     error: foodError,
   } = useSearchFoodsQuery(searchString);
+
+  function getCategoryNameById(categoryId) {
+    const {
+      data: category,
+      isLoading,
+      error,
+    } = useGetCategoryByIdQuery(categoryId);
+    return category;
+  }
 
   const [showDishes, setShowDishes] = useState(true);
   const [showRestaurants, setShowRestaurants] = useState(false);
@@ -83,22 +96,27 @@ export default function SearchPage() {
         {showDishes && foodResults && foodResults.length > 0 && (
           <div className="item-container">
             {foodResults.map((food, index) => (
-              <div className="item" key={index}>
-                <img
-                  className="item-image"
-                  src={`http://localhost:3000/${food.image}`}
-                  alt="item-image"
-                />
-                <div>
-                  <p className="name">{food.name}</p>
-                  <p className="global-category">Global Category Here</p>
-                  {/* <p className="global-category">{food.category}</p> */}
-                  <div className="price">
-                    <img src={price} />
-                    <p>₹{food.price}</p>
+              <Link
+                className="link"
+                to={`/restaurant/${food.restaurant}`}
+                key={index}
+              >
+                <div className="item">
+                  <img
+                    className="item-image"
+                    src={`http://localhost:3000/${food.image}`}
+                    alt="item-image"
+                  />
+                  <div>
+                    <p className="name">{food.name}</p>
+                    <p className="global-category">{food.category}</p>
+                    <div className="price">
+                      <img src={price} />
+                      <p>₹{food.price}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
@@ -107,21 +125,36 @@ export default function SearchPage() {
           restaurantResults.length > 0 && (
             <div className="item-container">
               {restaurantResults.map((restaurant, index) => (
-                <div className="item" key={index}>
-                  <img
-                    className="item-image"
-                    src={`http://localhost:3000/${restaurant.images[0]}`}
-                    alt="item-image"
-                  />
-                  <div>
-                    <p className="name">{restaurant.name}</p>
-                    <p className="global-category">{restaurant.keywords}</p>
-                    <div className="price">
-                      <img src={region} />
-                      <p>{restaurant.region}</p>
+                <Link
+                  className="link"
+                  to={`/restaurant/${restaurant._id}`}
+                  key={index}
+                >
+                  <div className="item">
+                    <img
+                      className="item-image"
+                      src={`http://localhost:3000/${restaurant.images[0]}`}
+                      alt="item-image"
+                    />
+                    <div>
+                      <p className="name">{restaurant.name}</p>
+                      <div>
+                        {restaurant.keywords.map((keyword, index) => (
+                          <p key={index} className="global-category">
+                            {keyword}
+                            {index !== restaurant.keywords.length - 1
+                              ? ", "
+                              : ""}
+                          </p>
+                        ))}
+                      </div>
+                      <div className="price">
+                        <img src={region} />
+                        <p>{restaurant.region}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

@@ -50,6 +50,8 @@ export default function Navbar() {
         </div>
       </Link>
       <Link className="link" to={"/api"}><button className="api-button">APIs</button></Link>
+      <Link className="link" to={"/socket"}><button className="api-button">Socket</button></Link>
+
       <div className="nav2">
         <div>
           <input
