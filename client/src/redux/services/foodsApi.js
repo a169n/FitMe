@@ -25,9 +25,9 @@ export const foodsApi = createApi({
       ],
     }),
     searchFoods: builder.query({
-      query: (searchString) => ({
+      query: ({ searchString, page, limit }) => ({
         url: "/foods/search",
-        params: { searchString },
+        params: { searchString, page, limit },
       }),
       providesTags: ["Foods"],
     }),

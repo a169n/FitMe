@@ -56,7 +56,7 @@ export default function Restaurants() {
       <div className="restaurants">
         <p className="hero-section-header">{t("nearbyRestaurants")}</p>
         <div className="hero-section-container">
-          {restaurantsData.slice(0, 4).map((restaurant) => (
+          {restaurantsData.data.slice(0, 4).map((restaurant) => (
             <div className="hero-section-card" key={restaurant._id}>
               <Link className="link" to={`/restaurant/${restaurant._id}`}>
                 <Slider {...sliderSettings}>
@@ -100,7 +100,7 @@ export default function Restaurants() {
       <div className="foods">
         <p className="hero-section-header">{t("popularFoods")}</p>
         <div className="hero-section-container">
-          {foodsData.slice(0, 4).map((food) => (
+          {foodsData.data.slice(0, 4).map((food) => (
             <div className="hero-section-card" key={food._id}>
               <Link className="link" to={`/food/${food._id}`}>
                 <img
