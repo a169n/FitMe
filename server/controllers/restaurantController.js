@@ -38,13 +38,25 @@ const getRestaurantById = async (req, res) => {
 };
 
 const searchRestaurant = async (req, res) => {
-  const { searchString } = req.query;
-
+  const { searchString, page = 1, limit = 6 } = req.query;
+  const count = await Restaurant.countDocuments({
+    $or: [
+      { name: new RegExp(searchString, "i") },
+      { description: new RegExp(searchString, "i") },
+    ],
+  });
   const restaurants = await Restaurant.find({
-    name: new RegExp(searchString, "i"),
-  }).sort({ _id: -1 });
-
-  res.status(200).json(restaurants);
+    $or: [
+      { name: new RegExp(searchString, "i") },
+      { description: new RegExp(searchString, "i") },
+    ],
+  })
+    .sort({ _id: -1 })
+    .limit(+limit)
+    .skip((page - 1) * limit);
+  res
+    .status(200)
+    .json({ data: restaurants, totalPages: Math.ceil(count / limit) });
 };
 
 const addImageToRestaurant = async (req, res) => {

@@ -17,9 +17,9 @@ export const restaurantsApi = createApi({
       providesTags: (result, error, id) => [{ type: "Restaurants", id }],
     }),
     searchRestaurants: builder.query({
-      query: (searchString) => ({
+      query: ({ searchString, page, limit }) => ({
         url: "/restaurants/search",
-        params: { searchString },
+        params: { searchString, page, limit },
       }),
       providesTags: ["Restaurants"],
     }),
