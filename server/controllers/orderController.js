@@ -11,31 +11,40 @@ const getAllOrders = async (req, res) => {
 const createOrder = async (req, res) => {
   try {
     const orderData = req.body;
-    const userId = req.body.userId;
+    const user = req.user;
 
-    const productsIds = orderData.orderProducts.map((product) => product.product);
+    const productsIds = orderData.orderProducts.map((product) => {
+      return product.product;
+    });
+
     const products = await Food.find({ _id: { $in: productsIds } });
 
-    let totalSum = 0;
-    orderData.orderProducts.forEach((orderProduct) => {
-      const product = products.find((p) => p._id == orderProduct.product);
-      totalSum += product.price *  orderProduct.amount;
-    });
+    let sum = 0;
+
+    products.forEach(
+      (product) =>
+        (sum +=
+          product.price *
+          orderData.orderProducts.find(
+            (orderProduct) => orderProduct.product == product._id
+          ).amount)
+    );
 
     const newOrder = await Order.create({
       deliveryType: orderData.deliveryType,
-      user: userId,
-      totalSum: totalSum,
+      user: req.user._id,
+      totalSum: sum,
       orderProducts: orderData.orderProducts,
     });
 
-    if (newOrder && totalSum > 0) {
-      await User.findByIdAndUpdate(userId, { cart: [] }, { new: true });
-    }
+    if (newOrder && sum > 0)
+      await User.findByIdAndUpdate(user._id, { cart: [] }, { new: true });
 
     res.status(201).json(newOrder);
   } catch (error) {
-    res.status(500).json({ error: error.message, message: "Could not create order" });
+    res
+      .status(500)
+      .json({ error: error.message, message: "Could not create order" });
   }
 };
 

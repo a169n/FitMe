@@ -15,10 +15,12 @@ import { useCreateOrderMutation } from "../../redux/services/orderApi";
 export default function RestaurantPage() {
   const navigate = useNavigate();
   const user = useUser();
-  const { data: userData } = useGetUserDetailsQuery(user?._id, {skip: user?._id ? false : true});
+  const { data: userData } = useGetUserDetailsQuery(user?._id, {
+    skip: user?._id ? false : true,
+  });
 
-  // const { data: itemsNumber, isFetching: cartIsFetching } =
-  //   useGetItemsNumberInCartQuery(user?._id);
+  // console.log(userData);
+
   const { restaurantId } = useParams();
 
   const {
@@ -36,14 +38,12 @@ export default function RestaurantPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCategoryFoods, setSelectedCategoryFoods] = useState([]);
   const [isCategoryFoodsLoading, setIsCategoryFoodsLoading] = useState(false);
+
   const [cartProductsList, setCartProductsList] = useState(
     userData?.cart || []
   );
 
   const [createOrder, { isSuccess: orderIsSuccess }] = useCreateOrderMutation();
-  // const { refetch: refetchItemsNumber } = useGetItemsNumberInCartQuery(
-  //   user?._id
-  // );
 
   const sliderSettings = {
     dots: false,
@@ -60,25 +60,13 @@ export default function RestaurantPage() {
   useEffect(() => {
     if (userData) setCartProductsList(userData.cart);
 
-    // if (orderIsSuccess && user?.token) {
-    //   refetchItemsNumber();
-    //   navigate("/profile");
-    // }
-
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === (restaurant?.images?.length || 0) - 1 ? 0 : prevIndex + 1
       );
     }, 2000);
     return () => clearInterval(interval);
-  }, [
-    restaurant?.images?.length,
-    userData,
-    orderIsSuccess,
-    navigate,
-    user,
-    // refetchItemsNumber,
-  ]);
+  }, [restaurant?.images?.length, userData, orderIsSuccess, navigate, user]);
 
   const handleCategoryClick = async (categoryId) => {
     try {
@@ -119,7 +107,7 @@ export default function RestaurantPage() {
         product: prod.product._id,
         amount: prod.amount,
       })),
-      userId: user?._id,
+      token: user?.token,
     };
 
     console.log("Order Data:", orderData);
