@@ -18,10 +18,13 @@ export const orderApi = createApi({
       }),
     }),
     createOrder: builder.mutation({
-      query: (orderData) => ({
+      query: ({ token, ...orderData }) => ({
         url: "/order",
         method: "POST",
         body: orderData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
   }),
