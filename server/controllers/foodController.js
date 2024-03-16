@@ -15,13 +15,17 @@ const getAllFoodsByCategoryId = async (req, res) => {
     const foods = await Food.find({ category: categoryId });
 
     if (foods.length === 0) {
-      return res.status(404).json({ message: "No foods found for this category" });
+      return res
+        .status(404)
+        .json({ message: "No foods found for this category" });
     }
 
     res.status(200).json(foods);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to fetch foods for this category" });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch foods for this category" });
   }
 };
 
@@ -61,13 +65,23 @@ const createNewFood = async (req, res) => {
 };
 
 const searchFood = async (req, res) => {
-  const { searchString } = req.query;
-
-  const foods = await Food.find({
-    name: new RegExp(searchString, "i"),
+  const { searchString, page = 1, limit = 6 } = req.query;
+  const count = await Food.countDocuments({
+    $or: [
+      { name: new RegExp(searchString, "i") },
+      { description: new RegExp(searchString, "i") },
+    ],
   });
-
-  res.status(200).json(foods);
+  const foods = await Food.find({
+    $or: [
+      { name: new RegExp(searchString, "i") },
+      { description: new RegExp(searchString, "i") },
+    ],
+  })
+    .sort({ _id: -1 })
+    .limit(+limit)
+    .skip((page - 1) * limit);
+  res.status(200).json({ data: foods, totalPages: Math.ceil(count / limit) });
 };
 
 const updateFoodById = async (req, res) => {

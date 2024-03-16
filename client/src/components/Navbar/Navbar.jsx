@@ -23,7 +23,7 @@ export default function Navbar() {
   const handleSearch = async () => {
     try {
       const response = await searchRestaurants(searchString);
-      navigate(`/search?searchString=${searchString}`);
+      navigate(`/search?searchString=${searchString || ""}&page=1`);
     } catch (error) {
       console.error("Error searching restaurants:", error);
       alert(t("failedToSearchRestaurants"));
@@ -50,6 +50,8 @@ export default function Navbar() {
         </div>
       </Link>
       <Link className="link" to={"/api"}><button className="api-button">APIs</button></Link>
+      <Link className="link" to={"/socket"}><button className="api-button">Socket</button></Link>
+
       <div className="nav2">
         <div>
           <input
