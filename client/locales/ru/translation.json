@@ -30,5 +30,6 @@
   "noResultsFound": "Результаты не найдены",
   "restaurantSearchResults": "Результаты поиска ресторанов: {{ searchString }}",
   "foodSearchResults": "Результаты поиска блюд: {{ searchString }}",
-  "popularFoods": "Популярные блюда"
+  "popularFoods": "Популярные блюда",
+  "searchResults": "Результаты поиска для:"
 }

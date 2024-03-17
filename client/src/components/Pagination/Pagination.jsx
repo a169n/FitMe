@@ -10,12 +10,10 @@ const Pagination = ({ isSearch, totalPages, searchString }) => {
     pagesArray.push(i);
   }
 
-  console.log(totalPages, pagesArray);
-
   return (
     <div className="pagination">
       {pagesArray.map((page) => (
-        <>
+        <div key={page}>
           {isSearch && (
             <Link
               to={`/search?searchString=${searchString}&page=${page}`}
@@ -24,7 +22,7 @@ const Pagination = ({ isSearch, totalPages, searchString }) => {
               {page}
             </Link>
           )}
-        </>
+        </div>
       ))}
     </div>
   );

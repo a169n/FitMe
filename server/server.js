@@ -72,6 +72,7 @@ app.post("/messages", async (req, res) => {
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/", require("./routes/testRouter"));
 app.use("/", require("./routes/userRouter"));
+app.use("/cart", require("./routes/cartRouter"));
 app.use("/", require("./routes/restaurantRouter"));
 app.use("/", require("./routes/foodRouter"));
 app.use("/", require("./routes/categoryRouter"));

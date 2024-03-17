@@ -10,23 +10,41 @@ export const usersApi = createApi({
       }),
     }),
     addItemToCart: builder.mutation({
-      query: ({ productId, amount }) => ({
-        url: "/cart",
+      query: ({ token, ...productData }) => ({
+        url: "/cart/add",
         method: "POST",
-        body: { productId, amount },
+        body: productData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
+      invalidatesTags: ["User", "Cart"],
+    }),
+    removeItemFromCart: builder.mutation({
+      query: ({ token, productId }) => ({
+        url: "/cart/remove",
+        method: "POST",
+        body: { productId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Cart"],
     }),
     getItemsNumberInCart: builder.query({
-      query: (id) => ({
-        url: `/user/${id}/cart/amount`,
+      query: (token) => ({
+        url: "/cart/amount",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
-      providesTags: (result, error, id) => [{ type: "Cart", id }],
+      providesTags: ["Cart"],
     }),
     getUserDetails: builder.query({
-      query: (id) => ({
-        url: `/user/details/${id}`,
+      query: (userId) => ({
+        url: `/user/${userId}/details`,
       }),
-      providesTags: (result, error, id) => [{ type: "User", id }],
+      providesTags: ["User"],
     }),
     postGetUserProfile: builder.mutation({
       query: ({ reqUserId }) => ({
@@ -98,14 +116,16 @@ export const {
   // GET /user/cart/amount
   useGetItemsNumberInCartQuery,
   useLazyGetItemsNumberInCartQuery,
-  // GET /user/details
+  // GET /user/:id/details
   useGetUserDetailsQuery,
   useLazyGetUserDetailsQuery,
   // GET /user/:id
   useGetUserByIdQuery,
   useLazyGetUserByIdQuery,
-  // POST /cart
+  // POST /cart/add
   useAddItemToCartMutation,
+  // POST /cart/remove
+  useRemoveItemFromCartMutation,
   // GET /user/email
   useGetUserEmailByUsernameQuery,
   useLazyGetUserEmailByUsernameQuery,
