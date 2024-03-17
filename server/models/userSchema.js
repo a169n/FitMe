@@ -11,9 +11,13 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    cartRestaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Restaurant",
+    },
     cart: [
       {
-        food: {
+        product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Food",
         },

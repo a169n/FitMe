@@ -30,6 +30,7 @@
   "noResultsFound": "No results found",
   "restaurantSearchResults": "Search Results for Restaurants: {{ searchString }}",
   "foodSearchResults": "Search Results for Foods: {{ searchString }}",
-  "popularFoods": "Popular Foods"
+  "popularFoods": "Popular Foods",
+  "searchResults": "Search Results For:"
 }
 

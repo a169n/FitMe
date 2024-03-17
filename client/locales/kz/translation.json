@@ -30,6 +30,6 @@
   "noResultsFound": "Нәтижелер табылмады",
   "restaurantSearchResults": "Ресторандарды іздеу нәтижелері: {{ searchString }}",
   "foodSearchResults": "Тағамдарды іздеу нәтижелері: {{ searchString }}",
-  "popularFoods": "Танымал тағамдар"
-
+  "popularFoods": "Танымал тағамдар",
+  "searchResults": "Іздеу нәтижелері:"
 }

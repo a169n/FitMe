@@ -7,20 +7,16 @@ import Slider from "react-slick";
 import "./RestaurantPage.css";
 import { useUser } from "../../hooks/useUser";
 import {
+  useAddItemToCartMutation,
   useGetItemsNumberInCartQuery,
   useGetUserDetailsQuery,
+  useRemoveItemFromCartMutation,
 } from "../../redux/services/usersApi";
 import { useCreateOrderMutation } from "../../redux/services/orderApi";
 
 export default function RestaurantPage() {
   const navigate = useNavigate();
   const user = useUser();
-  const { data: userData } = useGetUserDetailsQuery(user?._id, {
-    skip: user?._id ? false : true,
-  });
-
-  // console.log(userData);
-
   const { restaurantId } = useParams();
 
   const {
@@ -34,6 +30,23 @@ export default function RestaurantPage() {
 
   const [foodsByCategoryId] = useLazyGetFoodsByCategoryIdQuery();
 
+  const { data: userData } = useGetUserDetailsQuery(user?._id, {
+    skip: !user?._id,
+  });
+
+  console.log(userData)
+
+  const [addToCart] = useAddItemToCartMutation();
+  const [removeItemFromCart] = useRemoveItemFromCartMutation();
+
+  const [createOrder, { isSuccess: orderIsSuccess }] = useCreateOrderMutation();
+
+  const { data: cartItemsNumber, refetch: refetchItemsNumber } =
+    useGetItemsNumberInCartQuery(user?.token, {
+      skip: !user?.token,
+    });
+
+  const [amount, setAmount] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCategoryFoods, setSelectedCategoryFoods] = useState([]);
@@ -42,8 +55,6 @@ export default function RestaurantPage() {
   const [cartProductsList, setCartProductsList] = useState(
     userData?.cart || []
   );
-
-  const [createOrder, { isSuccess: orderIsSuccess }] = useCreateOrderMutation();
 
   const sliderSettings = {
     dots: false,
@@ -66,13 +77,25 @@ export default function RestaurantPage() {
       );
     }, 2000);
     return () => clearInterval(interval);
-  }, [restaurant?.images?.length, userData, orderIsSuccess, navigate, user]);
+  }, [restaurant?.images?.length, orderIsSuccess, navigate, user, userData]);
+
+  useEffect(() => {
+    if (orderIsSuccess && user?.token) {
+      refetchItemsNumber();
+      navigate("/profile");
+    }
+  }, [orderIsSuccess, navigate, user, refetchItemsNumber]);
 
   const handleCategoryClick = async (categoryId) => {
     try {
       setIsCategoryFoodsLoading(true);
       const { data } = await foodsByCategoryId(categoryId);
       setSelectedCategoryFoods(data || []);
+      const initialAmounts = {};
+      data.forEach((food) => {
+        initialAmounts[food._id] = 1;
+      });
+      setAmount(initialAmounts);
     } catch (error) {
       console.error("Error fetching category foods:", error);
     } finally {
@@ -81,37 +104,65 @@ export default function RestaurantPage() {
     setSelectedCategory(categoryId);
   };
 
-  const handleAddToCart = (foodId, amount) => {
-    const existingProductIndex = cartProductsList.findIndex(
-      (product) => product.product._id === foodId
-    );
-    if (existingProductIndex !== -1) {
-      const updatedCart = [...cartProductsList];
-      updatedCart[existingProductIndex].amount += amount;
-      setCartProductsList(updatedCart);
-    } else {
-      const selectedFood = selectedCategoryFoods.find(
-        (food) => food._id === foodId
+  const addItemToCart = async (productId, amount, token) => {
+    try {
+      await addToCart({
+        product: productId,
+        amount: amount,
+        token: token,
+      });
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+
+  const handleAddToCart = async (foodId, amount) => {
+    try {
+      await addItemToCart(foodId, amount, user?.token);
+      setAmount((prevAmount) => ({
+        ...prevAmount,
+        [foodId]: (prevAmount[foodId] || 0) + 1,
+      }));
+      const existingProductIndex = cartProductsList.findIndex(
+        (product) => product?._id === foodId
       );
-      const updatedCart = [
-        ...cartProductsList,
-        { product: selectedFood, amount },
-      ];
-      setCartProductsList(updatedCart);
+      if (existingProductIndex !== -1) {
+        const updatedCart = [...cartProductsList];
+        updatedCart[existingProductIndex].amount += amount;
+        setCartProductsList(updatedCart);
+      } else {
+        const updatedCart = [...cartProductsList, { product: food, amount }];
+        setCartProductsList(updatedCart);
+      }
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+
+  const handleRemoveFromCart = async (foodId) => {
+    try {
+      await removeItemFromCart({ token: user?.token, productId: foodId });
+      setCartProductsList((prevCart) =>
+        prevCart.filter((item) => item?._id !== foodId)
+      );
+      setAmount((prevAmount) => {
+        const updatedAmount = { ...prevAmount };
+        delete updatedAmount[foodId];
+        return updatedAmount;
+      });
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
     }
   };
 
   const handleCreateOrder = () => {
     const orderData = {
       orderProducts: cartProductsList.map((prod) => ({
-        product: prod.product._id,
-        amount: prod.amount,
+        product: prod?._id,
+        amount: prod?.amount,
       })),
       token: user?.token,
     };
-
-    console.log("Order Data:", orderData);
-
     createOrder(orderData);
   };
 
@@ -184,14 +235,42 @@ export default function RestaurantPage() {
                     src={`http://localhost:3000/${food.image}`}
                     alt="food-image"
                   />
-                  <div className="add-button-container">
+                  <div className="quantity-selector">
                     <button
-                      className="add-button"
-                      onClick={() => handleAddToCart(food._id, 1)}
+                      className="quantity-selector-button"
+                      onClick={() =>
+                        setAmount((prevAmount) => ({
+                          ...prevAmount,
+                          [food._id]: Math.max(
+                            (prevAmount[food._id] || 0) - 1,
+                            0
+                          ),
+                        }))
+                      }
                     >
-                      Add+
+                      -
+                    </button>
+                    <span className="selected-quantity">
+                      {amount[food._id] || 1}
+                    </span>
+                    <button
+                      className="quantity-selector-button"
+                      onClick={() =>
+                        setAmount((prevAmount) => ({
+                          ...prevAmount,
+                          [food._id]: (prevAmount[food._id] || 0) + 1,
+                        }))
+                      }
+                    >
+                      +
                     </button>
                   </div>
+                  <button
+                    className="add-button"
+                    onClick={() => handleAddToCart(food._id, amount[food._id])}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             ))
@@ -199,49 +278,52 @@ export default function RestaurantPage() {
         </div>
         <div className="cart">
           <div className="cart-heading">Cart</div>
+          <div>Items: </div> {cartItemsNumber?.amount}
           <div className="orders_list">
-            {cartProductsList?.map((cartProduct) => {
-              return (
-                <div key={cartProduct?.product?._id} className="order_card">
-                  <div>Name: {cartProduct?.product?.name}</div>
-                  <div>Price: {cartProduct?.product?.price}</div>
-                  <div>
-                    Amount:
-                    <button
-                      className="cart-counter"
-                      onClick={() => {
-                        const updatedCart = [...cartProductsList];
-                        const index = updatedCart.findIndex(
-                          (product) =>
-                            product.product._id === cartProduct?.product?._id
-                        );
-                        if (updatedCart[index].amount > 1) {
-                          updatedCart[index].amount -= 1;
-                          setCartProductsList(updatedCart);
-                        }
-                      }}
-                    >
-                      -
-                    </button>
-                    {cartProduct?.amount}
-                    <button
-                      className="cart-counter"
-                      onClick={() => {
-                        const updatedCart = [...cartProductsList];
-                        const index = updatedCart.findIndex(
-                          (product) =>
-                            product.product._id === cartProduct?.product?._id
-                        );
-                        updatedCart[index].amount += 1;
+            {cartProductsList?.map((cartProduct) => (
+              <div key={cartProduct?._id} className="order_card">
+                <div>Name: {cartProduct._id}</div>
+                <div>Price: ₹</div>
+                <div>
+                  Amount:
+                  <button
+                    className="cart-counter"
+                    onClick={() => {
+                      const updatedCart = [...cartProductsList];
+                      const index = updatedCart.findIndex(
+                        (product) => product?._id === cartProduct?.product?._id
+                      );
+                      if (updatedCart[index].amount > 1) {
+                        updatedCart[index].amount -= 1;
                         setCartProductsList(updatedCart);
-                      }}
-                    >
-                      +
-                    </button>
-                  </div>
+                      }
+                    }}
+                  >
+                    -
+                  </button>
+                  {cartProduct?.amount}
+                  <button
+                    className="cart-counter"
+                    onClick={() => {
+                      const updatedCart = [...cartProductsList];
+                      const index = updatedCart.findIndex(
+                        (product) => product?._id === cartProduct?.product?._id
+                      );
+                      updatedCart[index].amount += 1;
+                      setCartProductsList(updatedCart);
+                    }}
+                  >
+                    +
+                  </button>
                 </div>
-              );
-            })}
+                <button
+                  className="remove-from-cart-button"
+                  onClick={() => handleRemoveFromCart(cartProduct?._id)}
+                >
+                  Remove from Cart
+                </button>
+              </div>
+            ))}
           </div>
           <button onClick={() => handleCreateOrder()}>Create Order</button>
           <button className="checkout-button">Checkout</button>

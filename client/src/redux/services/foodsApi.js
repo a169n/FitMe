@@ -65,6 +65,7 @@ export const {
   useLazyGetFoodsQuery,
   // GET /food/:id
   useGetFoodByIdQuery,
+  useLazyGetFoodByIdQuery,
   // GET /foods/category/:categoryId
   useGetFoodsByCategoryIdQuery,
   useLazyGetFoodsByCategoryIdQuery,

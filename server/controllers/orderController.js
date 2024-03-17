@@ -4,7 +4,7 @@ const User = require("../models/userSchema");
 
 
 const getAllOrders = async (req, res) => {
-  const orders = await Order.find({}).populate("user").populate("restaurant").populate("orderFoods")
+  const orders = await Order.find({}).populate("user").populate("restaurant").populate("orderProducts")
   res.status(200).json(orders);
 };
 
@@ -76,10 +76,20 @@ const updateOrderById = async (req, res) => {
   res.status(200).json(updatedOrder);
 };
 
+const deleteAllOrders = async (req, res) => {
+  try {
+    const deletedOrders = await Order.deleteMany({});
+    res.status(200).json({ message: "All orders deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message, message: "Could not delete orders" });
+  }
+};
+
 module.exports = {
   getAllOrders,
   createOrder,
   getOrderById,
   deleteOrderById,
   updateOrderById,
+  deleteAllOrders,
 };

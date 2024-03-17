@@ -5,6 +5,7 @@ const {
   deleteOrderById,
   updateOrderById,
   createOrder,
+  deleteAllOrders,
 } = require("../controllers/orderController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -15,5 +16,6 @@ router.get("/order/:id", getOrderById);
 router.post("/order", protect, createOrder);
 router.put("/order/:id", updateOrderById);
 router.delete("/order/:id", deleteOrderById);
+router.delete("/orders", deleteAllOrders);
 
 module.exports = router;
