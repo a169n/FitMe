@@ -51,7 +51,6 @@
   cursor: pointer;
 }
 
-
 .nav-input::placeholder {
   color: #808080;
   font-family: Inter;
@@ -107,4 +106,45 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.admin-page-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.api-button,
+.card-button,
+.search-button,
+.sign-in-button,
+.admin-button,
+.language-select {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s;
+}
+
+.main-logo {
+  transition: opacity 0.3s;
+}
+
+.api-button:hover,
+.card-button:hover,
+.search-button:hover,
+.sign-in-button:hover,
+.admin-button:hover {
+  background-color: #454545;
+  color: #fff;
+}
+
+.language-select:hover {
+  border-color: #999;
+}
+
+.admin-button:hover {
+  background-color: #454545;
+  color: #fff;
+}
+
+.main-logo:hover {
+  opacity: 0.8;
 }

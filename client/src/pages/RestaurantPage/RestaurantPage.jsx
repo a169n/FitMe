@@ -7,11 +7,12 @@ import Slider from "react-slick";
 import "./RestaurantPage.css";
 import { useUser } from "../../hooks/useUser";
 import {
+  useGetUserDetailsQuery,
   useAddItemToCartMutation,
   useGetItemsNumberInCartQuery,
-  useGetUserDetailsQuery,
   useRemoveItemFromCartMutation,
 } from "../../redux/services/usersApi";
+
 import { useCreateOrderMutation } from "../../redux/services/orderApi";
 
 export default function RestaurantPage() {
@@ -33,8 +34,6 @@ export default function RestaurantPage() {
   const { data: userData } = useGetUserDetailsQuery(user?._id, {
     skip: !user?._id,
   });
-
-  console.log(userData)
 
   const [addToCart] = useAddItemToCartMutation();
   const [removeItemFromCart] = useRemoveItemFromCartMutation();
@@ -104,11 +103,12 @@ export default function RestaurantPage() {
     setSelectedCategory(categoryId);
   };
 
-  const addItemToCart = async (productId, amount, token) => {
+  const addItemToCart = async (productId, amount, restaurantId, token) => {
     try {
       await addToCart({
-        product: productId,
+        productId: productId,
         amount: amount,
+        restaurantId: restaurantId,
         token: token,
       });
     } catch (error) {
@@ -118,7 +118,7 @@ export default function RestaurantPage() {
 
   const handleAddToCart = async (foodId, amount) => {
     try {
-      await addItemToCart(foodId, amount, user?.token);
+      await addItemToCart(foodId, amount, restaurant._id, user?.token);
       setAmount((prevAmount) => ({
         ...prevAmount,
         [foodId]: (prevAmount[foodId] || 0) + 1,
@@ -143,7 +143,7 @@ export default function RestaurantPage() {
     try {
       await removeItemFromCart({ token: user?.token, productId: foodId });
       setCartProductsList((prevCart) =>
-        prevCart.filter((item) => item?._id !== foodId)
+        prevCart.filter((item) => item?.product?._id !== foodId)
       );
       setAmount((prevAmount) => {
         const updatedAmount = { ...prevAmount };
@@ -278,47 +278,16 @@ export default function RestaurantPage() {
         </div>
         <div className="cart">
           <div className="cart-heading">Cart</div>
-          <div>Items: </div> {cartItemsNumber?.amount}
+          <div>Items: {cartItemsNumber?.amount}</div>
           <div className="orders_list">
             {cartProductsList?.map((cartProduct) => (
               <div key={cartProduct?._id} className="order_card">
-                <div>Name: {cartProduct._id}</div>
-                <div>Price: ₹</div>
-                <div>
-                  Amount:
-                  <button
-                    className="cart-counter"
-                    onClick={() => {
-                      const updatedCart = [...cartProductsList];
-                      const index = updatedCart.findIndex(
-                        (product) => product?._id === cartProduct?.product?._id
-                      );
-                      if (updatedCart[index].amount > 1) {
-                        updatedCart[index].amount -= 1;
-                        setCartProductsList(updatedCart);
-                      }
-                    }}
-                  >
-                    -
-                  </button>
-                  {cartProduct?.amount}
-                  <button
-                    className="cart-counter"
-                    onClick={() => {
-                      const updatedCart = [...cartProductsList];
-                      const index = updatedCart.findIndex(
-                        (product) => product?._id === cartProduct?.product?._id
-                      );
-                      updatedCart[index].amount += 1;
-                      setCartProductsList(updatedCart);
-                    }}
-                  >
-                    +
-                  </button>
-                </div>
+                <div>Name: {cartProduct.product.name}</div>
+                <div>Price: ₹{cartProduct.product.price}</div>
+                <div>Amount: {cartProduct?.amount}</div>
                 <button
                   className="remove-from-cart-button"
-                  onClick={() => handleRemoveFromCart(cartProduct?._id)}
+                  onClick={() => handleRemoveFromCart(cartProduct?.product)}
                 >
                   Remove from Cart
                 </button>

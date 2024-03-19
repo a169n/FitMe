@@ -3,14 +3,22 @@ const User = require("../models/userSchema");
 const addItemToCart = async (req, res) => {
   try {
     const reqUser = req.user;
-    const { productId, amount } = req.body;
-    const user = await User.findByIdAndUpdate(
-      reqUser._id,
-      {
-        $push: { cart: { product: productId, amount: amount } },
-      },
-      { new: true }
-    );
+    const { productId, amount, restaurantId } = req.body;
+
+    const user = await User.findById(reqUser._id);
+
+    if (
+      user.cartRestaurant &&
+      user.cartRestaurant.toString() !== restaurantId
+    ) {
+      user.cart = [];
+    }
+
+    user.cartRestaurant = restaurantId;
+
+    user.cart.push({ product: productId, amount: amount });
+
+    await user.save();
 
     res.status(200).json(user);
   } catch (error) {
@@ -22,6 +30,7 @@ const removeItemFromCart = async (req, res) => {
   try {
     const reqUser = req.user;
     const { productId } = req.body;
+
     const user = await User.findByIdAndUpdate(
       reqUser._id,
       {
@@ -30,9 +39,14 @@ const removeItemFromCart = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json(user);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
   } catch (error) {
-    res.status(500).json({ message: JSON.stringify(error) });
+    console.error("Error removing item from cart:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -51,7 +65,7 @@ const clearCart = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       reqUser._id,
       {
-        $set: { cart: [] },
+        $set: { cart: [], cartRestaurant: null },
       },
       { new: true }
     );

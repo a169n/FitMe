@@ -9,37 +9,6 @@ export const usersApi = createApi({
         url: "/users",
       }),
     }),
-    addItemToCart: builder.mutation({
-      query: ({ token, ...productData }) => ({
-        url: "/cart/add",
-        method: "POST",
-        body: productData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      invalidatesTags: ["User", "Cart"],
-    }),
-    removeItemFromCart: builder.mutation({
-      query: ({ token, productId }) => ({
-        url: "/cart/remove",
-        method: "POST",
-        body: { productId },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      invalidatesTags: ["Cart"],
-    }),
-    getItemsNumberInCart: builder.query({
-      query: (token) => ({
-        url: "/cart/amount",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      providesTags: ["Cart"],
-    }),
     getUserDetails: builder.query({
       query: (userId) => ({
         url: `/user/${userId}/details`,
@@ -106,6 +75,47 @@ export const usersApi = createApi({
         method: "PUT",
       }),
     }),
+    addItemToCart: builder.mutation({
+      query: ({ token, ...productData }) => ({
+        url: "/cart/add",
+        method: "POST",
+        body: productData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["User", "Cart"],
+    }),
+    removeItemFromCart: builder.mutation({
+      query: ({ token, productId }) => ({
+        url: "/cart/remove",
+        method: "DELETE",
+        body: { productId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["User", "Cart"],
+    }),
+    getItemsNumberInCart: builder.query({
+      query: (token) => ({
+        url: "/cart/amount",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["Cart"],
+    }),
+    clearCart: builder.mutation({
+      query: (token) => ({
+        url: "/cart/clear",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["User", "Cart"],
+    }),
   }),
 });
 
@@ -113,19 +123,12 @@ export const {
   // GET /users
   useGetUsersQuery,
   useLazyGetUsersQuery,
-  // GET /user/cart/amount
-  useGetItemsNumberInCartQuery,
-  useLazyGetItemsNumberInCartQuery,
   // GET /user/:id/details
   useGetUserDetailsQuery,
   useLazyGetUserDetailsQuery,
   // GET /user/:id
   useGetUserByIdQuery,
   useLazyGetUserByIdQuery,
-  // POST /cart/add
-  useAddItemToCartMutation,
-  // POST /cart/remove
-  useRemoveItemFromCartMutation,
   // GET /user/email
   useGetUserEmailByUsernameQuery,
   useLazyGetUserEmailByUsernameQuery,
@@ -142,4 +145,13 @@ export const {
   useMakeUserAdminByIdMutation,
   // PUT /user/:id/remove-admin
   useRemoveUserAdminByIdMutation,
+  // GET /user/cart/amount
+  useGetItemsNumberInCartQuery,
+  useLazyGetItemsNumberInCartQuery,
+  // POST /cart/add
+  useAddItemToCartMutation,
+  // POST /cart/remove
+  useRemoveItemFromCartMutation,
+  // DELETE /cart/clear
+  useClearCartMutation,
 } = usersApi;

@@ -20,7 +20,7 @@ const getUserDetails = async (req, res) => {
   const userId = req.params.id;
   try {
     const user = await User.findById(userId)
-      .populate("cart")
+      .populate("cart.product")
       .populate("orders");
     const orders = (await Order.find({ user: userId })) || [];
     user.orders = orders;

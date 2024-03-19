@@ -7,8 +7,6 @@ export const useAccess = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || (user && !user.isAdmin)) {
       navigate("/");
-    } else if (user && user.isAdmin) {
-      navigate("/admin");
     }
   }, [navigate]);
 };
