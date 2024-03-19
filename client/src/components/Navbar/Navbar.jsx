@@ -49,8 +49,12 @@ export default function Navbar() {
           <h4 className="nav-header">FitMe</h4>
         </div>
       </Link>
-      <Link className="link" to={"/api"}><button className="api-button">APIs</button></Link>
-      <Link className="link" to={"/socket"}><button className="api-button">Socket</button></Link>
+      <Link className="link" to={"/api"}>
+        <button className="api-button">APIs</button>
+      </Link>
+      <Link className="link" to={"/socket"}>
+        <button className="api-button">Socket</button>
+      </Link>
 
       <div className="nav2">
         <div>
@@ -83,11 +87,18 @@ export default function Navbar() {
             <option value="kz">Қазақша</option>
           </select>
         </div>
-        <div>
+        <div className="admin-page-container">
           {user ? (
-            <button className="sign-in-button" onClick={handleSignOut}>
-              {t("logOut", { username: user.username })}{" "}
-            </button>
+            <>
+              {user.isAdmin && (
+                <Link className="link" to={"/admin"}>
+                  <button className="api-button">Admin Page</button>
+                </Link>
+              )}
+              <button className="sign-in-button" onClick={handleSignOut}>
+                {t("logOut", { username: user.username })}{" "}
+              </button>
+            </>
           ) : (
             <Link className="link" to={"/login"}>
               <button className="sign-in-button">{t("signIn")}</button>{" "}

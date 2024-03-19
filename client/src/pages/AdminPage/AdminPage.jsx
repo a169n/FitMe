@@ -6,12 +6,10 @@ import Users from "../../components/Users/Users";
 import { useAccess } from "../../hooks/useAccess";
 
 export default function AdminPage() {
-  useAccess()
-  const dispatch = useDispatch();
+  useAccess();
   const navigate = useNavigate();
 
   const handleReturnToHomePage = () => {
-    dispatch(logoutUser());
     navigate("/");
   };
 
@@ -19,7 +17,7 @@ export default function AdminPage() {
     <div className="adminPage global-padding">
       <h1 className="admin-page-heading">Admin Page</h1>
       <button className="return-button" onClick={handleReturnToHomePage}>
-        Log out and Return to HomePage
+        Return to HomePage
       </button>
 
       <div>

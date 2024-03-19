@@ -8,7 +8,6 @@ export const useAdmin = () => {
     if (!user) {
       navigate("/login");
     } else if (!user.isAdmin) {
-      alert("Only admins can visit this page!")
       navigate("/")
     }
   }, [navigate]);
