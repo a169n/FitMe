@@ -128,8 +128,6 @@
 }
 
 .api-button:hover,
-.card-button:hover,
-.search-button:hover,
 .sign-in-button:hover,
 .admin-button:hover {
   background-color: #454545;

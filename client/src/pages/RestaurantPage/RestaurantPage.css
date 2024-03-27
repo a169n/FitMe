@@ -134,12 +134,14 @@
 .restaurant-data {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
+  margin-top: 60px;
 }
 
 .categories {
   display: flex;
   flex-direction: column;
+  margin: 0;
 }
 
 .category-button {
@@ -210,14 +212,7 @@
   object-fit: cover;
 }
 
-.cart {
-  color: #202020;
-  font-family: Poppins;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
+
 
 .checkout-button {
   display: flex;
@@ -257,7 +252,7 @@
   font-weight: 500;
   line-height: normal;
   left: 50%;
-  bottom: 60%;
+  bottom: 20%;
   transform: translateX(-50%);
 }
 
@@ -269,24 +264,3 @@
   stroke: #808080;
 }
 
-.quantity-selector {
-  display: flex;
-  align-items: center;
-}
-
-.quantity-selector-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 0 5px;
-}
-
-.selected-quantity {
-  font-size: 16px;
-  margin: 0 10px;
-}

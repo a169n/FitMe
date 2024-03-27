@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Cart from "../../components/Cart/Cart";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetRestaurantByIdQuery } from "../../redux/services/restaurantsApi";
 import { useGetCategoriesByRestaurantIdQuery } from "../../redux/services/categoriesApi";
@@ -11,6 +13,7 @@ import {
   useAddItemToCartMutation,
   useGetItemsNumberInCartQuery,
   useRemoveItemFromCartMutation,
+  useChangeItemAmountByOneMutation,
 } from "../../redux/services/usersApi";
 
 import { useCreateOrderMutation } from "../../redux/services/orderApi";
@@ -36,6 +39,7 @@ export default function RestaurantPage() {
   });
 
   const [addToCart] = useAddItemToCartMutation();
+  const [changeAmountInCart] = useChangeItemAmountByOneMutation();
   const [removeItemFromCart] = useRemoveItemFromCartMutation();
 
   const [createOrder, { isSuccess: orderIsSuccess }] = useCreateOrderMutation();
@@ -46,6 +50,7 @@ export default function RestaurantPage() {
     });
 
   const [amount, setAmount] = useState({});
+  const [totalPrice, setTotalPrice] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCategoryFoods, setSelectedCategoryFoods] = useState([]);
@@ -54,6 +59,8 @@ export default function RestaurantPage() {
   const [cartProductsList, setCartProductsList] = useState(
     userData?.cart || []
   );
+
+  const [addedToCart, setAddedToCart] = useState({});
 
   const sliderSettings = {
     dots: false,
@@ -70,13 +77,34 @@ export default function RestaurantPage() {
   useEffect(() => {
     if (userData) setCartProductsList(userData.cart);
 
+    const updatedAmount = {};
+    cartProductsList.forEach((product) => {
+      updatedAmount[product.product._id] = product.amount;
+    });
+    setAmount(updatedAmount);
+
+    const newTotalPrice = cartProductsList.reduce((acc, cartProduct) => {
+      const productPrice = cartProduct.product.price || 0;
+      const productAmount = cartProduct.amount || 0;
+      return acc + productPrice * productAmount;
+    }, 0);
+
+    setTotalPrice(newTotalPrice);
+
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === (restaurant?.images?.length || 0) - 1 ? 0 : prevIndex + 1
       );
     }, 2000);
     return () => clearInterval(interval);
-  }, [restaurant?.images?.length, orderIsSuccess, navigate, user, userData]);
+  }, [
+    restaurant?.images?.length,
+    orderIsSuccess,
+    navigate,
+    user,
+    userData,
+    cartProductsList,
+  ]);
 
   useEffect(() => {
     if (orderIsSuccess && user?.token) {
@@ -106,11 +134,15 @@ export default function RestaurantPage() {
   const addItemToCart = async (productId, amount, restaurantId, token) => {
     try {
       await addToCart({
-        productId: productId,
-        amount: amount,
-        restaurantId: restaurantId,
-        token: token,
+        productId,
+        amount,
+        restaurantId,
+        token,
       });
+      setAddedToCart((prevState) => ({
+        ...prevState,
+        [productId]: true,
+      }));
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
@@ -121,7 +153,11 @@ export default function RestaurantPage() {
       await addItemToCart(foodId, amount, restaurant._id, user?.token);
       setAmount((prevAmount) => ({
         ...prevAmount,
-        [foodId]: (prevAmount[foodId] || 0) + 1,
+        [foodId]: prevAmount[foodId],
+      }));
+      setAddedToCart((prevState) => ({
+        ...prevState,
+        [foodId]: true,
       }));
       const existingProductIndex = cartProductsList.findIndex(
         (product) => product?._id === foodId
@@ -131,11 +167,23 @@ export default function RestaurantPage() {
         updatedCart[existingProductIndex].amount += amount;
         setCartProductsList(updatedCart);
       } else {
-        const updatedCart = [...cartProductsList, { product: food, amount }];
+        const updatedCart = [...cartProductsList, { product: foodId, amount }];
         setCartProductsList(updatedCart);
       }
     } catch (error) {
       console.error("Error adding item to cart:", error);
+    }
+  };
+
+  const handleChangeAmountInCart = async (foodId, isIncrease) => {
+    try {
+      await changeAmountInCart({
+        token: user?.token,
+        productId: foodId,
+        increase: isIncrease,
+      });
+    } catch (error) {
+      console.error("Error changing amount in cart:", error);
     }
   };
 
@@ -150,6 +198,10 @@ export default function RestaurantPage() {
         delete updatedAmount[foodId];
         return updatedAmount;
       });
+      setAddedToCart((prevState) => ({
+        ...prevState,
+        [foodId]: false,
+      }));
     } catch (error) {
       console.error("Error removing item from cart:", error);
     }
@@ -158,7 +210,7 @@ export default function RestaurantPage() {
   const handleCreateOrder = () => {
     const orderData = {
       orderProducts: cartProductsList.map((prod) => ({
-        product: prod?._id,
+        product: prod?.product._id,
         amount: prod?.amount,
       })),
       token: user?.token,
@@ -235,68 +287,27 @@ export default function RestaurantPage() {
                     src={`http://localhost:3000/${food.image}`}
                     alt="food-image"
                   />
-                  <div className="quantity-selector">
-                    <button
-                      className="quantity-selector-button"
-                      onClick={() =>
-                        setAmount((prevAmount) => ({
-                          ...prevAmount,
-                          [food._id]: Math.max(
-                            (prevAmount[food._id] || 0) - 1,
-                            0
-                          ),
-                        }))
-                      }
-                    >
-                      -
-                    </button>
-                    <span className="selected-quantity">
-                      {amount[food._id] || 1}
-                    </span>
-                    <button
-                      className="quantity-selector-button"
-                      onClick={() =>
-                        setAmount((prevAmount) => ({
-                          ...prevAmount,
-                          [food._id]: (prevAmount[food._id] || 0) + 1,
-                        }))
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
                   <button
                     className="add-button"
-                    onClick={() => handleAddToCart(food._id, amount[food._id])}
+                    onClick={() => handleAddToCart(food._id, 1)}
+                    disabled={addedToCart[food._id]}
                   >
-                    Add to Cart
+                    {addedToCart[food._id] ? "Added" : "Add+"}
                   </button>
                 </div>
               </div>
             ))
           )}
         </div>
-        <div className="cart">
-          <div className="cart-heading">Cart</div>
-          <div>Items: {cartItemsNumber?.amount}</div>
-          <div className="orders_list">
-            {cartProductsList?.map((cartProduct) => (
-              <div key={cartProduct?._id} className="order_card">
-                <div>Name: {cartProduct.product.name}</div>
-                <div>Price: ₹{cartProduct.product.price}</div>
-                <div>Amount: {cartProduct?.amount}</div>
-                <button
-                  className="remove-from-cart-button"
-                  onClick={() => handleRemoveFromCart(cartProduct?.product)}
-                >
-                  Remove from Cart
-                </button>
-              </div>
-            ))}
-          </div>
-          <button onClick={() => handleCreateOrder()}>Create Order</button>
-          <button className="checkout-button">Checkout</button>
-        </div>
+        <Cart
+          cartProductsList={cartProductsList}
+          cartItemsNumber={cartItemsNumber}
+          amount={amount}
+          handleChangeAmountInCart={handleChangeAmountInCart}
+          handleRemoveFromCart={handleRemoveFromCart}
+          handleCreateOrder={handleCreateOrder}
+          totalPrice={totalPrice}
+        />
       </div>
     </section>
   );

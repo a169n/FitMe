@@ -26,6 +26,46 @@ const addItemToCart = async (req, res) => {
   }
 };
 
+const changeItemAmountByOne = async (req, res) => {
+  try {
+    const reqUser = req.user;
+    const { productId, increase } = req.body;
+
+    if (!reqUser) {
+      return res.status(400).json({ message: "User not found in request" });
+    }
+
+    const user = await User.findById(reqUser._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const productIndex = user.cart.findIndex(
+      (item) => item.product.toString() === productId
+    );
+
+    if (productIndex === -1) {
+      return res.status(404).json({ message: "Product not found in cart" });
+    }
+
+    if (increase) {
+      user.cart[productIndex].amount += 1;
+    } else {
+      user.cart[productIndex].amount = Math.max(
+        user.cart[productIndex].amount - 1,
+        0
+      );
+    }
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const removeItemFromCart = async (req, res) => {
   try {
     const reqUser = req.user;
@@ -78,6 +118,7 @@ const clearCart = async (req, res) => {
 
 module.exports = {
   addItemToCart,
+  changeItemAmountByOne,
   removeItemFromCart,
   getItemsNumberInCart,
   clearCart,

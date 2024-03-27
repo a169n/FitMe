@@ -1,0 +1,160 @@
+.cart-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-heading {
+  color: #202020;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cart-items-number {
+  color: #202020;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cart-item-category {
+  color: #202020;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 30px;
+}
+
+.category-name {
+  color: #fc8019;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-item-data {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.cart-item-name {
+  color: #202020;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cart-item-price {
+  color: #808080;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.quantity-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.selected-quantity {
+  color: #404040;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.quantity-selector-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+#minus-btn {
+  transform: translateY(-100%);
+}
+
+#plus-btn {
+  transform: translateY(15%);
+}
+
+.remove-from-cart-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.remove-from-cart-button:hover {
+  transform: scale(110%);
+  transition: 0.3s;
+}
+
+.trash-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.cart-subtotal-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-subtotal {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 30px 0;
+}
+
+.subtotal {
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.extra-changes {
+  color: #808080;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.total-price {
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
