@@ -86,6 +86,17 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ["User", "Cart"],
     }),
+    changeItemAmountByOne: builder.mutation({
+      query: ({ token, productId, increase }) => ({
+        url: "/cart/amount",
+        method: "PUT",
+        body: { productId, increase },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["User", "Cart"],
+    }),
     removeItemFromCart: builder.mutation({
       query: ({ token, productId }) => ({
         url: "/cart/remove",
@@ -104,7 +115,7 @@ export const usersApi = createApi({
           Authorization: `Bearer ${token}`,
         },
       }),
-      providesTags: ["Cart"],
+      providesTags: ["User", "Cart"],
     }),
     clearCart: builder.mutation({
       query: (token) => ({
@@ -150,6 +161,8 @@ export const {
   useLazyGetItemsNumberInCartQuery,
   // POST /cart/add
   useAddItemToCartMutation,
+  // PUT /cart/amount
+  useChangeItemAmountByOneMutation,
   // POST /cart/remove
   useRemoveItemFromCartMutation,
   // DELETE /cart/clear

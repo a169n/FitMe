@@ -1,13 +1,21 @@
+import React from "react";
 import { useUser } from "../../hooks/useUser";
-import { useGetUserDetailsQuery } from "../../redux/services/usersApi";
+
 import "./UserProfilePage.css";
+import { useDeleteAllOrdersMutation } from "../../redux/services/orderApi";
+import { useGetUserDetailsQuery } from "../../redux/services/usersApi";
 
 export default function UserProfilePage() {
   const user = useUser();
-
   const { data: userData } = useGetUserDetailsQuery(user?._id, {
     skip: !user?._id,
   });
+  const [deleteAllOrders, { isLoading: isDeleting }] =
+    useDeleteAllOrdersMutation();
+
+  const handleClearOrderHistory = () => {
+    deleteAllOrders();
+  };
 
   return (
     <div className="global-padding">
@@ -22,6 +30,10 @@ export default function UserProfilePage() {
             <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
           </div>
         ))}
+        {userData?.orders.length === 0 && <p>No orders available.</p>}
+        <button onClick={handleClearOrderHistory} disabled={isDeleting}>
+          {isDeleting ? "Clearing..." : "Clear Order History"}
+        </button>
       </div>
 
       <div>

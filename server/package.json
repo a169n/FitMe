@@ -4,7 +4,7 @@
   "description": "Online shop prototype",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "server": "nodemon server.js"
   },
   "author": "Aibyn Talgatov",
   "license": "ISC",

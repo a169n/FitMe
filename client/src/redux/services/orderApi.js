@@ -5,11 +5,11 @@ export const orderApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
   endpoints: (builder) => ({
     getOrders: builder.query({
-      query: ({ orderData }) => ({
+      query: () => ({
         url: "/orders",
         method: "GET",
-        body: orderData,
       }),
+      providedTags: ["Order"],
     }),
     getOrderById: builder.query({
       query: (orderId) => ({
@@ -26,6 +26,29 @@ export const orderApi = createApi({
           Authorization: `Bearer ${token}`,
         },
       }),
+      invalidatesTags: ["Order"],
+    }),
+    updateOrderById: builder.mutation({
+      query: ({ orderId, ...orderData }) => ({
+        url: `/order/${orderId}`,
+        method: "PUT",
+        body: orderData,
+      }),
+      invalidatesTags: ["Order"],
+    }),
+    deleteOrderById: builder.mutation({
+      query: (orderId) => ({
+        url: `/order/${orderId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Order"],
+    }),
+    deleteAllOrders: builder.mutation({
+      query: () => ({
+        url: "/orders",
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Order"],
     }),
   }),
 });
@@ -33,10 +56,14 @@ export const orderApi = createApi({
 export const {
   // GET /orders
   useGetOrdersQuery,
-  useLazyGetOrdersQuery,
   // GET /order/:id
   useGetOrderByIdQuery,
-  useLazyGetOrderByIdQuery,
   // POST /order
   useCreateOrderMutation,
+  // PUT /order/:id
+  useUpdateOrderByIdMutation,
+  // DELETE /order/:id
+  useDeleteOrderByIdMutation,
+  // DELETE /orders
+  useDeleteAllOrdersMutation,
 } = orderApi;
