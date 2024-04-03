@@ -119,6 +119,30 @@
   height: 25px;
 }
 
+.checkout-button {
+  display: flex;
+  width: 365px;
+  padding: 15px 25px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: #fc8019;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  cursor: pointer;
+}
+
+.checkout-button.disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
 .cart-subtotal-container {
   display: flex;
   justify-content: space-between;

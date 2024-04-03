@@ -1,6 +1,8 @@
 const Order = require("../models/orderSchema");
 const Food = require("../models/foodSchema");
 const User = require("../models/userSchema");
+const Restaurant = require("../models/restaurantSchema");
+const Review = require("../models/reviewSchema");
 
 const getAllOrders = async (req, res) => {
   const orders = await Order.find({})
@@ -99,6 +101,50 @@ const deleteAllOrders = async (req, res) => {
   }
 };
 
+const rateOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { rating, reviewText } = req.body;
+
+    const order = await Order.findById(orderId).populate("restaurant");
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found!" });
+    }
+
+    const restaurant = order.restaurant;
+
+    const newRating =
+      (restaurant.rating * restaurant.ratingsAmount + rating) /
+      (restaurant.ratingsAmount + 1);
+
+    const newRatingsAmount = restaurant.ratingsAmount + 1;
+
+    await Restaurant.findByIdAndUpdate(
+      restaurant._id,
+      { rating: newRating, ratingsAmount: newRatingsAmount },
+      { new: true }
+    );
+
+    const newReview = await Review.create({
+      user_id: req.user._id,
+      order_id: orderId,
+      rating: rating,
+      review_text: reviewText,
+    });
+
+    await Order.findByIdAndUpdate(orderId, {
+      isRated: true,
+      review: newReview,
+    });
+
+    res.status(201).json(order);
+  } catch (error) {
+    console.error("Error rating:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getAllOrders,
   createOrder,
@@ -106,4 +152,5 @@ module.exports = {
   deleteOrderById,
   updateOrderById,
   deleteAllOrders,
+  rateOrder,
 };

@@ -212,27 +212,6 @@
   object-fit: cover;
 }
 
-
-
-.checkout-button {
-  display: flex;
-  width: 365px;
-  padding: 15px 25px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 10px;
-  background: #fc8019;
-  color: #fff;
-  font-family: Poppins;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  border: none;
-  cursor: pointer;
-}
-
 .add-button {
   position: relative;
   display: inline-flex;

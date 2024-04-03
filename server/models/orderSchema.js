@@ -18,8 +18,12 @@ const orderSchema = mongoose.Schema(
         },
         amount: Number,
       },
-    ], 
+    ],
     totalSum: Number,
+    isRated: {
+      type: Boolean,
+      default: false,
+    },
     review: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Review",

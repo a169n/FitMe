@@ -1,3 +1,5 @@
+
+
 .page-title {
   font-size: 24px;
   margin-bottom: 20px;
@@ -24,7 +26,6 @@
 }
 
 .order-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -67,4 +68,31 @@
 
 .clear-history-button:hover {
   background-color: #b30000;
+}
+
+.rated-button,
+.rate-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.rated-button {
+  background-color: #ddd;
+  color: #333;
+}
+
+.rated-button:hover {
+  background-color: #ccc;
+}
+
+.rate-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.rate-button:hover {
+  background-color: #0056b3;
 }

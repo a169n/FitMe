@@ -211,7 +211,6 @@ export default function RestaurantPage() {
     }
   };
 
-
   const handleCreateOrder = () => {
     const orderData = {
       restaurant: restaurantId,
@@ -255,7 +254,7 @@ export default function RestaurantPage() {
           <div className="restaurant-info"></div>
         </div>
         <div className="offers">
-          <p>Offers</p>
+          <p>Rating: {restaurant.rating.toFixed(2)}/5</p>
         </div>
       </div>
       <div className="restaurant-data global-padding">
