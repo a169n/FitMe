@@ -6,6 +6,7 @@ const {
   updateOrderById,
   createOrder,
   deleteAllOrders,
+  calculateAverageRating,
 } = require("../controllers/orderController");
 const { protect } = require("../middleware/authMiddleware");
 

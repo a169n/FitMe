@@ -6,13 +6,15 @@ const getAllOrders = async (req, res) => {
   const orders = await Order.find({})
     .populate("user")
     .populate("restaurant")
-    .populate("orderProducts");
+    .populate("orderProducts")
+    .populate("review");
   res.status(200).json(orders);
 };
 
 const createOrder = async (req, res) => {
   try {
     const orderData = req.body;
+
     const user = req.user;
 
     const productsIds = orderData.orderProducts.map((product) => {
@@ -33,6 +35,7 @@ const createOrder = async (req, res) => {
     );
 
     const newOrder = await Order.create({
+      restaurant: orderData.restaurant,
       user: req.user._id,
       totalSum: sum,
       orderProducts: orderData.orderProducts,
@@ -50,11 +53,21 @@ const createOrder = async (req, res) => {
 };
 
 const getOrderById = async (req, res) => {
-  const order = await Order.findById(req.params.id);
-  if (!order) {
-    return res.status(404).json({ message: "Order not found" });
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate("user")
+      .populate("restaurant")
+      .populate("orderProducts")
+      .populate("review");
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-  res.status(200).json(order);
 };
 
 const deleteOrderById = async (req, res) => {

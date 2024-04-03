@@ -18,11 +18,11 @@ const orderSchema = mongoose.Schema(
         },
         amount: Number,
       },
-    ],
+    ], 
     totalSum: Number,
     review: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "review",
+      ref: "Review",
     },
     deliveryAddress: String,
     deliveryStatus: String,

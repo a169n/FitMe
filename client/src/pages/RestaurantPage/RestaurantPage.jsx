@@ -112,7 +112,7 @@ export default function RestaurantPage() {
   useEffect(() => {
     if (orderIsSuccess && user?.token) {
       refetchItemsNumber();
-      refetchUserData()
+      refetchUserData();
       navigate("/profile");
     }
   }, [orderIsSuccess, navigate, user, refetchItemsNumber]);
@@ -211,8 +211,10 @@ export default function RestaurantPage() {
     }
   };
 
+
   const handleCreateOrder = () => {
     const orderData = {
+      restaurant: restaurantId,
       orderProducts: cartProductsList.map((prod) => ({
         product: prod?.product._id,
         amount: prod?.amount,
