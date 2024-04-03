@@ -34,9 +34,12 @@ export default function RestaurantPage() {
 
   const [foodsByCategoryId] = useLazyGetFoodsByCategoryIdQuery();
 
-  const { data: userData } = useGetUserDetailsQuery(user?._id, {
-    skip: !user?._id,
-  });
+  const { data: userData, refetch: refetchUserData } = useGetUserDetailsQuery(
+    user?._id,
+    {
+      skip: !user?._id,
+    }
+  );
 
   const [addToCart] = useAddItemToCartMutation();
   const [changeAmountInCart] = useChangeItemAmountByOneMutation();
@@ -109,6 +112,7 @@ export default function RestaurantPage() {
   useEffect(() => {
     if (orderIsSuccess && user?.token) {
       refetchItemsNumber();
+      refetchUserData()
       navigate("/profile");
     }
   }, [orderIsSuccess, navigate, user, refetchItemsNumber]);
