@@ -1,0 +1,70 @@
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.order-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.order-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1 1 300px;
+  transition: all 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.order-info p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.order-id {
+  font-weight: bold;
+}
+
+.order-total {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.no-orders {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.clear-history-button {
+  margin: 30px 0;
+  padding: 10px 20px;
+  background-color: #dd1111c1;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.clear-history-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clear-history-button:hover {
+  background-color: #b30000;
+}
