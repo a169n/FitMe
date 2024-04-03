@@ -50,6 +50,16 @@ export const orderApi = createApi({
       }),
       invalidatesTags: ["Order"],
     }),
+    rateOrder: builder.mutation({
+      query: ({ orderId, rating, reviewText, token }) => ({
+        url: `/rate/${orderId}`,
+        method: "POST",
+        body: { rating, reviewText },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -66,4 +76,6 @@ export const {
   useDeleteOrderByIdMutation,
   // DELETE /orders
   useDeleteAllOrdersMutation,
+  // POST /rate/:orderId
+  useRateOrderMutation,
 } = orderApi;

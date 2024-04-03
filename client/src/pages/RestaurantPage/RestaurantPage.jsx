@@ -112,7 +112,7 @@ export default function RestaurantPage() {
   useEffect(() => {
     if (orderIsSuccess && user?.token) {
       refetchItemsNumber();
-      refetchUserData()
+      refetchUserData();
       navigate("/profile");
     }
   }, [orderIsSuccess, navigate, user, refetchItemsNumber]);
@@ -213,6 +213,7 @@ export default function RestaurantPage() {
 
   const handleCreateOrder = () => {
     const orderData = {
+      restaurant: restaurantId,
       orderProducts: cartProductsList.map((prod) => ({
         product: prod?.product._id,
         amount: prod?.amount,
@@ -253,7 +254,7 @@ export default function RestaurantPage() {
           <div className="restaurant-info"></div>
         </div>
         <div className="offers">
-          <p>Offers</p>
+          <p>Rating: {restaurant.rating.toFixed(2)}/5</p>
         </div>
       </div>
       <div className="restaurant-data global-padding">

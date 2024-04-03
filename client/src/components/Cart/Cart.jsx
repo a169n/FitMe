@@ -81,7 +81,13 @@ const Cart = ({
           </div>
         )}
       </div>
-      <button className="checkout-button" onClick={() => handleCreateOrder()}>
+      <button
+        className={`checkout-button ${
+          cartProductsList.length === 0 ? "disabled" : ""
+        }`}
+        onClick={() => handleCreateOrder()}
+        disabled={cartProductsList.length === 0}
+      >
         Create Order
       </button>
     </div>

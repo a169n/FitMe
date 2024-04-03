@@ -20,9 +20,13 @@ const orderSchema = mongoose.Schema(
       },
     ],
     totalSum: Number,
+    isRated: {
+      type: Boolean,
+      default: false,
+    },
     review: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "review",
+      ref: "Review",
     },
     deliveryAddress: String,
     deliveryStatus: String,

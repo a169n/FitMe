@@ -19,13 +19,15 @@ const getUserById = async (req, res) => {
 const getUserDetails = async (req, res) => {
   const userId = req.params.id;
   try {
-    const user = await User.findById(userId)
-      .populate({
-        path: "cart.product",
-        populate: { path: "category" },
-      })
-      .populate("orders");
-    const orders = (await Order.find({ user: userId })) || [];
+    const user = await User.findById(userId).populate({
+      path: "cart.product",
+      populate: { path: "category" },
+    });
+
+    const orders = await Order.find({ user: userId }).populate({
+      path: "review",
+    });
+
     user.orders = orders;
     res.status(200).json(user);
   } catch (error) {

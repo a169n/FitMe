@@ -6,7 +6,14 @@ const restaurantSchema = mongoose.Schema(
     address: String,
     description: String,
     region: String,
-    rating: Number,
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    ratingsAmount: {
+      type: Number,
+      default: 0,
+    },
     keywords: [String],
     images: [String],
     categories: [
