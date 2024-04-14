@@ -82,7 +82,7 @@ export default function Restaurants() {
                         }
                       />
                     </div>
-                    <div className="restaurant-rating">{restaurant.rating}</div>
+                    <div className="restaurant-rating">{restaurant.rating.toFixed(2)}</div>
                   </div>
                 </div>
                 <div className="card-region-container">

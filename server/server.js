@@ -29,7 +29,6 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("A client disconnect");
   });
-  
 });
 
 // Serving static files

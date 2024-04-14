@@ -6,10 +6,6 @@ const foodSchema = mongoose.Schema(
     price: Number,
     description: String,
     image: String,
-    globalCategory: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "GlobalCategory",
-    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
@@ -17,6 +13,10 @@ const foodSchema = mongoose.Schema(
     restaurant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
+    },
+    globalCategory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "GlobalCategory",
     },
   },
   {

@@ -258,7 +258,7 @@ export default function RestaurantPage() {
         </div>
       </div>
       <div className="restaurant-data global-padding">
-        <div className="categories">
+        <div className="restaurant-page-categories">
           {categories &&
             categories.map((category) => (
               <button

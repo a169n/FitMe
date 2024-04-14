@@ -7,12 +7,12 @@ const globalCategorySchema = mongoose.Schema(
     foods: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
+        ref: "food",
       },
     ],
   },
   {
-    collection: "food",
+    collection: "globalCategory",
   }
 );
 
