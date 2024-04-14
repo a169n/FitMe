@@ -6,6 +6,17 @@ const getAllUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
+const getAllAdmins = async (req, res) => {
+  try {
+    const admins = await User.find({ isAdmin: true });
+    res.json(admins);
+  } catch (error) {
+    console.error("Error fetching admins:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 const getUserById = async (req, res) => {
   const user = await User.findById(req.params.id)
     .populate("cart")
@@ -102,6 +113,7 @@ const deleteUserById = async (req, res) => {
 
 module.exports = {
   getAllUsers,
+  getAllAdmins,
   getUserById,
   getUserDetails,
   getUserEmailByUsername,

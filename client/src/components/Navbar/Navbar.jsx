@@ -72,9 +72,11 @@ export default function Navbar() {
           </button>
         </div>
         <div className="card-container">
-          <button className="card-button">
-            <img src={bag} alt="card" />
-          </button>
+          <Link className="link" to={"/profile"}>
+            <button className="card-button">
+              <img src={bag} alt="card" />
+            </button>
+          </Link>
         </div>
         <div>
           <select

@@ -10,12 +10,14 @@ const {
   makeUserAdminById,
   removeUserAdminById,
   deleteUserById,
+  getAllAdmins,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 router.get("/users", getAllUsers);
+router.get("/user/admins", getAllAdmins);
 router.get("/user/:id", getUserById);
 router.get("/user/:id/details", getUserDetails);
 router.post("/user/email", getUserEmailByUsername);

@@ -6,7 +6,6 @@ import {
   useSearchFoodsQuery,
 } from "../../redux/services/foodsApi";
 
-import restaurant_image from "../../assets/restaurant-icon.png";
 import greenStar from "../../assets/greenStar.svg";
 import yellowStar from "../../assets/yellowStar.svg";
 import regionIcon from "../../assets/region.svg";
@@ -75,12 +74,14 @@ export default function Restaurants() {
                     {restaurant.keywords.join(", ")}
                   </p>
                   <div className="card-rating">
-                    <img
-                      src={restaurant.rating >= 4 ? greenStar : yellowStar}
-                      alt={
-                        restaurant.rating >= 4 ? "green-star" : "yellow-star"
-                      }
-                    />
+                    <div>
+                      <img
+                        src={restaurant.rating >= 4 ? greenStar : yellowStar}
+                        alt={
+                          restaurant.rating >= 4 ? "green-star" : "yellow-star"
+                        }
+                      />
+                    </div>
                     <div className="restaurant-rating">{restaurant.rating}</div>
                   </div>
                 </div>
@@ -102,7 +103,7 @@ export default function Restaurants() {
         <div className="hero-section-container">
           {foodsData.data.slice(0, 4).map((food) => (
             <div className="hero-section-card" key={food._id}>
-              <Link className="link" to={`/food/${food._id}`}>
+              <Link className="link" to={`/restaurant/${food.restaurant}`}>
                 <img
                   className="restaurant-image"
                   src={`http://localhost:3000/${food.image}`}

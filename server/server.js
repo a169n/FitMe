@@ -29,6 +29,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("A client disconnect");
   });
+  
 });
 
 // Serving static files
@@ -42,10 +43,6 @@ const { Message } = require("./models/messageSchema");
 connectDB();
 
 // Routes
-app.get("/", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "index.html"));
-});
-
 app.get("/messages", async (req, res) => {
   try {
     const messages = await Message.find().sort({ timestamp: 1 });
@@ -70,7 +67,6 @@ app.post("/messages", async (req, res) => {
 });
 
 app.use("/auth", require("./routes/authRoutes"));
-app.use("/", require("./routes/testRouter"));
 app.use("/", require("./routes/userRouter"));
 app.use("/cart", require("./routes/cartRouter"));
 app.use("/", require("./routes/restaurantRouter"));

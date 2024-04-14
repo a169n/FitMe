@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useUser";
-import { useRateOrderMutation } from "../../redux/services/orderApi";
+import {
+  useRateOrderMutation,
+  useDeleteOrderByIdMutation,
+} from "../../redux/services/orderApi";
 import "./UserProfilePage.css";
 import { useDeleteAllOrdersMutation } from "../../redux/services/orderApi";
 import { useGetUserDetailsQuery } from "../../redux/services/usersApi";
 import RatingModal from "../../components/RatingModal/RatingModal";
+import deleteIcon from "../../assets/delete-icon.svg"
 
 export default function UserProfilePage() {
   const user = useUser();
@@ -14,9 +18,10 @@ export default function UserProfilePage() {
       skip: !user?._id,
     }
   );
-  const [deleteAllOrders, { isLoading: isDeleting }] =
+  const [deleteAllOrders, { isLoading: isDeletingAll }] =
     useDeleteAllOrdersMutation();
   const [rateOrder, { isLoading: isRatingLoading }] = useRateOrderMutation();
+  const [deleteOrderById] = useDeleteOrderByIdMutation(); // New hook
 
   const [ratingOrder, setRatingOrder] = useState(null);
 
@@ -44,6 +49,15 @@ export default function UserProfilePage() {
     setRatingOrder(null);
   };
 
+  const handleDeleteOrder = async (orderId) => {
+    try {
+      await deleteOrderById(orderId);
+      refetchUserData();
+    } catch (error) {
+      console.error("Error deleting order:", error);
+    }
+  };
+
   return (
     <div className="global-padding">
       <h2 className="page-title">User Profile Page. Hello {user?.username}</h2>
@@ -54,6 +68,12 @@ export default function UserProfilePage() {
           <div className="order-list">
             {userData?.orders.map((order) => (
               <div key={order._id} className="order-card">
+                <button
+                  onClick={() => handleDeleteOrder(order._id)}
+                  className="delete-button"
+                >
+                  <img id="delete-icon" src={deleteIcon} alt="delete-icon" />
+                </button>
                 <div className="order-info">
                   <p className="order-id">Order ID: {order._id}</p>
                   <p className="order-total">Total Sum: {order.totalSum}</p>
@@ -94,10 +114,10 @@ export default function UserProfilePage() {
         )}
         <button
           onClick={handleClearOrderHistory}
-          className={`clear-history-button ${isDeleting ? "disabled" : ""}`}
-          disabled={isDeleting}
+          className={`clear-history-button ${isDeletingAll ? "disabled" : ""}`}
+          disabled={isDeletingAll}
         >
-          {isDeleting ? "Clearing..." : "Clear Order History"}
+          {isDeletingAll ? "Clearing..." : "Clear Order History"}
         </button>
       </div>
     </div>
