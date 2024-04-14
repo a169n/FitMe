@@ -87,7 +87,6 @@
 
 .card-rating {
   display: flex;
-  align-items: center;
   gap: 5px;
 }
 
@@ -97,7 +96,6 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: normal;
 }
 
 .card-region-container {

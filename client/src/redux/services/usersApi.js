@@ -9,6 +9,11 @@ export const usersApi = createApi({
         url: "/users",
       }),
     }),
+    getAllAdmins: builder.query({
+      query: () => ({
+        url: "/user/admins",
+      }),
+    }),
     getUserDetails: builder.query({
       query: (userId) => ({
         url: `/user/${userId}/details`,
@@ -134,6 +139,9 @@ export const {
   // GET /users
   useGetUsersQuery,
   useLazyGetUsersQuery,
+  // GET /user/admins
+  useGetAllAdminsQuery,
+  useLazyGetAllAdminsQuery,
   // GET /user/:id/details
   useGetUserDetailsQuery,
   useLazyGetUserDetailsQuery,

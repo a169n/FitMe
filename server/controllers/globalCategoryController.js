@@ -1,8 +1,13 @@
 const GlobalCategory = require("../models/globalCategory");
 
 const getAllGlobalCategories = async (req, res) => {
-  const categories = await GlobalCategory.find({});
-  res.status(200).json(categories);
+  try {
+    const categories = await GlobalCategory.find({});
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch global categories" });
+  }
 };
 
 const getGlobalCategoryById = async (req, res) => {
@@ -22,8 +27,20 @@ const deleteGlobalCategoryById = async (req, res) => {
 };
 
 const createNewGlobalCategory = async (req, res) => {
-  const newCategory = await GlobalCategory.create(req.body);
-  res.status(201).json(newCategory);
+  try {
+    const { name } = req.body;
+    const imagePath = req.file.path;
+
+    const globalCategory = await GlobalCategory.create({
+      name: name,
+      image: imagePath,
+    });
+
+    res.status(201).json(globalCategory);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to create global category" });
+  }
 };
 
 const updateGlobalCategoryById = async (req, res) => {

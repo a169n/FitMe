@@ -72,7 +72,7 @@ export const {
   // GET /foods/search
   useSearchFoodsQuery,
   useLazySearchFoodsQuery,
-  // POST /restaurant
+  // POST /food
   useCreateNewFoodMutation,
   // PUT /restaurant/:id
   useUpdateFoodByIdMutation,

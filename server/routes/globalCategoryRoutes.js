@@ -9,15 +9,15 @@ const {
 
 const router = express.Router();
 const upload = require("../multer");
-
-router.get("/categories/global", getAllGlobalCategories);
-router.get("/category/global/:id", getGlobalCategoryById);
+// '/categories'
+router.get("/global/categories", getAllGlobalCategories);
+router.get("/global/categories/:id", getGlobalCategoryById);
 router.post(
-  "/category/global",
+  "/global/categories",
   upload.single("image"),
   createNewGlobalCategory
 );
-router.put("/category/global/:id", updateGlobalCategoryById);
-router.delete("/category/global/:id", deleteGlobalCategoryById);
+router.put("/global/categories/:id", updateGlobalCategoryById);
+router.delete("/global/categories/:id", deleteGlobalCategoryById);
 
 module.exports = router;

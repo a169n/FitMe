@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { restaurantsApi } from "./services/restaurantsApi";
 import { foodsApi } from "./services/foodsApi";
 import { categoriesApi } from "./services/categoriesApi";
+import { globalCategoriesApi } from "./services/globalCategoriesApi";
 import { authApi } from "./services/authApi";
 import authReducer from "./slices/authSlice";
 import { usersApi } from "./services/usersApi";
@@ -18,6 +19,7 @@ const store = configureStore({
     [categoriesApi.reducerPath]: categoriesApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [categoriesApi.reducerPath]: categoriesApi.reducer,
+    [globalCategoriesApi.reducerPath]: globalCategoriesApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [exercisesApi.reducerPath]: exercisesApi.reducer,
     [recipesApi.reducerPath]: recipesApi.reducer,
@@ -33,6 +35,7 @@ const store = configureStore({
       categoriesApi.middleware,
       authApi.middleware,
       categoriesApi.middleware,
+      globalCategoriesApi.middleware,
       usersApi.middleware,
       exercisesApi.middleware,
       recipesApi.middleware,

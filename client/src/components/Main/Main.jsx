@@ -11,7 +11,6 @@ export default function Main() {
   const { t } = useTranslation();
   const { data: healthQuotes, error, isLoading } = useGetHealthQuotesQuery();
 
-  // Check if data is an array and not empty
   const healthQuote =
     healthQuotes && healthQuotes.length > 0 ? healthQuotes[0] : null;
 
