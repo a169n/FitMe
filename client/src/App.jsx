@@ -11,14 +11,12 @@ import RestaurantPage from "./pages/RestaurantPage/RestaurantPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
-import SearchPage from "./pages/SearchPage/SearchPage";
-import ApiPage from "./pages/ApiPage/ApiPage";
+import RestaurantSearchPage from "./pages/SearchPages/RestaurantSearchPage";
 import MessagePage from "./pages/MessagePage/MessagePage";
 import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
+import DishSearchPage from "./pages/SearchPages/DishSearchPage";
 
 const RouteWrapper = ({ children }) => {
-  const navigate = useNavigate();
-
   const hideNavbarFooterRoutes = [
     "/login",
     "/register",
@@ -48,10 +46,10 @@ function App() {
             path="/restaurant/:restaurantId"
             element={<RestaurantPage />}
           />
-          <Route path="/api" element={<ApiPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/search" element={<SearchPage />} />
+          <Route path="/restaurants/search" element={<RestaurantSearchPage />} />
+          <Route path="/dishes/search" element={<DishSearchPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/socket" element={<MessagePage />} />
           <Route path="/profile" element={<UserProfilePage />} />

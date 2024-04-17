@@ -20,7 +20,7 @@ export default function Navbar() {
   const handleSearch = async () => {
     try {
       await searchRestaurants(searchString);
-      navigate(`/search?searchString=${searchString || ""}&page=1`);
+      navigate(`/restaurants/search?searchString=${searchString || ""}&page=1`);
     } catch (error) {
       console.error("Error searching restaurants:", error);
     }
@@ -48,7 +48,7 @@ export default function Navbar() {
           <input
             className="nav-input"
             type="text"
-            placeholder="Search..."
+            placeholder="Enter restaurant that you are looking for..."
             value={searchString}
             onChange={(event) => setSearchString(event.target.value)}
           />
