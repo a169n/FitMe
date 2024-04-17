@@ -57,9 +57,12 @@ export const usersApi = createApi({
       }),
     }),
     deleteUserById: builder.mutation({
-      query: (id) => ({
+      query: ({ id, token }) => ({
         url: `/user/${id}`,
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
     searchUsers: builder.query({
