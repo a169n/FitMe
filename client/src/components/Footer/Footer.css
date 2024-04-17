@@ -5,7 +5,7 @@
 
 .footer-container {
   display: flex;
-  align-items: start;
+  align-items: self-start;
   justify-content: space-between;
 }
 
@@ -32,13 +32,14 @@
 .footer-links {
   display: flex;
   gap: 60px;
+  
 }
 
 .footer-social {
   display: flex;
   gap: 20px;
   justify-content: center;
-  margin-top: 35px;
+  margin: 30px;
   align-items: center;
 }
 

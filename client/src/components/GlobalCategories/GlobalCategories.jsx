@@ -1,12 +1,10 @@
 import React from "react";
-import "./Categories.css";
-import { useTranslation } from "react-i18next";
+import "./GlobalCategories.css";
 import { useGetGlobalCategoriesQuery } from "../../redux/services/globalCategoriesApi";
 import CategoryCard from "../CategoryCard/index";
 import Slider from "react-slick";
 
 export default function Categories() {
-  const { t } = useTranslation();
   const {
     data: globalCategoriesData,
     isLoading: categoriesIsLoading,
@@ -30,9 +28,7 @@ export default function Categories() {
 
   return (
     <div className="categories-container">
-      <h2 className="categories-header global-padding">
-        {t("whatsOnYourMind")}
-      </h2>
+      <h2 className="categories-header global-padding">What's on your mind?</h2>
 
       <div className="categories-slider">
         <Slider {...sliderSettings}>

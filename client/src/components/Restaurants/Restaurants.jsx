@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import { useTranslation } from "react-i18next";
-import {
-  useSearchFoodsQuery,
-} from "../../redux/services/foodsApi";
-
+import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
 import greenStar from "../../assets/greenStar.svg";
 import yellowStar from "../../assets/yellowStar.svg";
 import regionIcon from "../../assets/region.svg";
@@ -17,20 +13,16 @@ import "slick-carousel/slick/slick-theme.css";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 
 export default function Restaurants() {
-  const { t } = useTranslation();
-
   const {
     data: restaurantsData,
     isLoading: restaurantsIsLoading,
     isFetching: restaurantsIsFetching,
-    isError: restaurantsIsError,
   } = useSearchRestaurantsQuery("");
 
   const {
     data: foodsData,
     isLoading: foodsIsLoading,
     isFetching: foodsIsFetching,
-    isError: foodsIsError,
   } = useSearchFoodsQuery("");
 
   if (
@@ -39,7 +31,7 @@ export default function Restaurants() {
     foodsIsLoading ||
     foodsIsFetching
   ) {
-    return <h1 className="loading">{t("loading")}</h1>;
+    return <h1 className="loading">Loading...</h1>;
   }
 
   const sliderSettings = {
@@ -53,7 +45,7 @@ export default function Restaurants() {
   return (
     <div className="hero-section global-padding">
       <div className="restaurants">
-        <p className="hero-section-header">{t("nearbyRestaurants")}</p>
+        <p className="hero-section-header">Nearby Restaurants</p>
         <div className="hero-section-container">
           {restaurantsData.data.slice(0, 4).map((restaurant) => (
             <div className="hero-section-card" key={restaurant._id}>
@@ -82,7 +74,9 @@ export default function Restaurants() {
                         }
                       />
                     </div>
-                    <div className="restaurant-rating">{restaurant.rating.toFixed(2)}</div>
+                    <div className="restaurant-rating">
+                      {restaurant.rating.toFixed(2)}
+                    </div>
                   </div>
                 </div>
                 <div className="card-region-container">
@@ -99,7 +93,7 @@ export default function Restaurants() {
         </div>
       </div>
       <div className="foods">
-        <p className="hero-section-header">{t("popularFoods")}</p>
+        <p className="hero-section-header">Popular Foods</p>
         <div className="hero-section-container">
           {foodsData.data.slice(0, 4).map((food) => (
             <div className="hero-section-card" key={food._id}>
