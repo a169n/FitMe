@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Cart from "../../components/Cart/Cart";
-
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetRestaurantByIdQuery } from "../../redux/services/restaurantsApi";
 import { useGetCategoriesByRestaurantIdQuery } from "../../redux/services/categoriesApi";
@@ -27,6 +26,7 @@ export default function RestaurantPage() {
     data: restaurant,
     error: restaurantError,
     isLoading: isRestaurantLoading,
+    refetch: refetchRestaurantRating,
   } = useGetRestaurantByIdQuery(restaurantId);
 
   const { data: categories, isLoading: isCategoriesLoading } =
@@ -34,23 +34,49 @@ export default function RestaurantPage() {
 
   const [foodsByCategoryId] = useLazyGetFoodsByCategoryIdQuery();
 
-  const { data: userData, refetch: refetchUserData } = useGetUserDetailsQuery(
-    user?._id,
-    {
-      skip: !user?._id,
-    }
-  );
+  const {
+    data: userData,
+    refetch: refetchUserData,
+    isLoading: userDataIsLoading,
+    isSuccess: userDataIsSuccess,
+  } = useGetUserDetailsQuery(user?._id, {
+    skip: !user?._id,
+  });
 
-  const [addToCart] = useAddItemToCartMutation();
-  const [changeAmountInCart] = useChangeItemAmountByOneMutation();
-  const [removeItemFromCart] = useRemoveItemFromCartMutation();
+  const [
+    addToCart,
+    {
+      isLoading: addToCartLoading,
+      isError: addToCartError,
+      isSuccess: addToCartSuccess,
+    },
+  ] = useAddItemToCartMutation();
+  const [
+    changeAmountInCart,
+    {
+      isLoading: changeAmountLoading,
+      isError: changeAmountError,
+      isSuccess: changeAmountSuccess,
+    },
+  ] = useChangeItemAmountByOneMutation();
+  const [
+    removeItemFromCart,
+    {
+      isLoading: removeItemLoading,
+      isError: removeItemError,
+      isSuccess: removeItemSuccess,
+    },
+  ] = useRemoveItemFromCartMutation();
 
   const [createOrder, { isSuccess: orderIsSuccess }] = useCreateOrderMutation();
 
-  const { data: cartItemsNumber, refetch: refetchItemsNumber } =
-    useGetItemsNumberInCartQuery(user?.token, {
-      skip: !user?.token,
-    });
+  const {
+    data: cartItemsNumber,
+    refetch: refetchItemsNumber,
+    isLoading: itemsNumberInCartLoading,
+  } = useGetItemsNumberInCartQuery(user?.token, {
+    skip: !user?.token,
+  });
 
   const [amount, setAmount] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
@@ -110,12 +136,20 @@ export default function RestaurantPage() {
   ]);
 
   useEffect(() => {
+    refetchRestaurantRating();
     if (orderIsSuccess && user?.token) {
       refetchItemsNumber();
       refetchUserData();
       navigate("/profile");
     }
-  }, [orderIsSuccess, navigate, user, refetchItemsNumber]);
+  }, [
+    orderIsSuccess,
+    navigate,
+    user,
+    refetchItemsNumber,
+    restaurantId,
+    refetchRestaurantRating,
+  ]);
 
   const handleCategoryClick = async (categoryId) => {
     try {
@@ -266,8 +300,7 @@ export default function RestaurantPage() {
                 className={`category-button ${
                   selectedCategory === category._id ? "active" : ""
                 }`}
-                onClick={() => handleCategoryClick(category._id)}
-              >
+                onClick={() => handleCategoryClick(category._id)}>
                 {category.name}
               </button>
             ))}
@@ -295,8 +328,7 @@ export default function RestaurantPage() {
                   <button
                     className="add-button"
                     onClick={() => handleAddToCart(food._id, 1)}
-                    disabled={addedToCart[food._id]}
-                  >
+                    disabled={addedToCart[food._id]}>
                     {addedToCart[food._id] ? "Added" : "Add+"}
                   </button>
                 </div>
@@ -312,6 +344,8 @@ export default function RestaurantPage() {
           handleRemoveFromCart={handleRemoveFromCart}
           handleCreateOrder={handleCreateOrder}
           totalPrice={totalPrice}
+          userDataIsLoading={userDataIsLoading}
+          userDataIsSuccess={userDataIsSuccess}
         />
       </div>
     </section>

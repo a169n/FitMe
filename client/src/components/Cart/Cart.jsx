@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Cart.css";
 import trash from "../../assets/trash-can.svg";
 import minusButton from "../../assets/minus.svg";
@@ -12,7 +12,21 @@ const Cart = ({
   handleRemoveFromCart,
   handleCreateOrder,
   totalPrice,
+  userDataIsLoading,
+  userDataIsSuccess,
 }) => {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(userDataIsLoading);
+  }, [userDataIsLoading]);
+
+  const handleCartButtonClick = async (productId, isIncrease) => {
+    setLoading(true);
+    await handleChangeAmountInCart(productId, isIncrease);
+    setLoading(false);
+  };
+
   return (
     <div className="cart">
       <div className="cart-items">
@@ -41,30 +55,33 @@ const Cart = ({
                 <button
                   className="quantity-selector-button"
                   onClick={() =>
-                    handleChangeAmountInCart(cartProduct.product._id, false)
+                    handleCartButtonClick(cartProduct.product._id, false)
                   }
-                  disabled={amount[cartProduct.product._id] <= 1}
-                >
+                  disabled={amount[cartProduct.product._id] <= 1}>
                   <img id="minus-btn" src={minusButton} alt="minus-button" />
                 </button>
 
-                <span className="selected-quantity">
-                  {amount[cartProduct.product._id] || 1}
-                </span>
+                {loading || userDataIsLoading || !userDataIsSuccess ? (
+                  <div className="loader-container">
+                    <p>...</p>
+                  </div>
+                ) : (
+                  <span className="selected-quantity">
+                    {amount[cartProduct.product._id]}
+                  </span>
+                )}
                 <button
                   className="quantity-selector-button"
                   onClick={() =>
-                    handleChangeAmountInCart(cartProduct.product._id, true)
-                  }
-                >
+                    handleCartButtonClick(cartProduct.product._id, true)
+                  }>
                   <img id="plus-btn" src={plusButton} alt="plus-button" />
                 </button>
               </div>
               <div className="cart-item-remove">
                 <button
                   className="remove-from-cart-button"
-                  onClick={() => handleRemoveFromCart(cartProduct.product._id)}
-                >
+                  onClick={() => handleRemoveFromCart(cartProduct.product._id)}>
                   <img className="trash-icon" src={trash} alt="trash-icon" />
                 </button>
               </div>
@@ -86,8 +103,7 @@ const Cart = ({
           cartProductsList.length === 0 ? "disabled" : ""
         }`}
         onClick={() => handleCreateOrder()}
-        disabled={cartProductsList.length === 0}
-      >
+        disabled={cartProductsList.length === 0}>
         Create Order
       </button>
     </div>

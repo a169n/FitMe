@@ -6,6 +6,7 @@ import {
 } from "../../redux/services/usersApi";
 import { useState } from "react";
 import "./Users.css";
+import { useUser } from "../../hooks/useUser";
 
 export default function Users() {
   const { data: users, isLoading } = useGetUsersQuery();
@@ -19,9 +20,11 @@ export default function Users() {
     isMale: true,
   });
 
+  const user = useUser();
+
   const handleDeleteUser = async (userId) => {
     try {
-      await deleteUser(userId);
+      await deleteUser({ id: userId, token: user?.token });
       window.location.reload();
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -67,22 +70,19 @@ export default function Users() {
               <div className="btn-container">
                 <button
                   className="delete-btn"
-                  onClick={() => setUserIdToDelete(user._id)}
-                >
+                  onClick={() => setUserIdToDelete(user._id)}>
                   Delete
                 </button>
                 {user.isAdmin ? (
                   <button
                     className="admin-btn"
-                    onClick={() => handleRemoveAdmin(user._id)}
-                  >
+                    onClick={() => handleRemoveAdmin(user._id)}>
                     Remove Admin
                   </button>
                 ) : (
                   <button
                     className="admin-btn"
-                    onClick={() => handleMakeAdmin(user._id)}
-                  >
+                    onClick={() => handleMakeAdmin(user._id)}>
                     Make Admin
                   </button>
                 )}
@@ -92,14 +92,12 @@ export default function Users() {
                   <p>Are you sure you want to delete this user?</p>
                   <button
                     className="confirm-btn"
-                    onClick={() => handleDeleteUser(user._id)}
-                  >
+                    onClick={() => handleDeleteUser(user._id)}>
                     Confirm
                   </button>
                   <button
                     className="cancel-btn"
-                    onClick={() => setUserIdToDelete(null)}
-                  >
+                    onClick={() => setUserIdToDelete(null)}>
                     Cancel
                   </button>
                 </div>
