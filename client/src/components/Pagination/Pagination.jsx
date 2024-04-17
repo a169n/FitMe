@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import "./Pagination.css";
 
-const Pagination = ({ isSearch, totalPages, searchString }) => {
+const Pagination = ({ isSearch, totalPages, searchString, query }) => {
   if (totalPages === 1) return <></>;
   let pagesArray = [];
 
@@ -16,9 +16,8 @@ const Pagination = ({ isSearch, totalPages, searchString }) => {
         <div key={page}>
           {isSearch && (
             <Link
-              to={`/search?searchString=${searchString}&page=${page}`}
-              className="pagination_btn"
-            >
+              to={`/${query}/search?searchString=${searchString}&page=${page}`}
+              className="pagination_btn">
               {page}
             </Link>
           )}

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination/Pagination";
 
-function RestaurantsSearchPage({ restaurantResults, searchString }) {
+function SearchedRestaurants({ restaurantResults, searchString }) {
   return (
     <>
       <div className="item-container">
@@ -10,8 +10,7 @@ function RestaurantsSearchPage({ restaurantResults, searchString }) {
           <Link
             className="link"
             to={`/restaurant/${restaurant._id}`}
-            key={index}
-          >
+            key={index}>
             <div className="item">
               <img
                 className="item-image"
@@ -37,9 +36,10 @@ function RestaurantsSearchPage({ restaurantResults, searchString }) {
         isSearch
         searchString={searchString}
         totalPages={restaurantResults?.totalPages}
+        query={"restaurants"}
       />
     </>
   );
 }
 
-export default RestaurantsSearchPage;
+export default SearchedRestaurants;

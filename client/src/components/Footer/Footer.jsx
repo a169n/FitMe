@@ -1,14 +1,11 @@
 import React from "react";
 import "./Footer.css";
-import { useTranslation } from "react-i18next";
 import logoWhite from "../../assets/logoWhite.svg";
 import facebook from "../../assets/facebook.svg";
 import instagram from "../../assets/instagram.svg";
 import xTwitter from "../../assets/twitter.svg";
 
 export default function Footer() {
-  const { t } = useTranslation();
-
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -18,10 +15,10 @@ export default function Footer() {
         </div>
         <div className="footer-mid">
           <div className="footer-links">
-            <a href="#">{t("aboutUs")}</a>
-            <a href="#">{t("delivery")}</a>
-            <a href="#">{t("helpAndSupport")}</a>
-            <a href="#">{t("termsAndConditions")}</a>
+            <a href="#">About Us</a>
+            <a href="#">Delivery</a>
+            <a href="#">Help & Support</a>
+            <a href="#">Terms & Conditions</a>
           </div>
           <div className="footer-social">
             <a href="#">
@@ -37,8 +34,7 @@ export default function Footer() {
         </div>
         <div className="footer-contact">
           <p>
-            {t("contact")}{" "}
-            <span className="contact-number">+7 706 426 79 71</span>
+            Contact <span className="contact-number">+7 706 426 79 71</span>
           </p>
         </div>
       </div>

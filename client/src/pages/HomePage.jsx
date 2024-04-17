@@ -1,4 +1,4 @@
-import Categories from "../components/Categories/Categories";
+import Categories from "../components/GlobalCategories/GlobalCategories";
 import Main from "../components/Main/Main";
 import Restaurants from "../components/Restaurants/Restaurants";
 import Search from "../components/Search/Search";
