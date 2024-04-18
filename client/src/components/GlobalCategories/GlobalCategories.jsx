@@ -4,7 +4,7 @@ import { useGetGlobalCategoriesQuery } from "../../redux/services/globalCategori
 import CategoryCard from "../CategoryCard/index";
 import Slider from "react-slick";
 
-export default function Categories() {
+export default function GlobalCategories() {
   const {
     data: globalCategoriesData,
     isLoading: categoriesIsLoading,
