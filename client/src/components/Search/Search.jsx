@@ -21,7 +21,7 @@ export default function Search() {
 
   return (
     <div className="search-section">
-      <h2>Search by Restaurant</h2>
+      <h2>Search by Dish</h2>
       <img src={searchIcon} alt="search icon" />
       <input
         type="text"

@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import greenStar from "../../assets/greenStar.svg";
-import yellowStar from "../../assets/yellowStar.svg";
-import regionIcon from "../../assets/region.svg";
-import peopleIcon from "../../assets/people.svg";
-import { Sidebar } from "./Sidebar";
+import greenStar from "../../../assets/greenStar.svg";
+import yellowStar from "../../../assets/yellowStar.svg";
+import regionIcon from "../../../assets/region.svg";
+import peopleIcon from "../../../assets/people.svg";
 import {
   useGetRestaurantsQuery,
   useDeleteRestaurantByIdMutation,
-} from "../../redux/services/restaurantsApi";
-import "./AdminComponents.css";
-import CreateRestaurantModal from "../AdminModals/CreateRestaurantModal";
-import UpdateRestaurantModal from "../AdminModals/UpdateRestaurantModal";
+} from "../../../redux/services/restaurantsApi";
+import "./Restaurants.css";
+import CreateRestaurantModal from "../../AdminModals/CreateRestaurantModal";
+import UpdateRestaurantModal from "../../AdminModals/UpdateRestaurantModal";
+import { Sidebar } from "../Sidebar/Sidebar";
 
-export const Restaurants = () => {
+export const AdminRestaurants = () => {
   const { data: restaurants, error, isLoading } = useGetRestaurantsQuery();
   const [deleteRestaurantById] = useDeleteRestaurantByIdMutation();
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -55,11 +55,11 @@ export const Restaurants = () => {
   return (
     <div className="admin-container">
       <Sidebar />
-      <div className="admin-restaurants">
+      <div className="admin-items">
         {restaurants.map((restaurant) => (
           <div className="hero-section-card" key={restaurant._id}>
             <button
-              className="delete-button"
+              className="admin-delete-button"
               onClick={() => handleDelete(restaurant._id)}>
               Delete
             </button>
@@ -127,4 +127,4 @@ export const Restaurants = () => {
   );
 };
 
-export default Restaurants;
+export default AdminRestaurants;

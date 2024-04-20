@@ -15,12 +15,12 @@ import RestaurantSearchPage from "./pages/SearchPages/RestaurantSearchPage";
 import MessagePage from "./pages/MessagePage/MessagePage";
 import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 import DishSearchPage from "./pages/SearchPages/DishSearchPage";
-import { Restaurants } from "./components/AdminComponents/Restaurants"
-import { Orders } from "./components/AdminComponents/Orders";
-import { Dishes } from "./components/AdminComponents/Dishes";
-import { Users } from "./components/AdminComponents/Users";
-import { Categories } from "./components/AdminComponents/Categories";
-import { GlobalCategories } from "./components/AdminComponents/GlobalCategories";
+import AdminRestaurants from "./components/AdminComponents/Restaurants/AdminRestaurants";
+import { AdminOrders } from "./components/AdminComponents/Orders/AdminOrders";
+import { AdminDishes } from "./components/AdminComponents/Dishes/AdminDishes";
+import { AdminUsers } from "./components/AdminComponents/Users/AdminUsers";
+import AdminCategories from "./components/AdminComponents/Categories/AdminCategories";
+import { AdminGlobalCategories } from "./components/AdminComponents/GlobalCategories/AdminGlobalCategories";
 
 const RouteWrapper = ({ children }) => {
   const location = useLocation();
@@ -69,14 +69,14 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/socket" element={<MessagePage />} />
           <Route path="/profile" element={<UserProfilePage />} />
-          <Route path="/admin/restaurants" element={<Restaurants />} />
-          <Route path="/admin/orders" element={<Orders />} />
-          <Route path="/admin/dishes" element={<Dishes />} />
-          <Route path="/admin/users" element={<Users />} />
-          <Route path="/admin/categories" element={<Categories />} />
+          <Route path="/admin/restaurants" element={<AdminRestaurants />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/dishes" element={<AdminDishes />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/categories" element={<AdminCategories />} />
           <Route
             path="/admin/global-categories"
-            element={<GlobalCategories />}
+            element={<AdminGlobalCategories />}
           />
         </Routes>
       </RouteWrapper>

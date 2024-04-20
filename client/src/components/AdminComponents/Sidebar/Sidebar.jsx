@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./AdminComponents.css";
+import "./Sidebar.css";
 
 export const Sidebar = () => {
   const [selectedItem, setSelectedItem] = useState("");
@@ -27,6 +27,16 @@ export const Sidebar = () => {
             Restaurants
           </Link>
         </li>
+        <li
+          className={
+            location.pathname === "/admin/categories" ? "selected" : ""
+          }>
+          <Link
+            to="/admin/categories"
+            onClick={() => setSelectedItem("categories")}>
+            Categories
+          </Link>
+        </li>
         <li className={location.pathname === "/admin/dishes" ? "selected" : ""}>
           <Link to="/admin/dishes" onClick={() => setSelectedItem("dishes")}>
             Dishes
@@ -40,16 +50,6 @@ export const Sidebar = () => {
         <li className={location.pathname === "/admin/users" ? "selected" : ""}>
           <Link to="/admin/users" onClick={() => setSelectedItem("users")}>
             Users
-          </Link>
-        </li>
-        <li
-          className={
-            location.pathname === "/admin/categories" ? "selected" : ""
-          }>
-          <Link
-            to="/admin/categories"
-            onClick={() => setSelectedItem("categories")}>
-            Categories
           </Link>
         </li>
         <li
