@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
-import { useGetRestaurantsQuery } from "../../redux/services/restaurantsApi";
-import { useCreateNewCategoryMutation } from "../../redux/services/categoriesApi";
+import { useGetRestaurantsQuery } from "../../../redux/services/restaurantsApi";
+import { useCreateNewCategoryMutation } from "../../../redux/services/categoriesApi";
 
 export const CreateCategoryModal = ({ onClose }) => {
   const [name, setName] = useState("");

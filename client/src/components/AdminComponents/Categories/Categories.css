@@ -34,9 +34,6 @@
   font-size: 1rem;
 }
 
-.category-item p:last-child {
-  margin-bottom: 0;
-}
 
 .category-delete-button {
   position: absolute;

@@ -6,17 +6,26 @@ import {
 } from "../../../redux/services/categoriesApi";
 import { Sidebar } from "../Sidebar/Sidebar";
 import "./Categories.css";
-import { CreateCategoryModal } from "../../AdminModals/CreateCategoryModal";
+import "../style.css"
+import { CreateCategoryModal } from "../../AdminModals/Categories/CreateCategoryModal";
+import UpdateCategoryModal from "../../AdminModals/Categories/UpdateCategoryModal";
 
 export const AdminCategories = () => {
   const { data: categories, error, isLoading } = useGetCategoriesQuery();
   const [deleteCategoryById] = useDeleteCategoryByIdMutation();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleDeleteCategory = (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       deleteCategoryById(id);
     }
+  };
+
+  const handleUpdateClick = (category) => {
+    setSelectedCategory(category);
+    setShowUpdateModal(true);
   };
 
   if (error) {
@@ -32,28 +41,33 @@ export const AdminCategories = () => {
       <Sidebar />
       <div className="admin-items category-card">
         {categories?.map((category) => (
-          <Link className="link" to={`/restaurant/${category?.restaurant}`}>
-            <div key={category?._id} className="category-item">
-              <button
-                onClick={() => handleDeleteCategory(category?._id)}
-                className="category-delete-button">
-                X
-              </button>
-              <h3>{category?.name}</h3>
-              <p>Restaurant ID: {category?.restaurant}</p>
-              <p>Number of Foods: {category?.foods?.length}</p>
-            </div>
-          </Link>
+          <div key={category?._id} className="category-item">
+            <button
+              onClick={() => handleDeleteCategory(category?._id)}
+              className="admin-delete-button">
+              X
+            </button>
+            <h3>{category?.name}</h3>
+            <p>Restaurant ID: {category?.restaurant}</p>
+            <p>Number of Foods: {category?.foods?.length}</p>
+            <button className="update-button" onClick={() => handleUpdateClick(category)}>Update</button>
+          </div>
         ))}
       </div>
       <button
         onClick={() => setShowCreateModal(true)}
         className="admin-create-button">
-        +
+        <span className="plus-sign">+</span>
       </button>
       {showCreateModal && (
         <CreateCategoryModal onClose={() => setShowCreateModal(false)} />
-      )}{" "}
+      )}
+      {showUpdateModal && (
+        <UpdateCategoryModal
+          onClose={() => setShowUpdateModal(false)}
+          category={selectedCategory}
+        />
+      )}
     </div>
   );
 };
