@@ -1,0 +1,132 @@
+.create-restaurant-modal {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.create-restaurant-modal h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.create-restaurant-modal form {
+  display: grid;
+  gap: 10px;
+}
+
+.create-restaurant-modal label {
+  display: block;
+}
+
+.create-restaurant-modal input,
+.create-restaurant-modal textarea,
+.create-restaurant-modal button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.create-restaurant-modal button {
+  background-color: #f4a15e;
+  color: #fff;
+  cursor: pointer;
+}
+
+.create-restaurant-modal button:hover {
+  background-color: #fc8019;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.5s ease forwards;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333333;
+  background-color: transparent;
+  border: none;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #000;
+  transition: 0.3s;
+}
+
+.restaurant-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-form h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.restaurant-form input[type="text"],
+.restaurant-form input[type="file"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.restaurant-form input[type="file"] {
+  cursor: pointer;
+}
+
+.restaurant-form button {
+  padding: 12px 20px;
+  background-color:  #f4a15e;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.restaurant-form button:hover {
+  background-color: #fc8019;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

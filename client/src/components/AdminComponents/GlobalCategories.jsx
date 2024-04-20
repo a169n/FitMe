@@ -4,7 +4,7 @@ import "./AdminComponents.css"
 
 export const GlobalCategories = () => {
   return (
-    <div className='admin-container adminGlobalCategories'>
+    <div className='admin-container'>
       <Sidebar />
       <h1>GlobalCategories</h1>
     </div>

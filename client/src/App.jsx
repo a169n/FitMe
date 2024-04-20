@@ -15,7 +15,7 @@ import RestaurantSearchPage from "./pages/SearchPages/RestaurantSearchPage";
 import MessagePage from "./pages/MessagePage/MessagePage";
 import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 import DishSearchPage from "./pages/SearchPages/DishSearchPage";
-import { Restaurants } from "./components/AdminComponents/restaurants";
+import { Restaurants } from "./components/AdminComponents/Restaurants"
 import { Orders } from "./components/AdminComponents/Orders";
 import { Dishes } from "./components/AdminComponents/Dishes";
 import { Users } from "./components/AdminComponents/Users";
