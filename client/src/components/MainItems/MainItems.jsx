@@ -7,12 +7,12 @@ import yellowStar from "../../assets/yellowStar.svg";
 import regionIcon from "../../assets/region.svg";
 import peopleIcon from "../../assets/people.svg";
 import priceIcon from "../../assets/price.svg";
-import "./Restaurants.css";
+import "./MainItems.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 
-export default function Restaurants() {
+export default function MainItems() {
   const {
     data: restaurantsData,
     isLoading: restaurantsIsLoading,
