@@ -83,6 +83,7 @@ const addImageToRestaurant = async (req, res) => {
 };
 
 const updateRestaurantById = async (req, res) => {
+
   const { id } = req.params;
 
   try {
@@ -96,7 +97,6 @@ const updateRestaurantById = async (req, res) => {
           (oldPath) => `./${oldPath.split("\\").join("/")}`
         );
 
-        console.log("oldImagePaths => ", oldImagePaths);
 
         oldImagePaths.forEach((path) => {
           if (fs.existsSync(path)) {

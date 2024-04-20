@@ -37,7 +37,7 @@ export const CreateRestaurantModal = ({ onClose }) => {
       setAddress("");
       setKeywords("");
       setImage([]);
-      onClose(); // Close the modal after submission
+      onClose();
     } catch (err) {
       console.error(err);
     }

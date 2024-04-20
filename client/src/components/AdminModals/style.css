@@ -39,7 +39,6 @@
   background-color: #fc8019;
 }
 
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -107,7 +106,7 @@
 
 .restaurant-form button {
   padding: 12px 20px;
-  background-color:  #f4a15e;
+  background-color: #f4a15e;
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -129,4 +128,44 @@
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.update-restaurant-modal {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.update-restaurant-modal h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.update-restaurant-modal form {
+  display: grid;
+  gap: 10px;
+}
+
+.update-restaurant-modal label {
+  display: block;
+}
+
+.update-restaurant-modal input,
+.update-restaurant-modal textarea,
+.update-restaurant-modal button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.update-restaurant-modal button {
+  background-color: #f4a15e;
+  color: #fff;
+  cursor: pointer;
+}
+
+.update-restaurant-modal button:hover {
+  background-color: #fc8019;
 }

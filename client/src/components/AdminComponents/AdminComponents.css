@@ -10,6 +10,12 @@
   flex-direction: column;
 }
 
+.selected {
+  background-color: #b5b5b5;
+  border-radius: 5px;
+  color: #000;
+}
+
 .sidebar-heading {
   font-size: 20px;
   margin-bottom: 10px;
@@ -41,7 +47,7 @@
 }
 
 .sidebar-menu li a:hover {
-  background-color: #ddd;
+  background-color: #b5b5b5;
   color: #000;
 }
 
@@ -139,11 +145,12 @@
   right: 20px;
   background-color: #f4a15e;
   color: #fff;
-  padding: 10px 20px;
+  padding: 10px 25px;
   border: none;
   border-radius: 5px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 42px;
+  font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -151,4 +158,22 @@
 .create-restaurant-button:hover {
   background-color: #fc8019;
   transition: 0.3s;
+}
+
+.update-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 1;
+}
+
+.update-button:hover {
+  background-color: #388e3c;
 }
