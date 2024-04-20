@@ -47,7 +47,7 @@
   transition: 0.5s;
 }
 
-.create-restaurant-button {
+.admin-create-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -63,7 +63,7 @@
   transition: 0.3s;
 }
 
-.create-restaurant-button:hover {
+.admin-create-button:hover {
   background-color: #fc8019;
   transition: 0.3s;
 }

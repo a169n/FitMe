@@ -110,7 +110,7 @@ export const AdminRestaurants = () => {
       </div>
       <button
         onClick={() => setShowCreateModal(true)}
-        className="create-restaurant-button">
+        className="admin-create-button">
         +
       </button>
 
