@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useUpdateRestaurantByIdMutation } from "../../redux/services/restaurantsApi";
+import { useUpdateRestaurantByIdMutation } from "../../../redux/services/restaurantsApi";
 
 export const UpdateRestaurantModal = ({ onClose, restaurant }) => {
   const [name, setName] = useState(restaurant.name);

@@ -14,7 +14,7 @@ export const categoriesApi = createApi({
       query: (id) => ({
         url: `/category/${id}`,
       }),
-      providesTags: (result, error, id) => [{ type: "Category", id }],
+      providesTags: ["Category"],
     }),
     getCategoriesByRestaurantId: builder.query({
       query: (restaurantId) => ({
@@ -38,7 +38,7 @@ export const categoriesApi = createApi({
         method: "PUT",
         body: updates,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Category", id }],
+      invalidatesTags: ["Category"],
     }),
     deleteCategoryById: builder.mutation({
       query: (id) => ({

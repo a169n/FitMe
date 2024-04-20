@@ -10,8 +10,9 @@ import {
   useDeleteRestaurantByIdMutation,
 } from "../../../redux/services/restaurantsApi";
 import "./Restaurants.css";
-import CreateRestaurantModal from "../../AdminModals/CreateRestaurantModal";
-import UpdateRestaurantModal from "../../AdminModals/UpdateRestaurantModal";
+import "../style.css"
+import CreateRestaurantModal from "../../AdminModals/Restaurants/CreateRestaurantModal";
+import UpdateRestaurantModal from "../../AdminModals/Restaurants/UpdateRestaurantModal";
 import { Sidebar } from "../Sidebar/Sidebar";
 
 export const AdminRestaurants = () => {
@@ -61,7 +62,7 @@ export const AdminRestaurants = () => {
             <button
               className="admin-delete-button"
               onClick={() => handleDelete(restaurant._id)}>
-              Delete
+              X
             </button>
             <button
               className="update-button"
@@ -110,8 +111,8 @@ export const AdminRestaurants = () => {
       </div>
       <button
         onClick={() => setShowCreateModal(true)}
-        className="create-restaurant-button">
-        +
+        className="admin-create-button">
+        <span className="plus-sign">+</span>
       </button>
 
       {showCreateModal && (

@@ -1,10 +1,13 @@
 const Category = require("../models/categorySchema");
 const Restaurant = require("../models/restaurantSchema");
 
-
 const getAllCategories = async (req, res) => {
-  const categories = await Category.find({}).populate("foods");
-  res.status(200).json(categories);
+  try {
+    const categories = await Category.find({});
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const getCategoryById = async (req, res) => {
@@ -24,7 +27,9 @@ const getCategoriesByRestaurantId = async (req, res) => {
       return res.status(404).json({ message: "Restaurant not found" });
     }
 
-    const categories = await Category.find({ restaurant: restaurantId }).populate("foods");
+    const categories = await Category.find({
+      restaurant: restaurantId,
+    }).populate("foods");
     res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({ error: error.message });

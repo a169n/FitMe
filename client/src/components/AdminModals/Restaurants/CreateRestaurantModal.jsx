@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCreateNewRestaurantMutation } from "../../redux/services/restaurantsApi";
+import { useCreateNewRestaurantMutation } from "../../../redux/services/restaurantsApi";
 import "./style.css";
 
 export const CreateRestaurantModal = ({ onClose }) => {
