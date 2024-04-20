@@ -9,15 +9,17 @@ import { Sidebar } from "./Sidebar";
 import {
   useGetRestaurantsQuery,
   useDeleteRestaurantByIdMutation,
-  useCreateNewRestaurantMutation,
 } from "../../redux/services/restaurantsApi";
-import "./AdminComponents.css"; // Import the CSS file for the component
+import "./AdminComponents.css";
 import CreateRestaurantModal from "../AdminModals/CreateRestaurantModal";
+import UpdateRestaurantModal from "../AdminModals/UpdateRestaurantModal";
 
 export const Restaurants = () => {
   const { data: restaurants, error, isLoading } = useGetRestaurantsQuery();
   const [deleteRestaurantById] = useDeleteRestaurantByIdMutation();
-  const [showModal, setShowModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this restaurant?")) {
@@ -25,8 +27,18 @@ export const Restaurants = () => {
     }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleCloseCreateModal = () => {
+    setShowCreateModal(false);
+  };
+
+  const handleOpenUpdateModal = (restaurant) => {
+    setSelectedRestaurant(restaurant);
+    setShowUpdateModal(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setShowUpdateModal(false);
+    setSelectedRestaurant(null);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -50,6 +62,11 @@ export const Restaurants = () => {
               className="delete-button"
               onClick={() => handleDelete(restaurant._id)}>
               Delete
+            </button>
+            <button
+              className="update-button"
+              onClick={() => handleOpenUpdateModal(restaurant)}>
+              Update
             </button>
             <Link className="link" to={`/restaurant/${restaurant._id}`}>
               <Slider {...sliderSettings}>
@@ -92,12 +109,20 @@ export const Restaurants = () => {
         ))}
       </div>
       <button
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowCreateModal(true)}
         className="create-restaurant-button">
-        Create Restaurant
+        +
       </button>
 
-      {showModal && <CreateRestaurantModal onClose={handleCloseModal} />}
+      {showCreateModal && (
+        <CreateRestaurantModal onClose={handleCloseCreateModal} />
+      )}
+      {showUpdateModal && (
+        <UpdateRestaurantModal
+          restaurant={selectedRestaurant}
+          onClose={handleCloseUpdateModal}
+        />
+      )}
     </div>
   );
 };
