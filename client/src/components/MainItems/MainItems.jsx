@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
@@ -11,6 +11,7 @@ import "./MainItems.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function MainItems() {
   const {
@@ -31,7 +32,17 @@ export default function MainItems() {
     foodsIsLoading ||
     foodsIsFetching
   ) {
-    return <h1 className="loading">Loading...</h1>;
+    return (
+      <PropagateLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0"
+        }}
+        size={20}
+      />
+    );
   }
 
   const sliderSettings = {

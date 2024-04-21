@@ -3,6 +3,7 @@ import "./GlobalCategories.css";
 import { useGetGlobalCategoriesQuery } from "../../redux/services/globalCategoriesApi";
 import CategoryCard from "../CategoryCard/index";
 import Slider from "react-slick";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function GlobalCategories() {
   const {
@@ -12,7 +13,17 @@ export default function GlobalCategories() {
   } = useGetGlobalCategoriesQuery();
 
   if (categoriesIsFetching || categoriesIsLoading) {
-    return <h1 className="loading">Loading...</h1>;
+    return (
+      <PropagateLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
   }
 
   const sliderSettings = {

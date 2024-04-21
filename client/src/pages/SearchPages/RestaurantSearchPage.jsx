@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useSearchRestaurantsQuery } from "../../redux/services/restaurantsApi";
 import "./SearchPage.css";
 import SearchedRestaurants from "../SearchedRestaurants";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function RestaurantSearchPage() {
   const [params] = useSearchParams();
@@ -18,7 +19,17 @@ export default function RestaurantSearchPage() {
   });
 
   if (restaurantLoading) {
-    return <p className="global-padding">Loading...</p>;
+    return (
+      <PropagateLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
   }
 
   if (restaurantError) {
@@ -31,7 +42,9 @@ export default function RestaurantSearchPage() {
 
   return (
     <div className="search-page-container global-padding">
-      <h4 className="search-page-header">Searched Restaurant Results: "{searchString}"</h4>
+      <h4 className="search-page-header">
+        Searched Restaurant Results: "{searchString}"
+      </h4>
 
       <div className="searched-items">
         {restaurantResults && restaurantResults.data.length > 0 && (

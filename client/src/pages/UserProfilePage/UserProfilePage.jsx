@@ -8,20 +8,22 @@ import "./UserProfilePage.css";
 import { useDeleteAllOrdersMutation } from "../../redux/services/orderApi";
 import { useGetUserDetailsQuery } from "../../redux/services/usersApi";
 import RatingModal from "../../components/RatingModal/RatingModal";
-import deleteIcon from "../../assets/delete-icon.svg"
+import deleteIcon from "../../assets/delete-icon.svg";
+import SyncLoader from "react-spinners/SyncLoader";
 
 export default function UserProfilePage() {
   const user = useUser();
-  const { data: userData, refetch: refetchUserData } = useGetUserDetailsQuery(
-    user?._id,
-    {
-      skip: !user?._id,
-    }
-  );
+  const {
+    data: userData,
+    refetch: refetchUserData,
+    isLoading,
+  } = useGetUserDetailsQuery(user?._id, {
+    skip: !user?._id,
+  });
   const [deleteAllOrders, { isLoading: isDeletingAll }] =
     useDeleteAllOrdersMutation();
   const [rateOrder, { isLoading: isRatingLoading }] = useRateOrderMutation();
-  const [deleteOrderById] = useDeleteOrderByIdMutation(); // New hook
+  const [deleteOrderById] = useDeleteOrderByIdMutation();
 
   const [ratingOrder, setRatingOrder] = useState(null);
 
@@ -58,6 +60,20 @@ export default function UserProfilePage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <SyncLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
+  }
+
   return (
     <div className="global-padding">
       <h2 className="page-title">User Profile Page. Hello {user?.username}</h2>
@@ -70,8 +86,7 @@ export default function UserProfilePage() {
               <div key={order._id} className="order-card">
                 <button
                   onClick={() => handleDeleteOrder(order._id)}
-                  className="delete-button"
-                >
+                  className="delete-button">
                   <img id="delete-icon" src={deleteIcon} alt="delete-icon" />
                 </button>
                 <div className="order-info">
@@ -94,8 +109,7 @@ export default function UserProfilePage() {
                 ) : (
                   <button
                     onClick={() => handleRateOrder(order._id)}
-                    className="rate-button"
-                  >
+                    className="rate-button">
                     Rate Order
                   </button>
                 )}
@@ -115,8 +129,7 @@ export default function UserProfilePage() {
         <button
           onClick={handleClearOrderHistory}
           className={`clear-history-button ${isDeletingAll ? "disabled" : ""}`}
-          disabled={isDeletingAll}
-        >
+          disabled={isDeletingAll}>
           {isDeletingAll ? "Clearing..." : "Clear Order History"}
         </button>
       </div>
