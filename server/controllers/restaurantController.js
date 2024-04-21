@@ -83,7 +83,6 @@ const addImageToRestaurant = async (req, res) => {
 };
 
 const updateRestaurantById = async (req, res) => {
-
   const { id } = req.params;
 
   try {
@@ -92,13 +91,13 @@ const updateRestaurantById = async (req, res) => {
     if (req.files) {
       const imagePaths = req.files.map((file) => file.path);
       const restaurant = await Restaurant.findById(id);
-      if (restaurant && restaurant.image) {
-        const oldImagePaths = restaurant.image.map(
+      if (restaurant) {
+        const oldImagePaths = restaurant.images.map(
           (oldPath) => `./${oldPath.split("\\").join("/")}`
         );
 
-
         oldImagePaths.forEach((path) => {
+          console.log("Path:", path);
           if (fs.existsSync(path)) {
             fs.unlinkSync(path);
           } else {
@@ -106,7 +105,7 @@ const updateRestaurantById = async (req, res) => {
           }
         });
       }
-      updates.image = imagePaths;
+      updates = { ...updates, images: imagePaths };
     }
 
     const updatedRestaurant = await Restaurant.findByIdAndUpdate(id, updates, {
@@ -121,7 +120,7 @@ const updateRestaurantById = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: `Error updating restaurant with id ${id}`,
-      error: error,
+      error: error.message,
     });
   }
 };
