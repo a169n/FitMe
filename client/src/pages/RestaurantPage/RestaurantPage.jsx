@@ -16,6 +16,7 @@ import {
 } from "../../redux/services/usersApi";
 
 import { useCreateOrderMutation } from "../../redux/services/orderApi";
+import SyncLoader from "react-spinners/SyncLoader";
 
 export default function RestaurantPage() {
   const navigate = useNavigate();
@@ -258,7 +259,17 @@ export default function RestaurantPage() {
   };
 
   if (isRestaurantLoading || isCategoriesLoading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <SyncLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
   }
 
   if (restaurantError) {

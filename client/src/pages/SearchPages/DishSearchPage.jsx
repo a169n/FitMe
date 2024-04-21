@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import "./SearchPage.css";
 import { useSearchFoodsQuery } from "../../redux/services/foodsApi";
 import SearchedDishes from "../SearchedDishes";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function DishSearchPage() {
   const [params] = useSearchParams();
@@ -18,7 +19,17 @@ export default function DishSearchPage() {
   });
 
   if (dishLoading) {
-    return <p className="global-padding">Loading...</p>;
+    return (
+      <PropagateLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
   }
 
   if (dishError) {

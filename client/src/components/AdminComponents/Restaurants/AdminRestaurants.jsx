@@ -10,10 +10,11 @@ import {
   useDeleteRestaurantByIdMutation,
 } from "../../../redux/services/restaurantsApi";
 import "./Restaurants.css";
-import "../style.css"
+import "../style.css";
 import CreateRestaurantModal from "../../AdminModals/Restaurants/CreateRestaurantModal";
 import UpdateRestaurantModal from "../../AdminModals/Restaurants/UpdateRestaurantModal";
 import { Sidebar } from "../Sidebar/Sidebar";
+import SyncLoader from "react-spinners/SyncLoader";
 
 export const AdminRestaurants = () => {
   const { data: restaurants, error, isLoading } = useGetRestaurantsQuery();
@@ -42,7 +43,18 @@ export const AdminRestaurants = () => {
     setSelectedRestaurant(null);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <SyncLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   const sliderSettings = {

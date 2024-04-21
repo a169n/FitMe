@@ -6,9 +6,10 @@ import {
 } from "../../../redux/services/categoriesApi";
 import { Sidebar } from "../Sidebar/Sidebar";
 import "./Categories.css";
-import "../style.css"
+import "../style.css";
 import { CreateCategoryModal } from "../../AdminModals/Categories/CreateCategoryModal";
 import UpdateCategoryModal from "../../AdminModals/Categories/UpdateCategoryModal";
+import SyncLoader from "react-spinners/SyncLoader";
 
 export const AdminCategories = () => {
   const { data: categories, error, isLoading } = useGetCategoriesQuery();
@@ -33,7 +34,17 @@ export const AdminCategories = () => {
   }
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return (
+      <SyncLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
   }
 
   return (
@@ -50,7 +61,11 @@ export const AdminCategories = () => {
             <h3>{category?.name}</h3>
             <p>Restaurant ID: {category?.restaurant}</p>
             <p>Number of Foods: {category?.foods?.length}</p>
-            <button className="update-button" onClick={() => handleUpdateClick(category)}>Update</button>
+            <button
+              className="update-button"
+              onClick={() => handleUpdateClick(category)}>
+              Update
+            </button>
           </div>
         ))}
       </div>
