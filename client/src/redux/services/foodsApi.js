@@ -14,15 +14,13 @@ export const foodsApi = createApi({
       query: (id) => ({
         url: `/food/${id}`,
       }),
-      providesTags: (result, error, id) => [{ type: "Foods", id }],
+      providesTags: ["Foods"],
     }),
     getFoodsByCategoryId: builder.query({
       query: (categoryId) => ({
         url: `/foods/category/${categoryId}`,
       }),
-      providesTags: (result, error, categoryId) => [
-        { type: "FoodsByCategory", categoryId },
-      ],
+      providesTags: ["Foods"],
     }),
     searchFoods: builder.query({
       query: ({ searchString, page, limit }) => ({
@@ -47,7 +45,7 @@ export const foodsApi = createApi({
         method: "PUT",
         body: updates,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Foods", id }],
+      invalidatesTags: ["Foods"],
     }),
     deleteFoodById: builder.mutation({
       query: (id) => ({
