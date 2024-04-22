@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useUpdateCategoryByIdMutation } from "../../../redux/services/categoriesApi";
+import "./style.css"
 
 const UpdateCategoryModal = ({ onClose, category }) => {
   const [name, setName] = useState(category.name);

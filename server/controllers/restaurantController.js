@@ -1,4 +1,7 @@
 const Restaurant = require("../models/restaurantSchema");
+const Category = require("../models/categorySchema");
+const Food = require("../models/foodSchema");
+
 const fs = require("fs");
 
 const getAllRestaurants = async (req, res) => {
@@ -135,8 +138,15 @@ const deleteRestaurantById = async (req, res) => {
 
 const deleteAllRestaurants = async (req, res) => {
   try {
+    await Food.deleteMany({ restaurant: { $exists: true } });
+
+    await Category.deleteMany({ restaurant: { $exists: true } });
+
     await Restaurant.deleteMany({});
-    res.status(200).json({ message: "All restaurants deleted successfully" });
+
+    res.status(200).json({
+      message: "All restaurants, categories, and foods deleted successfully",
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

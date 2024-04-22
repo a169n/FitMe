@@ -10,6 +10,7 @@ import "../style.css";
 import { CreateCategoryModal } from "../../AdminModals/Categories/CreateCategoryModal";
 import UpdateCategoryModal from "../../AdminModals/Categories/UpdateCategoryModal";
 import SyncLoader from "react-spinners/SyncLoader";
+import { useGetRestaurantByIdQuery } from "../../../redux/services/restaurantsApi";
 
 export const AdminCategories = () => {
   const { data: categories, error, isLoading } = useGetCategoriesQuery();
@@ -17,6 +18,8 @@ export const AdminCategories = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  console.log(categories)
 
   const handleDeleteCategory = (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
@@ -59,7 +62,7 @@ export const AdminCategories = () => {
               X
             </button>
             <h3>{category?.name}</h3>
-            <p>Restaurant ID: {category?.restaurant}</p>
+            {/* <p>Restaurant ID: {category?.restaurant.name}</p> */}
             <p>Number of Foods: {category?.foods?.length}</p>
             <button
               className="update-button"
