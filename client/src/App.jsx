@@ -18,9 +18,9 @@ import DishSearchPage from "./pages/SearchPages/DishSearchPage";
 import AdminRestaurants from "./components/AdminComponents/Restaurants/AdminRestaurants";
 import { AdminOrders } from "./components/AdminComponents/Orders/AdminOrders";
 import { AdminDishes } from "./components/AdminComponents/Dishes/AdminDishes";
-import { AdminUsers } from "./components/AdminComponents/Users/AdminUsers";
 import AdminCategories from "./components/AdminComponents/Categories/AdminCategories";
 import { AdminGlobalCategories } from "./components/AdminComponents/GlobalCategories/AdminGlobalCategories";
+import AdminUsers from "./components/AdminComponents/Users/AdminUsers";
 
 const RouteWrapper = ({ children }) => {
   const location = useLocation();

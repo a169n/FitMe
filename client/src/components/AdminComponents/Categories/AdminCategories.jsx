@@ -10,7 +10,6 @@ import "../style.css";
 import { CreateCategoryModal } from "../../AdminModals/Categories/CreateCategoryModal";
 import UpdateCategoryModal from "../../AdminModals/Categories/UpdateCategoryModal";
 import SyncLoader from "react-spinners/SyncLoader";
-import { useGetRestaurantByIdQuery } from "../../../redux/services/restaurantsApi";
 
 export const AdminCategories = () => {
   const { data: categories, error, isLoading } = useGetCategoriesQuery();
@@ -18,8 +17,6 @@ export const AdminCategories = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
-  console.log(categories)
 
   const handleDeleteCategory = (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
@@ -55,21 +52,22 @@ export const AdminCategories = () => {
       <Sidebar />
       <div className="admin-items category-card">
         {categories?.map((category) => (
-          <div key={category?._id} className="category-item">
-            <button
-              onClick={() => handleDeleteCategory(category?._id)}
-              className="admin-delete-button">
-              X
-            </button>
-            <h3>{category?.name}</h3>
-            {/* <p>Restaurant ID: {category?.restaurant.name}</p> */}
-            <p>Number of Foods: {category?.foods?.length}</p>
-            <button
-              className="update-button"
-              onClick={() => handleUpdateClick(category)}>
-              Update
-            </button>
-          </div>
+          <Link className="link" to={`/restaurant/${category?.restaurant}`}>
+            <div key={category?._id} className="category-item">
+              <button
+                onClick={() => handleDeleteCategory(category?._id)}
+                className="admin-delete-button">
+                X
+              </button>
+              <h3>{category?.name}</h3>
+              <p>Number of Foods: {category?.foods?.length}</p>
+              <button
+                className="update-button"
+                onClick={() => handleUpdateClick(category)}>
+                Update
+              </button>
+            </div>
+          </Link>
         ))}
       </div>
       <button

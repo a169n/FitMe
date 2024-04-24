@@ -41,15 +41,14 @@ const CreateDishModal = ({ onClose }) => {
       formData.append("image", image);
 
       await createFood(formData).unwrap();
-      setSuccessMessage("Food created successfully!");
       setName("");
       setPrice("");
       setDescription("");
       setRestaurant("");
       setCategory("");
       setImage(null);
+      onClose()
     } catch (error) {
-      setErrorMessage("Failed to create food. Please try again.");
       console.error(error);
     }
   };
