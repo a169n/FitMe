@@ -5,17 +5,24 @@ const UpdateDishModal = ({ onClose, dish }) => {
   const [name, setName] = useState(dish.name);
   const [price, setPrice] = useState(dish.price);
   const [description, setDescription] = useState(dish.description);
+  const [image, setImage] = useState(null); // Change to null to store a single image
 
   const [updateFoodByIdMutation] = useUpdateFoodByIdMutation();
 
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("description", description);
+    if (image) {
+      formData.append("image", image);
+    }
     try {
-      await updateFoodByIdMutation({
-        id: dish._id,
-        name: name,
-        price: price,
-        description: description,
-      });
+      await updateFoodByIdMutation({ id: dish._id, updates: formData });
       onClose();
     } catch (err) {
       console.error(err);
@@ -56,6 +63,14 @@ const UpdateDishModal = ({ onClose, dish }) => {
             placeholder="Enter description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <label htmlFor="image">Image</label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={handleFileChange}
           />
 
           <button type="button" onClick={handleSubmit}>

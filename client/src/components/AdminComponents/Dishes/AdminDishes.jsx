@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { Sidebar } from "../Sidebar/Sidebar";
-import "./Dishes.css";
 import {
   useGetFoodsQuery,
   useDeleteFoodByIdMutation,
 } from "../../../redux/services/foodsApi";
 import SyncLoader from "react-spinners/SyncLoader";
-import CreateDishModal from "../../AdminModals/Dishes/CreateDishModal";
 import { Link } from "react-router-dom";
 import priceIcon from "../../../assets/price.svg";
 import peopleIcon from "../../../assets/people.svg";
-import UpdateDishModal from "../../AdminModals/Dishes/UpdateDishModal"; // Import the UpdateDishModal component
+import UpdateDishModal from "../../AdminModals/Dishes/UpdateDishModal";
+import "./Dishes.css";
+import { Sidebar } from "../Sidebar/Sidebar";
 
 export const AdminDishes = () => {
   const { data: dishes, error, isLoading } = useGetFoodsQuery();
@@ -54,6 +53,11 @@ export const AdminDishes = () => {
       <div className="admin-items dish-card">
         {dishes.map((food) => (
           <div className="hero-section-card" key={food._id}>
+            <button
+              className="admin-delete-button"
+              onClick={() => handleDeleteDish(food._id)}>
+              X
+            </button>
             <Link className="link" to={`/restaurant/${food.restaurant}`}>
               <img
                 className="restaurant-image"
@@ -73,7 +77,11 @@ export const AdminDishes = () => {
                 <p className="card-region">{food.description}</p>
               </div>
             </Link>
-            <button className="update-button" onClick={() => handleUpdateClick(food)}>Update</button>
+            <button
+              className="update-button"
+              onClick={() => handleUpdateClick(food)}>
+              Update
+            </button>
           </div>
         ))}
       </div>

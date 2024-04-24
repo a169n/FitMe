@@ -93,14 +93,14 @@ const updateFoodById = async (req, res) => {
       const imagePath = req.file.path;
       const food = await Food.findById(id);
       if (food && food.image) {
-        const oldImagePath = `./${restaurant.image.split("\\").join("/")}`;
+        const oldImagePath = `./${food.image.split("\\").join("/")}`;
         if (fs.existsSync(oldImagePath)) {
           fs.unlinkSync(oldImagePath);
         } else {
           console.error(`File does not exist: ${oldImagePath}`);
         }
       }
-      updates.image = imagePath;
+      updates = { ...updates, image: imagePath };
     }
 
     const updatedFood = await Food.findByIdAndUpdate(id, updates, {
@@ -115,7 +115,7 @@ const updateFoodById = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: `Error updating restaurant with id ${id}`,
-      error: error,
+      error: error.message,
     });
   }
 };
