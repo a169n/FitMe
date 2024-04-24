@@ -10,6 +10,7 @@ import peopleIcon from "../../../assets/people.svg";
 import UpdateDishModal from "../../AdminModals/Dishes/UpdateDishModal";
 import "./Dishes.css";
 import { Sidebar } from "../Sidebar/Sidebar";
+import CreateDishModal from "../../AdminModals/Dishes/CreateDishModal";
 
 export const AdminDishes = () => {
   const { data: dishes, error, isLoading } = useGetFoodsQuery();
@@ -69,7 +70,7 @@ export const AdminDishes = () => {
                 <p className="card-keyword">{food.type}</p>
                 <div className="card-rating">
                   <img src={priceIcon} alt="price" />
-                  <div className="restaurant-rating">{food.price}</div>
+                  <div className="restaurant-rating">{food.price}$</div>
                 </div>
               </div>
               <div className="card-region-container">

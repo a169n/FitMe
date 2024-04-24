@@ -1,0 +1,74 @@
+.user-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.user-card-item {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  position: relative;
+  margin: 10px;
+}
+
+.user-card-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.user-header {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #333333;
+}
+
+.user-info {
+  color: #666666;
+}
+
+.user-info p {
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.admin-user-button,
+.make-admin-button {
+  background-color: #fc8019;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.make-admin-button {
+  background-color: #fc1919 !important;
+}
+
+.delete-user-button {
+  background-color: #ff1100;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Hover effect for buttons */
+.admin-user-button:hover,
+.make-admin-button:hover,
+.delete-user-button:hover {
+  opacity: 0.8;
+}
