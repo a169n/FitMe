@@ -40,7 +40,7 @@ export const foodsApi = createApi({
       invalidatesTags: ["Foods"],
     }),
     updateFoodById: builder.mutation({
-      query: ({ id, ...updates }) => ({
+      query: ({ id, updates }) => ({
         url: `/food/${id}`,
         method: "PUT",
         body: updates,
