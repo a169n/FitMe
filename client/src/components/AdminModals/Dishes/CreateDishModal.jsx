@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useGetRestaurantsQuery } from "../../../redux/services/restaurantsApi";
 import { useCreateNewFoodMutation } from "../../../redux/services/foodsApi";
+import { useGetGlobalCategoriesQuery } from "../../../redux/services/globalCategoriesApi"; // Import the global categories query hook
 import "./style.css";
 
 const CreateDishModal = ({ onClose }) => {
@@ -9,10 +10,21 @@ const CreateDishModal = ({ onClose }) => {
   const [description, setDescription] = useState("");
   const [restaurant, setRestaurant] = useState("");
   const [category, setCategory] = useState("");
+  const [globalCategory, setGlobalCategory] = useState(""); // State for the selected global category
   const [image, setImage] = useState(null);
   const [restaurantCategories, setRestaurantCategories] = useState([]);
+  const {
+    data: globalCategories,
+    isLoading: globalCategoriesLoading,
+    isError: globalCategoriesError,
+  } = useGetGlobalCategoriesQuery(); // Fetch global categories
 
-  const { data: restaurants, isLoading, isError } = useGetRestaurantsQuery("");
+  const {
+    data: restaurants,
+    isLoading: restaurantsLoading,
+    isError: restaurantsError,
+  } = useGetRestaurantsQuery("");
+
   const [createFood] = useCreateNewFoodMutation();
 
   useEffect(() => {
@@ -38,6 +50,7 @@ const CreateDishModal = ({ onClose }) => {
       formData.append("description", description);
       formData.append("category", category);
       formData.append("restaurant", restaurant);
+      formData.append("globalCategory", globalCategory); // Include global category in form data
       formData.append("image", image);
 
       await createFood(formData).unwrap();
@@ -46,15 +59,17 @@ const CreateDishModal = ({ onClose }) => {
       setDescription("");
       setRestaurant("");
       setCategory("");
+      setGlobalCategory("");
       setImage(null);
-      onClose()
+      onClose();
     } catch (error) {
       console.error(error);
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error fetching restaurants</p>;
+  if (restaurantsLoading || globalCategoriesLoading) return <p>Loading...</p>;
+  if (restaurantsError || globalCategoriesError)
+    return <p>Error fetching data</p>;
 
   return (
     <div className="dish-create-modal">
@@ -111,6 +126,19 @@ const CreateDishModal = ({ onClose }) => {
             {restaurantCategories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="dish-global-category">Global Category:</label>{" "}
+          <select
+            id="dish-global-category"
+            value={globalCategory}
+            onChange={(e) => setGlobalCategory(e.target.value)}
+            required>
+            <option value="">Select Global Category</option>
+            {globalCategories.map((globalCategory) => (
+              <option key={globalCategory._id} value={globalCategory._id}>
+                {globalCategory.name}
               </option>
             ))}
           </select>

@@ -129,11 +129,36 @@ const updateRestaurantById = async (req, res) => {
 };
 
 const deleteRestaurantById = async (req, res) => {
-  const deletedRestaurant = await Restaurant.findByIdAndDelete(req.params.id);
-  if (!deletedRestaurant) {
-    return res.status(404).json({ message: "Restaurant not found" });
+  try {
+    const restaurant = await Restaurant.findById(req.params.id);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const imagePaths = restaurant.images.map(
+      (imagePath) => `./${imagePath.split("\\").join("/")}`
+    );
+
+    imagePaths.forEach((path) => {
+      if (fs.existsSync(path)) {
+        fs.unlinkSync(path);
+      } else {
+        console.error(`File does not exist: ${path}`);
+      }
+    });
+
+    await Category.deleteMany({ restaurant: restaurant._id });
+
+    await Food.deleteMany({ category: { $in: restaurant.categories } });
+
+    await Restaurant.findByIdAndDelete(req.params.id);
+
+    res
+      .status(200)
+      .json({ message: "Restaurant and associated data deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  res.status(200).json({ message: "Restaurant deleted successfully" });
 };
 
 const deleteAllRestaurants = async (req, res) => {

@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getAllFood,
+  getAllFoods,
   getFoodById,
   deleteFoodById,
   createNewFood,
@@ -13,7 +13,7 @@ const upload = require("../multer");
 
 const router = express.Router();
 
-router.get("/foods", getAllFood);
+router.get("/foods", getAllFoods);
 router.get("/foods/category/:categoryId", getAllFoodsByCategoryId);
 router.get("/food/:id", getFoodById);
 router.post("/food", upload.single("image"), createNewFood);

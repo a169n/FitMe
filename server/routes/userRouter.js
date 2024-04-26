@@ -23,8 +23,8 @@ router.get("/user/:id", getUserById);
 router.get("/user/:id/details", getUserDetails);
 router.post("/user/email", getUserEmailByUsername);
 router.put("/user/:id", protect, updateUserById);
-router.put("/user/:id/make-admin", protect, makeUserAdminById);
-router.put("/user/:id/remove-admin", protect, removeUserAdminById);
+router.put("/user/:id/make-admin", makeUserAdminById);
+router.put("/user/:id/remove-admin", removeUserAdminById);
 router.delete("/user/:id", protect, deleteUserById);
 
 module.exports = router;

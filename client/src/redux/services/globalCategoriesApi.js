@@ -14,7 +14,7 @@ export const globalCategoriesApi = createApi({
       query: (id) => ({
         url: `/global/categories/${id}`,
       }),
-      providesTags: (result, error, id) => [{ type: "GlobalCategory", id }],
+      providesTags: ["GlobalCategory"],
     }),
     createNewGlobalCategory: builder.mutation({
       query: (newCategory) => ({
@@ -30,9 +30,7 @@ export const globalCategoriesApi = createApi({
         method: "PUT",
         body: updates,
       }),
-      invalidatesTags: (result, error, { id }) => [
-        { type: "GlobalCategory", id },
-      ],
+      invalidatesTags: ["GlobalCategory"],
     }),
     deleteGlobalCategoryById: builder.mutation({
       query: (id) => ({
@@ -53,9 +51,9 @@ export const {
   useGetGlobalCategoryByIdQuery,
   useLazyGetGlobalCategoryByIdQuery,
   // POST /global/category
-  createNewGlobalCategory,
+  useCreateNewGlobalCategoryMutation,
   // PUT /global/category/:id
-  updateGlobalCategoryById,
+  useUpdateGlobalCategoryByIdMutation,
   // DELETE /global/category/:id
-  deleteGlobalCategoryById,
+  useDeleteGlobalCategoryByIdMutation,
 } = globalCategoriesApi;

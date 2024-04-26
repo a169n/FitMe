@@ -1,11 +1,22 @@
 const Food = require("../models/foodSchema");
 const Category = require("../models/categorySchema");
+const Restaurant = require("../models/restaurantSchema");
+const GlobalCategory = require("../models/globalCategory");
 
 const fs = require("fs");
 
-const getAllFood = async (req, res) => {
-  const foods = await Food.find({}).populate("globalCategory");
-  res.status(200).json(foods);
+const getAllFoods = async (req, res) => {
+  try {
+    const foods = await Food.find({})
+      .populate("category")
+      .populate("restaurant")
+      .populate("globalCategory");
+
+    res.status(200).json(foods);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch foods" });
+  }
 };
 
 const getAllFoodsByCategoryId = async (req, res) => {
@@ -30,7 +41,10 @@ const getAllFoodsByCategoryId = async (req, res) => {
 };
 
 const getFoodById = async (req, res) => {
-  const food = await Food.findById(req.params.id).populate("globalCategory");
+  const food = await Food.findById(req.params.id)
+    .populate("category")
+    .populate("restaurant")
+    .populate("globalCategory");
   if (!food) {
     return res.status(404).json({ message: "Food not found" });
   }
@@ -39,7 +53,7 @@ const getFoodById = async (req, res) => {
 
 const createNewFood = async (req, res) => {
   try {
-    const { category, restaurant } = req.body;
+    const { category, restaurant, globalCategory } = req.body;
     const imagePath = req.file.path;
 
     const food = await Food.create({
@@ -49,10 +63,17 @@ const createNewFood = async (req, res) => {
       image: imagePath,
       category: category,
       restaurant: restaurant,
+      globalCategory: globalCategory,
     });
 
     await Category.findByIdAndUpdate(
       category,
+      { $push: { foods: food._id } },
+      { new: true }
+    );
+
+    await GlobalCategory.findByIdAndUpdate(
+      globalCategory,
       { $push: { foods: food._id } },
       { new: true }
     );
@@ -121,15 +142,50 @@ const updateFoodById = async (req, res) => {
 };
 
 const deleteFoodById = async (req, res) => {
-  const deletedFood = await Food.findByIdAndDelete(req.params.id);
-  if (!deletedFood) {
-    return res.status(404).json({ message: "Food not found" });
+  try {
+    const food = await Food.findById(req.params.id);
+    if (!food) {
+      return res.status(404).json({ message: "Food not found" });
+    }
+
+    if (food.image) {
+      const imagePath = `./${food.image.split("\\").join("/")}`;
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      } else {
+        console.error(`File does not exist: ${imagePath}`);
+      }
+    }
+
+    await GlobalCategory.updateOne(
+      { foods: req.params.id },
+      { $pull: { foods: req.params.id } }
+    );
+
+    const restaurant = await Restaurant.findById(food.restaurant);
+    if (!restaurant) {
+      throw new Error("Restaurant not found");
+    }
+
+    await Category.updateMany(
+      { _id: { $in: restaurant.categories } },
+      { $pull: { foods: req.params.id } }
+    );
+
+    await Restaurant.findByIdAndUpdate(food.restaurant, {
+      $pull: { foods: req.params.id },
+    });
+
+    await Food.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: "Food deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  res.status(200).json({ message: "Food deleted successfully" });
 };
 
 module.exports = {
-  getAllFood,
+  getAllFoods,
   getAllFoodsByCategoryId,
   getFoodById,
   searchFood,
