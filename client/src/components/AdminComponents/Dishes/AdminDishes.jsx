@@ -66,17 +66,20 @@ export const AdminDishes = () => {
                 alt={`food-image-${food._id}`}
               />
               <h3 className="card-header">{food.name}</h3>
-              <div className="card-info">
-                <p className="card-keyword">{food.type}</p>
-                <div className="card-rating">
-                  <img src={priceIcon} alt="price" />
-                  <div className="restaurant-rating">{food.price}$</div>
-                </div>
+              <div className="card-rating">
+                <img src={priceIcon} alt="price" />
+                <div className="restaurant-rating">{food.price} $</div>
               </div>
               <div className="card-region-container">
                 <img src={peopleIcon} alt="people" />
                 <p className="card-region">{food.description}</p>
               </div>
+              {food.globalCategory ? (
+                <div className="card-region-container">
+                  <p className="restaurant-rating">Global Category: </p>
+                  <p className="card-region">{food.globalCategory.name}</p>
+                </div>
+              ) : null}
             </Link>
             <button
               className="update-button"

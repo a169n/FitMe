@@ -1,5 +1,6 @@
 const Category = require("../models/categorySchema");
 const Restaurant = require("../models/restaurantSchema");
+const Food = require("../models/foodSchema");
 
 const getAllCategories = async (req, res) => {
   try {
@@ -36,14 +37,6 @@ const getCategoriesByRestaurantId = async (req, res) => {
   }
 };
 
-const deleteCategoryById = async (req, res) => {
-  const deletedCategory = await Category.findByIdAndDelete(req.params.id);
-  if (!deletedCategory) {
-    return res.status(404).json({ message: "Category not found" });
-  }
-  res.status(200).json({ message: "Category deleted successfully" });
-};
-
 const createNewCategory = async (req, res) => {
   try {
     const { restaurant } = req.body;
@@ -72,6 +65,23 @@ const updateCategoryById = async (req, res) => {
     return res.status(404).json({ message: "Category not found" });
   }
   res.status(200).json(updatedCategory);
+};
+
+const deleteCategoryById = async (req, res) => {
+  try {
+    const deletedCategory = await Category.findByIdAndDelete(req.params.id);
+    if (!deletedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    await Food.deleteMany({ category: deletedCategory._id });
+
+    res
+      .status(200)
+      .json({ message: "Category and associated foods deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 module.exports = {

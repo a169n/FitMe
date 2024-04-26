@@ -21,9 +21,11 @@
   position: relative;
   overflow: hidden;
   animation: slideIn 0.5s ease forwards;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.dish-create-modal .close-button  {
+.dish-create-modal .close-button {
   position: absolute;
   top: 10px;
   right: 10px;

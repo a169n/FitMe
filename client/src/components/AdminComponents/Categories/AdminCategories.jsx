@@ -18,7 +18,10 @@ export const AdminCategories = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleDeleteCategory = (id) => {
+  const handleDeleteCategory = (event, id) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (window.confirm("Are you sure you want to delete this category?")) {
       deleteCategoryById(id);
     }
@@ -52,22 +55,21 @@ export const AdminCategories = () => {
       <Sidebar />
       <div className="admin-items category-card">
         {categories?.map((category) => (
-          <Link className="link" to={`/restaurant/${category?.restaurant}`}>
-            <div key={category?._id} className="category-item">
-              <button
-                onClick={() => handleDeleteCategory(category?._id)}
-                className="admin-delete-button">
-                X
-              </button>
-              <h3>{category?.name}</h3>
-              <p>Number of Foods: {category?.foods?.length}</p>
-              <button
-                className="update-button"
-                onClick={() => handleUpdateClick(category)}>
-                Update
-              </button>
-            </div>
-          </Link>
+          <div key={category?._id} className="category-item">
+            <button
+              onClick={(e) => handleDeleteCategory(e, category?._id)}
+              className="admin-delete-button">
+              X
+            </button>
+
+            <h3>{category?.name}</h3>
+            <p>Number of Foods: {category?.foods?.length}</p>
+            <button
+              className="update-button"
+              onClick={() => handleUpdateClick(category)}>
+              Update
+            </button>
+          </div>
         ))}
       </div>
       <button

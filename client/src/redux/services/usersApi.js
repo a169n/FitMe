@@ -8,11 +8,13 @@ export const usersApi = createApi({
       query: () => ({
         url: "/users",
       }),
+      providesTags: ["User"],
     }),
     getAllAdmins: builder.query({
       query: () => ({
         url: "/user/admins",
       }),
+      providesTags: ["User"],
     }),
     getUserDetails: builder.query({
       query: (userId) => ({
@@ -34,6 +36,7 @@ export const usersApi = createApi({
       query: (id) => ({
         url: `/user/${id}`,
       }),
+      providedTags: ["User"],
     }),
     getUserEmailByUsername: builder.query({
       query: (username) => ({
@@ -41,6 +44,7 @@ export const usersApi = createApi({
         method: "POST",
         body: { username },
       }),
+      providedTags: ["User"],
     }),
     createUser: builder.mutation({
       query: (newUser) => ({
@@ -48,6 +52,7 @@ export const usersApi = createApi({
         method: "POST",
         body: newUser,
       }),
+      invalidatesTags: ["User"],
     }),
     updateUserById: builder.mutation({
       query: ({ id, ...updates }) => ({
@@ -55,6 +60,7 @@ export const usersApi = createApi({
         method: "PUT",
         body: updates,
       }),
+      invalidatesTags: ["User"],
     }),
     deleteUserById: builder.mutation({
       query: ({ id, token }) => ({
@@ -64,6 +70,7 @@ export const usersApi = createApi({
           Authorization: `Bearer ${token}`,
         },
       }),
+      invalidatesTags: ["User"],
     }),
     searchUsers: builder.query({
       query: (searchString) => ({
@@ -76,12 +83,14 @@ export const usersApi = createApi({
         url: `/user/${id}/make-admin`,
         method: "PUT",
       }),
+      invalidatesTags: ["User"],
     }),
     removeUserAdminById: builder.mutation({
       query: (id) => ({
         url: `/user/${id}/remove-admin`,
         method: "PUT",
       }),
+      invalidatesTags: ["User"],
     }),
     addItemToCart: builder.mutation({
       query: ({ token, ...productData }) => ({

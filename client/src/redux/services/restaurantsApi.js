@@ -14,7 +14,7 @@ export const restaurantsApi = createApi({
       query: (id) => ({
         url: `/restaurant/${id}`,
       }),
-      providesTags: (result, error, id) => [{ type: "Restaurants", id }],
+      providedTags: ["Restaurants"],
     }),
     searchRestaurants: builder.query({
       query: ({ searchString, page, limit }) => ({
@@ -40,7 +40,7 @@ export const restaurantsApi = createApi({
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Restaurants", id }],
+      invalidatesTags: ["Restaurants"],
     }),
     deleteRestaurantById: builder.mutation({
       query: (id) => ({
@@ -58,7 +58,7 @@ export const restaurantsApi = createApi({
           "Content-Type": "multipart/form-data",
         },
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Restaurants", id }],
+      invalidatesTags: ["Restaurants"],
     }),
   }),
 });
