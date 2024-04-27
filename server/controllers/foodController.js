@@ -86,23 +86,38 @@ const createNewFood = async (req, res) => {
 };
 
 const searchFood = async (req, res) => {
-  const { searchString, page = 1, limit = 6 } = req.query;
-  const count = await Food.countDocuments({
-    $or: [
-      { name: new RegExp(searchString, "i") },
-      { description: new RegExp(searchString, "i") },
-    ],
-  });
-  const foods = await Food.find({
-    $or: [
-      { name: new RegExp(searchString, "i") },
-      { description: new RegExp(searchString, "i") },
-    ],
-  })
-    .sort({ _id: -1 })
-    .limit(+limit)
-    .skip((page - 1) * limit);
-  res.status(200).json({ data: foods, totalPages: Math.ceil(count / limit) });
+  try {
+    const { searchString, page = 1, limit = 6 } = req.query;
+
+    const globalCategories = await GlobalCategory.find({
+      name: new RegExp(searchString, "i"),
+    }).select("_id");
+
+    const globalCategoryIds = globalCategories.map((category) => category._id);
+
+    const searchQuery = {
+      $or: [
+        { name: new RegExp(searchString, "i") },
+        { description: new RegExp(searchString, "i") },
+        { globalCategory: { $in: globalCategoryIds } },
+      ],
+    };
+
+    const count = await Food.countDocuments(searchQuery);
+
+    const foods = await Food.find(searchQuery)
+      .populate("globalCategory")
+      .populate("restaurant")
+      .populate("category")
+      .sort({ _id: -1 })
+      .limit(+limit)
+      .skip((page - 1) * limit);
+
+    res.status(200).json({ data: foods, totalPages: Math.ceil(count / limit) });
+  } catch (error) {
+    console.error("Error searching for food:", error);
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const updateFoodById = async (req, res) => {

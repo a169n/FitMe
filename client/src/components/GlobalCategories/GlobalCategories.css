@@ -9,8 +9,9 @@
 
 .categories {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 30px;
+  justify-content: center;
 }
 
 .categories-slider {
@@ -19,8 +20,15 @@
 
 .category-card {
   width: fit-content;
-  margin: 0;
-  padding: 0;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .category-card p {
@@ -31,11 +39,12 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  margin-top: 10px;
 }
 
 .category-img {
   width: 160px;
   height: 160px;
-  border-radius: 100%;
+  border-radius: 50%;
   object-fit: cover;
 }
