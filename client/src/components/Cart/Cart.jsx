@@ -100,7 +100,7 @@ const Cart = ({
                     handleCartButtonClick(cartProduct.product._id, true)
                   }
                   disabled={
-                    loading || changeAmountLoading || userDataIsLoading
+                    loading
                   }>
                   <img id="plus-btn" src={plusButton} alt="plus-button" />
                 </button>
