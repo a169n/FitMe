@@ -246,7 +246,7 @@ export default function RestaurantPage() {
     }
   };
 
-  const handleCreateOrder = () => {
+  const handleCreateOrder = (deliveryAddress) => {
     const orderData = {
       restaurant: restaurantId,
       orderProducts: cartProductsList.map((prod) => ({
@@ -254,6 +254,8 @@ export default function RestaurantPage() {
         amount: prod?.amount,
       })),
       token: user?.token,
+      deliveryStatus: "Delivering",
+      deliveryAddress: deliveryAddress,
     };
     createOrder(orderData);
   };
@@ -299,7 +301,11 @@ export default function RestaurantPage() {
           <div className="restaurant-info"></div>
         </div>
         <div className="offers">
-          <p>Rating: {restaurant.rating.toFixed(2)}/5</p>
+          {restaurant.rating > 0 ? (
+            <p>Rating: {restaurant.rating.toFixed(2)}/5</p>
+          ) : (
+            <p>Not rated</p>
+          )}
         </div>
       </div>
       <div className="restaurant-data global-padding">
@@ -319,7 +325,17 @@ export default function RestaurantPage() {
         <hr className="vertical-line" />
         <div className="foods">
           {isCategoryFoodsLoading ? (
-            <div>Loading...</div>
+            <div>
+              <SyncLoader
+                cssOverride={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "50px 0",
+                }}
+                size={20}
+              />
+            </div>
           ) : selectedCategoryFoods.length === 0 ? (
             <div>No foods available for this category.</div>
           ) : (
@@ -347,17 +363,19 @@ export default function RestaurantPage() {
             ))
           )}
         </div>
-        <Cart
-          cartProductsList={cartProductsList}
-          cartItemsNumber={cartItemsNumber}
-          amount={amount}
-          handleChangeAmountInCart={handleChangeAmountInCart}
-          handleRemoveFromCart={handleRemoveFromCart}
-          handleCreateOrder={handleCreateOrder}
-          totalPrice={totalPrice}
-          userDataIsLoading={userDataIsLoading}
-          userDataIsSuccess={userDataIsSuccess}
-        />
+        {cartProductsList.length > 0 && (
+          <Cart
+            cartProductsList={cartProductsList}
+            cartItemsNumber={cartItemsNumber}
+            amount={amount}
+            handleChangeAmountInCart={handleChangeAmountInCart}
+            handleRemoveFromCart={handleRemoveFromCart}
+            handleCreateOrder={handleCreateOrder}
+            totalPrice={totalPrice}
+            userDataIsLoading={userDataIsLoading}
+            changeAmountLoading={changeAmountLoading}
+          />
+        )}
       </div>
     </section>
   );

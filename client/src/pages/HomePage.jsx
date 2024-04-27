@@ -1,3 +1,4 @@
+import GlobalCategories from "../components/GlobalCategories/GlobalCategories";
 import Categories from "../components/GlobalCategories/GlobalCategories";
 import Main from "../components/Main/Main";
 import Restaurants from "../components/MainItems/MainItems";
