@@ -1,0 +1,40 @@
+.orders-section-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.orders-section-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.orders-section-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333333;
+}
+
+.orders-section-card p {
+  margin-bottom: 5px;
+  color: #666666;
+  font-size: 1rem;
+}
+
+.review-info {
+  margin-top: 10px;
+}
+
+.review-info p {
+  margin-bottom: 5px;
+  color: #666666;
+  font-size: 1rem;
+}
+
+.review-info p:first-child {
+  font-weight: bold;
+}

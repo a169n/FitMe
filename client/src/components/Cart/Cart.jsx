@@ -3,7 +3,6 @@ import "./Cart.css";
 import trash from "../../assets/trash-can.svg";
 import minusButton from "../../assets/minus.svg";
 import plusButton from "../../assets/plus.svg";
-import PropagateLoader from "react-spinners/PropagateLoader";
 import SyncLoader from "react-spinners/SyncLoader";
 
 const Cart = ({
@@ -14,22 +13,29 @@ const Cart = ({
   handleRemoveFromCart,
   handleCreateOrder,
   totalPrice,
-  userDataIsLoading,
-  changeAmountLoading,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [address, setAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
 
   const handleCartButtonClick = async (productId, isIncrease) => {
     setLoading(true);
-    try {
-      await handleChangeAmountInCart(productId, isIncrease);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error("Error handling cart button click:", error);
+    await handleChangeAmountInCart(productId, isIncrease);
+    setTimeout(() => {
       setLoading(false);
+    }, 1000);
+  };
+
+  const handleAddressChange = (e) => {
+    setAddress(e.target.value);
+    setAddressError("");
+  };
+
+  const handleCreateOrderClick = () => {
+    if (!address.trim()) {
+      setAddressError("Please enter delivery address");
+    } else {
+      handleCreateOrder(address);
     }
   };
 
@@ -63,12 +69,7 @@ const Cart = ({
                   onClick={() =>
                     handleCartButtonClick(cartProduct.product._id, false)
                   }
-                  disabled={
-                    loading ||
-                    changeAmountLoading ||
-                    userDataIsLoading ||
-                    amount[cartProduct.product._id] <= 1
-                  }>
+                  disabled={loading || amount[cartProduct.product._id] <= 1}>
                   <img id="minus-btn" src={minusButton} alt="minus-button" />
                 </button>
 
@@ -125,22 +126,22 @@ const Cart = ({
           </div>
         )}
       </div>
-      <div className="delivery-address">
-        <label htmlFor="address">Delivery Address:</label>
+      <div className="address-input">
         <input
           type="text"
-          id="address"
-          value={deliveryAddress}
-          onChange={(e) => setDeliveryAddress(e.target.value)}
-          placeholder="Enter your delivery address"
+          value={address}
+          onChange={handleAddressChange}
+          placeholder="Enter delivery address"
+          className={`address-field ${addressError && "error"}`}
         />
+        {addressError && <p className="error-message">{addressError}</p>}
       </div>
       <button
         className={`checkout-button ${
           cartProductsList.length === 0 ? "disabled" : ""
         }`}
-        onClick={() => handleCreateOrder(deliveryAddress)}
-        disabled={cartProductsList.length === 0 || !deliveryAddress.trim()}>
+        onClick={handleCreateOrderClick}
+        disabled={cartProductsList.length === 0}>
         Create Order
       </button>
     </div>

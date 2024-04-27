@@ -31,8 +31,8 @@ const orderSchema = mongoose.Schema(
     deliveryAddress: String,
     deliveryStatus: {
       type: String,
-      enum: ["Delivering", "Delivered"],
-      default: "Delivering",
+      enum: ["Delivering", "Delivered", "Canceled"],
+      default: "Delivering"
     },
   },
   {

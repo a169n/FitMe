@@ -42,7 +42,6 @@ const createOrder = async (req, res) => {
       totalSum: sum,
       orderProducts: orderData.orderProducts,
       deliveryAddress: orderData.deliveryAddress,
-      deliveryStatus: orderData.deliveryStatus || "Delivering",
     });
 
     if (newOrder && sum > 0)

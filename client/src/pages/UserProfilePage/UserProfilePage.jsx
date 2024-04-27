@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useUser";
-import {
-  useRateOrderMutation,
-  useDeleteOrderByIdMutation,
-} from "../../redux/services/orderApi";
+import { useRateOrderMutation } from "../../redux/services/orderApi";
 import "./UserProfilePage.css";
-import { useDeleteAllOrdersMutation } from "../../redux/services/orderApi";
 import { useGetUserDetailsQuery } from "../../redux/services/usersApi";
 import RatingModal from "../../components/RatingModal/RatingModal";
-import deleteIcon from "../../assets/delete-icon.svg";
 import SyncLoader from "react-spinners/SyncLoader";
 
 export default function UserProfilePage() {
@@ -20,17 +15,10 @@ export default function UserProfilePage() {
   } = useGetUserDetailsQuery(user?._id, {
     skip: !user?._id,
   });
-  const [deleteAllOrders, { isLoading: isDeletingAll }] =
-    useDeleteAllOrdersMutation();
+
   const [rateOrder, { isLoading: isRatingLoading }] = useRateOrderMutation();
-  const [deleteOrderById] = useDeleteOrderByIdMutation();
 
   const [ratingOrder, setRatingOrder] = useState(null);
-
-  const handleClearOrderHistory = () => {
-    refetchUserData();
-    deleteAllOrders();
-  };
 
   const handleRateOrder = (orderId) => {
     setRatingOrder(orderId);
@@ -49,15 +37,6 @@ export default function UserProfilePage() {
 
   const handleCloseRatingModal = () => {
     setRatingOrder(null);
-  };
-
-  const handleDeleteOrder = async (orderId) => {
-    try {
-      await deleteOrderById(orderId);
-      refetchUserData();
-    } catch (error) {
-      console.error("Error deleting order:", error);
-    }
   };
 
   if (isLoading) {
@@ -84,11 +63,6 @@ export default function UserProfilePage() {
           <div className="order-list">
             {userData?.orders.map((order) => (
               <div key={order._id} className="order-card">
-                <button
-                  onClick={() => handleDeleteOrder(order._id)}
-                  className="delete-button">
-                  <img id="delete-icon" src={deleteIcon} alt="delete-icon" />
-                </button>
                 <div className="order-info">
                   <p className="order-id">Order ID: {order._id}</p>
                   <p className="order-total">Total Sum: {order.totalSum}</p>
@@ -126,12 +100,6 @@ export default function UserProfilePage() {
             onClose={handleCloseRatingModal}
           />
         )}
-        <button
-          onClick={handleClearOrderHistory}
-          className={`clear-history-button ${isDeletingAll ? "disabled" : ""}`}
-          disabled={isDeletingAll}>
-          {isDeletingAll ? "Clearing..." : "Clear Order History"}
-        </button>
       </div>
     </div>
   );
