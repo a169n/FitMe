@@ -75,16 +75,18 @@ const Cart = ({
 
                 {loading ? (
                   <div className="loader-container">
-                    <SyncLoader
-                      cssOverride={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        margin: "-10px",
-                        padding: "0",
-                      }}
-                      size={5}
-                    />
+                    <p>
+                      <SyncLoader
+                        cssOverride={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          margin: "-7px",
+                          padding: "0",
+                        }}
+                        size={5}
+                      />
+                    </p>
                   </div>
                 ) : (
                   <span className="selected-quantity">
@@ -97,10 +99,13 @@ const Cart = ({
                   onClick={() =>
                     handleCartButtonClick(cartProduct.product._id, true)
                   }
-                  disabled={loading}>
+                  disabled={
+                    loading || changeAmountLoading || userDataIsLoading
+                  }>
                   <img id="plus-btn" src={plusButton} alt="plus-button" />
                 </button>
               </div>
+
               <div className="cart-item-remove">
                 <button
                   className="remove-from-cart-button"
