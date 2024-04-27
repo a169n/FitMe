@@ -3,6 +3,8 @@ import "./Cart.css";
 import trash from "../../assets/trash-can.svg";
 import minusButton from "../../assets/minus.svg";
 import plusButton from "../../assets/plus.svg";
+import PropagateLoader from "react-spinners/PropagateLoader";
+import SyncLoader from "react-spinners/SyncLoader";
 
 const Cart = ({
   cartProductsList,
@@ -13,18 +15,22 @@ const Cart = ({
   handleCreateOrder,
   totalPrice,
   userDataIsLoading,
-  userDataIsSuccess,
+  changeAmountLoading,
 }) => {
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(userDataIsLoading);
-  }, [userDataIsLoading]);
+  const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const handleCartButtonClick = async (productId, isIncrease) => {
     setLoading(true);
-    await handleChangeAmountInCart(productId, isIncrease);
-    setLoading(false);
+    try {
+      await handleChangeAmountInCart(productId, isIncrease);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } catch (error) {
+      console.error("Error handling cart button click:", error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,27 +63,48 @@ const Cart = ({
                   onClick={() =>
                     handleCartButtonClick(cartProduct.product._id, false)
                   }
-                  disabled={amount[cartProduct.product._id] <= 1}>
+                  disabled={
+                    loading ||
+                    changeAmountLoading ||
+                    userDataIsLoading ||
+                    amount[cartProduct.product._id] <= 1
+                  }>
                   <img id="minus-btn" src={minusButton} alt="minus-button" />
                 </button>
 
-                {loading || userDataIsLoading || !userDataIsSuccess ? (
+                {loading ? (
                   <div className="loader-container">
-                    <p>...</p>
+                    <p>
+                      <SyncLoader
+                        cssOverride={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          margin: "-7px",
+                          padding: "0",
+                        }}
+                        size={5}
+                      />
+                    </p>
                   </div>
                 ) : (
                   <span className="selected-quantity">
                     {amount[cartProduct.product._id]}
                   </span>
                 )}
+
                 <button
                   className="quantity-selector-button"
                   onClick={() =>
                     handleCartButtonClick(cartProduct.product._id, true)
+                  }
+                  disabled={
+                    loading || changeAmountLoading || userDataIsLoading
                   }>
                   <img id="plus-btn" src={plusButton} alt="plus-button" />
                 </button>
               </div>
+
               <div className="cart-item-remove">
                 <button
                   className="remove-from-cart-button"
@@ -98,12 +125,22 @@ const Cart = ({
           </div>
         )}
       </div>
+      <div className="delivery-address">
+        <label htmlFor="address">Delivery Address:</label>
+        <input
+          type="text"
+          id="address"
+          value={deliveryAddress}
+          onChange={(e) => setDeliveryAddress(e.target.value)}
+          placeholder="Enter your delivery address"
+        />
+      </div>
       <button
         className={`checkout-button ${
           cartProductsList.length === 0 ? "disabled" : ""
         }`}
-        onClick={() => handleCreateOrder()}
-        disabled={cartProductsList.length === 0}>
+        onClick={() => handleCreateOrder(deliveryAddress)}
+        disabled={cartProductsList.length === 0 || !deliveryAddress.trim()}>
         Create Order
       </button>
     </div>

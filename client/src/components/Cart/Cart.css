@@ -184,3 +184,26 @@
   font-weight: 500;
   line-height: normal;
 }
+
+/* Cart.css */
+.delivery-address {
+  margin: 5px 0 30px 0;
+}
+
+.delivery-address label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.delivery-address input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.delivery-address input[type="text"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
