@@ -9,13 +9,14 @@ export const orderApi = createApi({
         url: "/orders",
         method: "GET",
       }),
-      providedTags: ["Order"],
+      providedTags: ["Orders"],
     }),
     getOrderById: builder.query({
       query: (orderId) => ({
         url: `/order/${orderId}`,
         method: "GET",
       }),
+      providedTags: ["Orders"],
     }),
     createOrder: builder.mutation({
       query: ({ token, ...orderData }) => ({
@@ -26,7 +27,7 @@ export const orderApi = createApi({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: ["Orders"],
     }),
     updateOrderById: builder.mutation({
       query: ({ orderId, ...orderData }) => ({
@@ -34,21 +35,21 @@ export const orderApi = createApi({
         method: "PUT",
         body: orderData,
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: ["Orders"],
     }),
     deleteOrderById: builder.mutation({
       query: (orderId) => ({
         url: `/order/${orderId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: ["Orders"],
     }),
     deleteAllOrders: builder.mutation({
       query: () => ({
         url: "/orders",
         method: "DELETE",
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: ["Orders"],
     }),
     rateOrder: builder.mutation({
       query: ({ orderId, rating, reviewText, token }) => ({
@@ -59,8 +60,10 @@ export const orderApi = createApi({
           Authorization: `Bearer ${token}`,
         },
       }),
+      invalidatesTags: ["Orders"],
     }),
   }),
+  tagTypes: ["Orders"],
 });
 
 export const {

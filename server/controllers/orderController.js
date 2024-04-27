@@ -41,6 +41,7 @@ const createOrder = async (req, res) => {
       user: req.user._id,
       totalSum: sum,
       orderProducts: orderData.orderProducts,
+      deliveryAddress: orderData.deliveryAddress,
     });
 
     if (newOrder && sum > 0)

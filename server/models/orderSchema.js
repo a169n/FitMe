@@ -29,7 +29,11 @@ const orderSchema = mongoose.Schema(
       ref: "Review",
     },
     deliveryAddress: String,
-    deliveryStatus: String,
+    deliveryStatus: {
+      type: String,
+      enum: ["Delivering", "Delivered", "Canceled"],
+      default: "Delivering"
+    },
   },
   {
     timestamps: true,

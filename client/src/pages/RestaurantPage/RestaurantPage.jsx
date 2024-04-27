@@ -246,7 +246,7 @@ export default function RestaurantPage() {
     }
   };
 
-  const handleCreateOrder = () => {
+  const handleCreateOrder = (address) => {
     const orderData = {
       restaurant: restaurantId,
       orderProducts: cartProductsList.map((prod) => ({
@@ -254,6 +254,7 @@ export default function RestaurantPage() {
         amount: prod?.amount,
       })),
       token: user?.token,
+      deliveryAddress: address,
     };
     createOrder(orderData);
   };
@@ -347,17 +348,17 @@ export default function RestaurantPage() {
             ))
           )}
         </div>
-        <Cart
-          cartProductsList={cartProductsList}
-          cartItemsNumber={cartItemsNumber}
-          amount={amount}
-          handleChangeAmountInCart={handleChangeAmountInCart}
-          handleRemoveFromCart={handleRemoveFromCart}
-          handleCreateOrder={handleCreateOrder}
-          totalPrice={totalPrice}
-          userDataIsLoading={userDataIsLoading}
-          userDataIsSuccess={userDataIsSuccess}
-        />
+        {cartProductsList.length > 0 && (
+          <Cart
+            cartProductsList={cartProductsList}
+            cartItemsNumber={cartItemsNumber}
+            amount={amount}
+            handleChangeAmountInCart={handleChangeAmountInCart}
+            handleRemoveFromCart={handleRemoveFromCart}
+            handleCreateOrder={handleCreateOrder}
+            totalPrice={totalPrice}
+          />
+        )}
       </div>
     </section>
   );
