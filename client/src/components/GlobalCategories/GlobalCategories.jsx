@@ -4,6 +4,7 @@ import { useGetGlobalCategoriesQuery } from "../../redux/services/globalCategori
 import CategoryCard from "../CategoryCard/index";
 import Slider from "react-slick";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import { Link } from "react-router-dom";
 
 export default function GlobalCategories() {
   const {
@@ -44,7 +45,10 @@ export default function GlobalCategories() {
       <div className="categories-slider">
         <Slider {...sliderSettings}>
           {globalCategoriesData.map((category) => (
-            <CategoryCard key={category._id} category={category} />
+            <Link className="link"
+              to={`/dishes/search?searchString=${category.name || ""}&page=1`}>
+              <CategoryCard key={category._id} category={category} />
+            </Link>
           ))}
         </Slider>
       </div>

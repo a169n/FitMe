@@ -38,7 +38,7 @@ export default function MainItems() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          margin: "50px 0"
+          margin: "50px 0",
         }}
         size={20}
       />

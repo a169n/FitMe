@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination/Pagination";
 
 function SearchedDishes({ foodResults, searchString }) {
+  console.log(foodResults);
 
   return (
     <>
@@ -20,9 +21,9 @@ function SearchedDishes({ foodResults, searchString }) {
               />
               <div>
                 <p className="name">{food.name}</p>
-                <p className="global-category">Global Category Here</p>
+                <p className="global-category">{food.globalCategory.name}</p>
                 <div className="price">
-                  <p>₹{food.price}</p>
+                  <p>${food.price}</p>
                 </div>
               </div>
             </div>
