@@ -5,8 +5,8 @@ export const useAccess = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user || (user && !user.isAdmin)) {
-      navigate("/");
+    if (!user) {
+      navigate("/login");
     }
   }, [navigate]);
 };

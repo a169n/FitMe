@@ -12,7 +12,7 @@ const protect = async (req, res, next) => {
       req.user = user;
       next();
     } catch (error) {
-      res.status(401).json({ error: error });
+      res.status(401).json({ error: error.message });
     }
   } else {
     res.status(401).json({ error: "Unauthorized: Invalid token" });

@@ -12,6 +12,7 @@ require("dotenv").config();
 const io = socketIo(server, {
   cors: {
     origin: "http://localhost:5173",
+    methods: ["GET", "POST", "DELETE"],
   },
 });
 
@@ -23,48 +24,16 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-io.on("connection", (socket) => {
-  console.log("A user connected");
-
-  socket.on("disconnect", () => {
-    console.log("A client disconnect");
-  });
-});
-
 // Serving static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.static(path.join(__dirname, "../client")));
 
 const { connectDB } = require("./config/db");
-const { Message } = require("./models/messageSchema");
 
 // Connect to MongoDB
 connectDB();
 
 // Routes
-app.get("/messages", async (req, res) => {
-  try {
-    const messages = await Message.find().sort({ timestamp: 1 });
-    res.json(messages);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.post("/messages", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { author, content } = req.body;
-    const message = await Message.create({ author, content });
-    io.emit("message", message);
-    res.status(201).json({ message: "Message sent successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/", require("./routes/userRouter"));
 app.use("/cart", require("./routes/cartRouter"));
@@ -76,6 +45,7 @@ app.use("/", require("./routes/orderRouter"));
 app.use("/", require("./routes/reviewRouter"));
 app.use("/", require("./routes/apiRouter"));
 app.use("/", require("./routes/mailRouter"));
+app.use("/", require("./routes/messagesRouter"));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

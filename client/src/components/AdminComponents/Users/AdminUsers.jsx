@@ -8,6 +8,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "./Users.css";
 import { Sidebar } from "../Sidebar/Sidebar";
+import { useUser } from "../../../hooks/useUser";
+import SyncLoader from "react-spinners/SyncLoader";
 
 const AdminUsers = () => {
   const { data: users, error, isLoading } = useGetUsersQuery();
@@ -16,13 +18,15 @@ const AdminUsers = () => {
   const [removeUserAdminById] = useRemoveUserAdminByIdMutation();
   const navigate = useNavigate();
 
+  const user = useUser();
+
   const handleRegisterUser = () => {
     navigate("/register");
   };
 
   const handleDeleteUser = (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      deleteUserById(id);
+      deleteUserById({ id: id, token: user?.token });
     }
   };
 
@@ -35,7 +39,17 @@ const AdminUsers = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <SyncLoader
+        cssOverride={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "50px 0",
+        }}
+        size={20}
+      />
+    );
   }
 
   if (error) {

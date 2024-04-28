@@ -108,7 +108,7 @@ export default function MainItems() {
         <div className="hero-section-container">
           {foodsData.data.slice(0, 4).map((food) => (
             <div className="hero-section-card" key={food._id}>
-              <Link className="link" to={`/restaurant/${food.restaurant}`}>
+              <Link className="link" to={`/restaurant/${food.restaurant._id}`}>
                 <img
                   className="restaurant-image"
                   src={`http://localhost:3000/${food.image}`}

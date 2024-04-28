@@ -8,12 +8,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slices/authSlice";
+import { useGetItemsNumberInCartQuery } from "../../redux/services/usersApi";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [searchString, setSearchString] = useState("");
   const dispatch = useDispatch();
   const user = useUser();
+
+  const {
+    data: cartItemsNumber,
+    refetch: refetchItemsNumber,
+    isLoading: itemsNumberInCartLoading,
+  } = useGetItemsNumberInCartQuery(user?.token, {
+    skip: !user?.token,
+  });
 
   const [searchRestaurants] = useLazySearchRestaurantsQuery();
 
@@ -40,7 +49,7 @@ export default function Navbar() {
         </div>
       </Link>
       <Link className="link" to={"/socket"}>
-        <button className="api-button">Socket</button>
+        <button className="api-button">Technical Support Chat</button>
       </Link>
 
       <div className="nav2">
@@ -62,6 +71,7 @@ export default function Navbar() {
           <Link className="link" to={"/profile"}>
             <button className="card-button">
               <img src={bag} alt="card" />
+              <span className="cart-count">{cartItemsNumber?.amount}</span>
             </button>
           </Link>
         </div>

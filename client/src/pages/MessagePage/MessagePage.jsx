@@ -1,80 +1,124 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
-import { useUser } from "../../hooks/useUser";
-import { useGetAllAdminsQuery } from "../../redux/services/usersApi";
 import "./MessagePage.css";
+import { useAccess } from "../../hooks/useAccess";
+import {
+  useGetMessagesQuery,
+  useCreateMessageMutation,
+} from "../../redux/services/messagesApi";
+import { useUser } from "../../hooks/useUser";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
-const MessagePage = () => {
+function MessagePage() {
+  useAccess();
   const user = useUser();
-  const socket = io("http://localhost:3000", {
-    "force new connection": true,
-    reconnectionAttempts: "Infinity",
-    timeout: 10000,
-  });
+  const messagesEndRef = useRef(null);
+  const [messageContent, setMessageContent] = useState("");
 
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState({ author: "", content: "" });
-  const { data: admins = [] } = useGetAllAdminsQuery();
+  const adminId = "65de6d4e86d7dc69cabfed32";
+
+  const {
+    data: messages = [],
+    isLoading,
+    isError,
+  } = useGetMessagesQuery(user?.token);
+  const [createMessage] = useCreateMessageMutation();
+
+  const handleSubmit = () => {
+    createMessage({
+      body: {
+        author: user?.username || "Undefined User",
+        sender: user?._id,
+        content: messageContent,
+        recipient: adminId,
+      },
+      token: user?.token,
+    })
+      .unwrap()
+      .then(() => {
+        setMessageContent("");
+        refetchMessages();
+      })
+      .catch((error) => console.error("Error sending message:", error.message));
+  };
+
+  const refetchMessages = () => {
+    getMessagesQuery.refetch();
+  };
 
   useEffect(() => {
+    const socket = io("http://localhost:3000", {
+      "force new connection": true,
+      reconnectionAttempts: "Infinity",
+      timeout: 10000,
+    });
+
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => {
-      socket.off("message");
+      socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
-  const handleSubmit = () => {
-    socket.emit("message", {
-      ...newMessage,
-      author: user?.username || "Undefined User",
-    });
-    setNewMessage({ author: "", content: "" });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewMessage((prevMessage) => ({ ...prevMessage, [name]: value }));
-  };
+  if (isLoading)
+    return (
+      <div>
+        <PropagateLoader
+          cssOverride={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "50px 0",
+          }}
+          size={20}
+        />
+      </div>
+    );
+  if (isError) return <div>Error fetching messages</div>;
 
   return (
-    <div className="global-padding">
-      <h1 className="title">Messenger</h1>
-      <div className="message-container">
-        {messages.map((message, index) => (
-          <div key={index} className="message">
-            <strong>{message.author}: </strong>
-            {message.content} <i>{message.timestamp}</i>
-          </div>
-        ))}
+    <div className="container">
+      <h1>Messenger</h1>
+      <div className="messages-container">
+        {messages.map((message) => {
+          const date = new Date(message.timestamp);
+          const options = {
+            day: "numeric",
+            month: "long",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: false,
+          };
+          const formattedDate = date.toLocaleString("en-EN", options);
+          const isSentByUser = message.author === user?.username;
+          const messageClass = isSentByUser ? "sent" : "received";
+
+          return (
+            <div key={message._id} className={`message ${messageClass}`}>
+              <div className="message-content">
+                <strong>{message.author}: </strong>
+                {message.content} <i>{formattedDate}</i>
+              </div>
+            </div>
+          );
+        })}
+        <div ref={messagesEndRef}></div>
       </div>
-      <div className="input-container">
+      <div>
+        New Message:{" "}
         <input
           type="text"
           name="content"
-          value={newMessage.content}
+          value={messageContent}
           placeholder="Your Message"
-          onChange={handleChange}
-          className="input-field"
+          onChange={(event) => setMessageContent(event.target.value)}
         />
-        <button onClick={handleSubmit} className="send-button">
-          Send
-        </button>
-      </div>
-      <div className="admins-container">
-        <h2 className="admins-title">List of Admins</h2>
-        <ul className="admins-list">
-          {admins.map((admin) => (
-            <li key={admin.id} className="admin">
-              {admin.username}
-            </li>
-          ))}
-        </ul>
+        <button onClick={handleSubmit}>Send</button>
       </div>
     </div>
   );
-};
+}
 
 export default MessagePage;
