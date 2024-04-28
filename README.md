@@ -17,9 +17,6 @@ no deployed address :(
 1. Clone the repository: `git clone https://github.com/a169n/FitMe.git`
 2. Navigate to the project directory: `cd <project_directory>`
 3. Install dependencies:
-   `npm install
-    npm run build`
-      OR
    - Root: `npm install`
    - Server: `cd server && npm install`
    - Client: `cd ../client && npm install`
@@ -34,9 +31,10 @@ no deployed address :(
 - **User Management:** Admins can manage user accounts, grant/revoke admin privileges.
 - **Restaurant Management:** CRUD operations for managing restaurant data including name, image, keywords, region, and description.
 - **Food Management:** Create, read, update, and delete food items with details such as name, image, category, price, and description.
-- **Category Management:** Add, edit, and delete categories for foods and restaurants to organize data efficiently.
+- **Global Category and Category Management:** Add, edit, and delete categories for foods and restaurants to organize data efficiently.
 - **External APIs Integration:** Fetch exercises and recipes data from external APIs, allowing users to access additional content directly within the application.
-- **Internationalization (i18n):** Multi-language support using the i18next library for customizing user experience with language options.
+- **Nodemailer:** Email notification on login and registration.
+- **Multer:** Upload and delete images that is stored in backend.
 
 ## Folder Structure
 - `src/components`: Reusable React components.
@@ -67,6 +65,7 @@ no deployed address :(
 - **cors**
 - **multer**
 - **nodemon**
+
 
 ### Root
 - **concurrently**
