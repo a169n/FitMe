@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const messageSchema = new mongoose.Schema({
   author: String,
+  sender: String,
+  recipient: String,
   content: String,
   timestamp: { type: Date, default: Date.now },
 });

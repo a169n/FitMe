@@ -45,9 +45,11 @@ export default function GlobalCategories() {
       <div className="categories-slider">
         <Slider {...sliderSettings}>
           {globalCategoriesData.map((category) => (
-            <Link className="link"
+            <Link
+              key={category._id}
+              className="link"
               to={`/dishes/search?searchString=${category.name || ""}&page=1`}>
-              <CategoryCard key={category._id} category={category} />
+              <CategoryCard category={category} />
             </Link>
           ))}
         </Slider>

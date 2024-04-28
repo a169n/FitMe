@@ -63,7 +63,7 @@ export const orderApi = createApi({
       invalidatesTags: ["Orders"],
     }),
   }),
-  tagTypes: ["Orders"],
+  
 });
 
 export const {

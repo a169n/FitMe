@@ -146,3 +146,37 @@
 .main-logo:hover {
   opacity: 0.8;
 }
+
+.cart-container {
+  position: relative;
+}
+
+.card-button {
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 25px;
+  /* Adjust margin as needed */
+}
+
+.cart-count {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background-color: #ff0000;
+  /* Choose desired background color */
+  color: #fff;
+  font-size: 12px;
+  /* Adjust font size as needed */
+  padding: 2px 5px;
+  /* Adjust padding as needed */
+  border-radius: 50%;
+  /* Make it round */
+}
+
+/* Additional styles for hover effect */
+.card-button:hover .cart-count {
+  background-color: #ff6666;
+  /* Change color on hover */
+}

@@ -1,0 +1,73 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.messages-container:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 70%;
+  transition: background-color 0.3s ease;
+}
+
+.message:hover {
+  background-color: #f5f5f5;
+}
+
+.message-content {
+  word-wrap: break-word;
+}
+
+.sent {
+  align-self: flex-end;
+  /* Align sent messages on the left */
+  background-color: #dcf8c6;
+}
+
+.received {
+  align-self: flex-start;
+  /* Align received messages on the left */
+  background-color: #f0f0f0;
+}
+
+.container input[type="text"],
+.container select {
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.container button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin: 20px 0;
+}
+
+.container button:hover {
+  background-color: #45a049;
+}

@@ -59,7 +59,7 @@ export const AdminDishes = () => {
               onClick={() => handleDeleteDish(food._id)}>
               X
             </button>
-            <Link className="link" to={`/restaurant/${food.restaurant}`}>
+            <Link className="link" to={`/restaurant/${food.restaurant._id}`}>
               <img
                 className="restaurant-image"
                 src={`http://localhost:3000/${food.image}`}

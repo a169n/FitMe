@@ -53,7 +53,7 @@ export const AdminCategories = () => {
   return (
     <div className="admin-container">
       <Sidebar />
-      <div className="admin-items category-card">
+      <div className="admin-items">
         {categories?.map((category) => (
           <div key={category?._id} className="category-item">
             <button
